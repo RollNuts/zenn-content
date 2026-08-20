@@ -3,7 +3,7 @@ title: "「何でもAIで効率化」の時代は来ない——AIで人を減�
 emoji: "🧯"
 type: "idea"
 topics: ["ai", "生成ai", "sre", "障害対応", "業務効率化"]
-published: true
+published: false
 ---
 
 回線が落ちる。メールが届かない。認証基盤に入れない。

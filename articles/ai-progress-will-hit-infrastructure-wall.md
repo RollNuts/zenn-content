@@ -3,7 +3,7 @@ title: "AIの進化は案外すぐ頭打ちになる——研究が進んでも�
 emoji: "🧱"
 type: "idea"
 topics: ["ai", "生成ai", "データセンター", "インフラ", "投資"]
-published: true
+published: false
 ---
 
 前の記事では、AIで人の作業を減らすほど、組織がAIを事実上の必須インフラにしてしまう構造を書きました。
