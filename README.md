@@ -1,13 +1,14 @@
 # Zenn記事の原稿 / Technical writing
 
-Python・RSS・静的サイトの実装を扱う、日本語技術記事の原稿置き場です。
+Git・Python・RSS・静的サイトの実装と運用を扱う、日本語技術記事の原稿置き場です。
 
-現在、**Zenn公開記事1本**を管理しています。
+現在、**Zenn公開記事2本**を管理しています。
 
 ## 公開記事
 
 | テーマ | Zenn | 原稿 |
 | --- | --- | --- |
+| GitHubのブランチ整理 | [git branch --mergedに出ない取り込み済みブランチを見分ける――556本を整理した実例](https://zenn.dev/veripsa/articles/github-branch-cleanup-squash-556) | [Markdown](articles/github-branch-cleanup-squash-556.md) |
 | 静的サイトの日時とRSS | [創作上の2031年をRSSに流さない――静的サイトで3つの日時を分ける](https://zenn.dev/veripsa/articles/fiction-date-rss-static-site) | [Markdown](articles/fiction-date-rss-static-site.md) |
 
 ## ファイルの読み方
