@@ -3,7 +3,7 @@ title: "AIに全文を渡す前に、ast-grep outlineでコードの目次を作
 emoji: "🗺️"
 type: "tech"
 topics: ["ast", "typescript", "cli", "個人開発"]
-published: true
+published: false
 ---
 
 知らないrepoをAIと読むとき、最初に知りたいのは「どのファイルの、どの部分を読むか」です。関数名やクラスの構成が分かれば、そこから本文を開けます。
