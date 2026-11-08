@@ -16,7 +16,7 @@ Tauriのように言語をまたぐ構成では、フロントからRustの関�
 
 これはローカルadapterの再現例で、出荷済みMCP製品ではありません。Coreのホスト版は停止中です。この例はDB、Webhook、GitHub Appを起動しません。
 
-[再現コード](https://github.com/RollNuts/zenn-content/tree/bf5497c71b265baf5da4913e06014e47dd5efc39/examples/core-local-mcp)は、adapter、合成snapshot、SDKのClientから実serverを呼ぶスクリプトをまとめています。Codex CLIから2ツールを実際に呼ぶ動作も確認しました。
+[再現コード](https://github.com/RollNuts/zenn-content/tree/f08bec5e302b68513c0d352f64c7629b60d50c83/examples/core-local-mcp)は、adapter、合成snapshot、SDKのClientから実serverを呼ぶスクリプトをまとめています。Codex CLIから2ツールを実際に呼ぶ動作も確認しました。
 
 ## まずMCPで呼び出してみる
 
@@ -24,7 +24,7 @@ GitとPython 3.12を用意し、次の手順で実行します。検証環境は
 
 ```sh
 git clone https://github.com/RollNuts/zenn-content.git
-git -C zenn-content checkout bf5497c71b265baf5da4913e06014e47dd5efc39
+git -C zenn-content checkout f08bec5e302b68513c0d352f64c7629b60d50c83
 cd zenn-content/examples/core-local-mcp
 python3.12 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
@@ -107,6 +107,8 @@ Tauriアプリで実行するには、コマンドを`invoke_handler`へ登録�
 解析の入口は、公開Coreの`code_graph_extract.build_graph`です。対象は[commit `d22d44f`](https://github.com/RollNuts/veripsa/tree/d22d44f12112784d34d5ea7ba20755ca995adad2)へ固定し、再現コードで使う抽出パイプラインのblobも照合します。
 
 `build_graph`の返り値は丸ごと流さず、`app_command`、`alters`／`queries`、ファイルの解析状態だけに絞りました。ほかのresourceやSQL側のPR交通判断は扱いません。
+
+保存前にはMCP側と同じ形式検査と5MiBのUTF-8サイズ上限を適用します。抽出が終わっても、serverが読み込めない形式のsnapshotは書き出しません。
 
 抽出時には本文を読みます。一方、保存する小さいsnapshotでは、必要な相対パス、契約ID、役割、曖昧さや解析状態などを選びます。関数本文や、元のグラフにある絶対rootをそのまま配る構成にはしません。
 
@@ -198,6 +200,16 @@ stdio経由では、各ケースで3種類の不正pathと上限外の`limit`を
 さらに、10件のローカル境界チェックを実行しました。未知の解析状態や不正なメタデータ、重複document／command、存在しないnodeを参照する辺の拒否、不完全な相手の`uncertain`保持、UTF-8で32KiBの応答上限と切り詰め、未知pathの照会で内部indexが増えないことなどを扱います。このbyte上限検査はquery serviceを直接呼びます。
 
 加えて、長いUTF-8パスを持つ合成snapshotを、実stdio接続でも検査しました。61件の関係に対して11件を返し、`truncated: true`となりました。返却されたtext本文は31,124 bytesで、32,768 bytesの上限内でした。MCP message全体のframeサイズを32KiBに制限した、という意味ではありません。
+
+## 公式Tauri例でも、候補0を「依存なし」と読めない
+
+合成fixtureの外側も確認するため、[公式Tauriの固定commit](https://github.com/tauri-apps/tauri/tree/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api)の`examples/api`を同じCoreで解析し、SDKのstdio接続で`src-tauri/src/cmd.rs`を問い合わせました。アプリのbuildや起動は行っていません。
+
+このRustファイルには[importした`#[command]`による`perform_request`の定義](https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src-tauri/src/cmd.rs#L44)があり、[Svelte内TypeScriptの`invoke('perform_request', ...)`](https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src/views/Communication.svelte#L28)と[handler登録](https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src-tauri/src/lib.rs#L158)も読めます。それでも返却は`not_observed`、関係行数0でした。
+
+固定した抽出器は、明示的な`#[tauri::command]`を認識する実装です。この例の`#[command]`は対象表記に含まれません。また、今回の依存定義にはSvelte grammarがなく、呼び出し側のdocumentには`incomplete`が残りました。ファイルが見えていることと、必要な契約を抽出できることは別です。
+
+これは依存なしを証明した例でも、実アプリでの有用性を確認した例でもありません。空の結果を読む前に、対象表記・grammar・解析状態を確かめる必要がある、という実測です。コマンドと件数は[再現手順と記録](https://github.com/RollNuts/zenn-content/tree/f08bec5e302b68513c0d352f64c7629b60d50c83/examples/core-local-mcp#公式tauri例で実際の呼び出しを取りこぼすケース)へまとめました。
 
 ## Pythonの関数と、MCPの境界を分ける
 
