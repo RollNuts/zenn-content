@@ -65,3 +65,5 @@ assert "2031" not in pub_date
 未発生新聞のコードと構成を公開しています。実装を後で見返したい方はGitHubのStarで保存できます。ソフトウェアの再利用ライセンスは未設定です。
 
 [未発生新聞のGitHubリポジトリ](https://github.com/RollNuts/mihassei-news)
+
+同じrepoの運用記録: [git branch --mergedに出ない取り込み済みブランチを見分ける――556本を整理した実例](https://zenn.dev/veripsa/articles/github-branch-cleanup-squash-556)
