@@ -3,7 +3,7 @@ title: "CodexにRustとTypeScriptの関係を引かせる――契約グラフ�
 emoji: "🔎"
 type: "tech"
 topics: ["mcp", "codex", "tauri", "rust", "python"]
-published: false
+published: true
 ---
 
 Rustのコマンド名を変える前に、TypeScript側のどのファイルを一緒に確認すればよいか。
