@@ -1,0 +1,25 @@
+{
+  "codex_cli": "codex-cli 0.167.0",
+  "tools": [
+    {
+      "server": "core_contracts",
+      "tool": "graph_summary",
+      "status": "completed"
+    },
+    {
+      "server": "core_contracts",
+      "tool": "tauri_related_files",
+      "status": "completed"
+    }
+  ],
+  "answer": {
+    "query_status": "observed",
+    "related_files": [
+      "src/client.ts"
+    ],
+    "current_state_or_merge_safety_proven": false
+  },
+  "execution": "one ephemeral read-only invocation with per-run MCP configuration",
+  "transcript_published": false,
+  "passed": true
+}

@@ -41,7 +41,7 @@ MCPホストへ登録するときの起動コマンドは、絶対パスで次�
 ```
 
 `server.py`を単独起動するとMCP通信待ちに入ります。動作確認には上記の`client_demo.py`を使えます。
-各IDE/ホストへの登録は今回自動設定しておらず、検証したクライアントは同梱の公式SDKクライアントです。
+永続的なIDE/ホスト登録は今回自動設定していません。公式SDKクライアントに加え、下記の任意手順でCodex CLI 0.167.0からの実ツール呼び出しも確認しています。
 
 ## 4つのdemo
 
@@ -58,6 +58,45 @@ MCPホストへ登録するときの起動コマンドは、絶対パスで次�
 `observed`はこの抽出器で関係が観測されたこと、`uncertain`は曖昧・不完全な証拠を含むことです。
 `not_observed`は、このsnapshot・問い合わせ範囲で関係が出なかったことです。依存がない、安全に変更できる、という判定ではありません。
 `alters`と`queries`もCoreの役割名であり、実際の副作用やread/writeを検査した結果ではありません。
+
+## 初期化方式を変えて確認する
+
+```sh
+.venv/bin/python client_demo.py --legacy
+```
+
+公式Python SDK 2.3.0の`mode="legacy"`を指定する別のstdio接続です。`initialize`による交渉版は2025-11-25で、2ツールを呼べました。通常のauto接続では2026-07-28を確認しています。SDK 1.x全般や、すべての旧ホストとの互換を示す結果ではありません。モデルAPIは呼びません。
+
+## Codex CLIから呼ぶ（任意）
+
+この手順はCodexへログイン済みのアカウントが前提で、モデル利用枠を使います。上のSDKだけの再現と境界テストは、モデルを呼ばずに実行できます。
+
+検証したCLIは0.167.0です。既存のCLIを置き換えず、例のディレクトリへ固定版を用意する場合は、Node.js/npmのある環境で次を実行します。
+
+```sh
+npm install --prefix .codex-cli --no-audit --no-fund --ignore-scripts @openai/codex@0.167.0
+.venv/bin/python codex_demo.py --codex .codex-cli/node_modules/.bin/codex --report codex-verification-local.json
+```
+
+このCodex手順はmacOSで検証しています。Windowsでの実行は未確認です。
+
+`codex_demo.py`は一時workspace、`--ignore-user-config`、`--ephemeral`、read-only sandbox、一回限りのMCP設定で起動します。`codex mcp add`やconfigファイルへの書き込みは行いません。`required=true`を指定し、サーバーを起動できない場合は継続しません。
+
+モデルへ2ツールの呼び出しを指示し、Codexの`mcp_tool_call`イベントを検査します。ツールの成功・引数・返却値・最終回答が固定snapshotと一致した場合だけ、限定した確認記録を返します。最終回答の自己申告だけで成功とは数えません。想定外のtool itemも拒否しますが、この事後検証をツール実行の強制隔離とは説明しません。
+
+確認できた回答は次のとおりです。
+
+```json
+{"query_status":"observed","related_files":["src/client.ts"],"current_state_or_merge_safety_proven":false}
+```
+
+生のCodexログ、アカウント情報、環境変数は公開用の記録へ含めません。検証済みの例は`codex-verification.json`、モデルを呼ばない記録境界のテストは次のコマンドです。
+
+```sh
+.venv/bin/python -m unittest -v test_codex_receipt.py
+```
+
+参考：[OpenAI公式MCP設定](https://learn.chatgpt.com/docs/extend/mcp?surface=cli)、[非対話モード](https://learn.chatgpt.com/docs/non-interactive-mode)。CLIはモデルへ結果を渡すため、本文を省いたメタデータでも送信範囲の判断は必要です。
 
 ## 自分のローカルrepoからsnapshotを作る
 
@@ -92,6 +131,6 @@ snapshotの上限は5MiB、問い合わせ結果は最大20行、JSON本文は32
 - 登録表、型、capability、実行時のTauri動作、マージの正しさは検証しません。
 - ファイル名・コマンド名も機密情報になり得ます。本文を除いても「情報がない」とは言えません。ホストが結果をLLMへ送るかどうかは、そのホストの設定と運用に依存します。
 - snapshotは起動する人が選ぶデータです。返る名前は信頼された指示ではありません。結果を読むエージェントにも、repo由来のデータとして扱わせる必要があります。
-- 大規模repoの性能、全MCPホストとの互換、production用途の完全な隔離は今回測定していません。Coreホスト版も停止中です。
+- 大規模repoの性能、全MCPホストとの互換、永続的なIDE登録、production用途の完全な隔離は今回測定していません。Coreホスト版も停止中です。
 
 参考：[MCP Python SDK](https://py.sdk.modelcontextprotocol.io/)、[stdioの実行方法](https://py.sdk.modelcontextprotocol.io/run/)。

@@ -4,3 +4,5 @@ __pycache__/
 core/
 local-snapshot.json
 wire-verification.json
+.codex-cli/
+codex-verification-local.json

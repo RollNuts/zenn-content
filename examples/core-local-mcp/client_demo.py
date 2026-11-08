@@ -19,13 +19,13 @@ def tool_data(result) -> dict:
     return json.loads(result.content[0].text)
 
 
-async def call(snapshot: Path, path: str) -> dict:
+async def call(snapshot: Path, path: str, legacy: bool = False) -> dict:
     params = StdioServerParameters(
         command=sys.executable,
         args=[str(Path(__file__).with_name('server.py')), '--snapshot', str(snapshot.resolve())],
         env={'PYTHONDONTWRITEBYTECODE': '1'},
     )
-    async with Client(params, read_timeout_seconds=10) as client:
+    async with Client(params, mode='legacy' if legacy else 'auto', read_timeout_seconds=10) as client:
         tools = await client.list_tools()
         summary = await client.call_tool('graph_summary', {})
         related = await client.call_tool('tauri_related_files', {'path': path})
@@ -41,5 +41,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--snapshot', type=Path, default=Path(__file__).parent / 'demo/official-literal.json')
     parser.add_argument('--path', default='src-tauri/commands.rs')
+    parser.add_argument('--legacy', action='store_true', help='Use the SDK initialize-handshake path')
     args = parser.parse_args()
-    print(json.dumps(asyncio.run(call(args.snapshot, args.path)), ensure_ascii=False, indent=2))
+    print(json.dumps(asyncio.run(call(args.snapshot, args.path, args.legacy)), ensure_ascii=False, indent=2))

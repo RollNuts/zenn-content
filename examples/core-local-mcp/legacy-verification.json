@@ -1,0 +1,13 @@
+{
+  "client_mode": "legacy",
+  "protocol_version": "2025-11-25",
+  "tools": [
+    "graph_summary",
+    "tauri_related_files"
+  ],
+  "status": "observed",
+  "related_files": [
+    "src/client.ts"
+  ],
+  "scope": "Official Python SDK2.3 initialize path only; not all older SDKs or all hosts."
+}
