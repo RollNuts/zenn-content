@@ -4,6 +4,8 @@ Git・Python・RSS・静的サイトの実装と運用を扱う、日本語技�
 
 現在、**Zenn公開記事2本**を管理しています。
 
+新着記事は[RSSでも購読できます](https://zenn.dev/veripsa/feed)。
+
 ## 公開記事
 
 | テーマ | Zenn | 原稿 |
