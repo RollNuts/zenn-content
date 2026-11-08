@@ -8,7 +8,7 @@ published: false
 
 前の記事では、AIで人の作業を減らすほど、組織がAIを事実上の必須インフラにしてしまう構造を書きました。
 
-- [「何でもAIで効率化」の時代は来ない——AIで人を減らすほど、AIは必須になる](https://zenn.dev/veripsa/articles/ai-efficiency-common-mode-failure)
+- [「何でもAIで効率化」の時代は来ない——AIで人を減らすほど、AIは必須になる](ai-efficiency-common-mode-failure.md)
 
 では、その必須インフラになったAIは、このまま同じ勢いで賢くなり続けるのでしょうか。
 
