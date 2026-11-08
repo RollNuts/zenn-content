@@ -1,9 +1,9 @@
 {
-  "case": "official-tauri-api-qualified-attribute-coverage",
+  "case": "official-tauri-api-imported-attribute-scope",
   "source_repository": "https://github.com/tauri-apps/tauri",
   "source_commit": "2e23492ab9bcec06bab041e0e47447aaa0da298c",
   "analysis_root": "examples/api",
-  "core_commit": "d22d44f12112784d34d5ea7ba20755ca995adad2",
+  "core_commit": "9b5429aac861164cc1b41278dcaf540fa6fabad7",
   "execution": "source parsing and SDK stdio queries only; application not built or run",
   "query": {
     "path": "src-tauri/src/cmd.rs",
@@ -18,14 +18,14 @@
       "incomplete": 22,
       "no_marker": 38
     },
-    "tauri_command_count": 2,
-    "retained_contract_edge_count": 2
+    "tauri_command_count": 8,
+    "retained_contract_edge_count": 12
   },
   "observed_query": {
     "document_observed": true,
     "analysis_status": null,
-    "status": "not_observed",
-    "total_relation_rows": 0,
+    "status": "uncertain",
+    "total_relation_rows": 4,
     "truncated": false,
     "current_state_or_merge_safety_proven": false
   },
@@ -35,12 +35,60 @@
     "frontend_literal_invoke": "https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src/views/Communication.svelte#L28",
     "handler_registration": "https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src-tauri/src/lib.rs#L158"
   },
-  "coverage_boundary": "Pinned Core recognizes explicit #[tauri::command], not the imported #[command] form used here. Installed extraction requirements do not include a Svelte grammar; affected documents retain incomplete status.",
+  "coverage_boundary": "Updated Core resolves explicit same-module tauri::command imports and aliases through the Rust AST; it does not resolve glob/reexport/macro/cfg expansions. Installed extraction requirements still omit a Svelte grammar, so affected documents must retain incomplete/uncertain evidence. Four relations were observed with uncertain evidence because the Svelte peer document remains incomplete.",
   "not_proven": [
     "No dependency",
     "Application runtime correctness",
     "Full-repository analysis completeness",
     "External adoption or practical time savings"
   ],
-  "protocol_version": "2026-07-28"
+  "protocol_version": "2026-07-28",
+  "verification_status": "verified_export_and_sdk_stdio",
+  "historical_result": {
+    "core_commit": "d22d44f12112784d34d5ea7ba20755ca995adad2",
+    "status": "not_observed",
+    "total_relation_rows": 0
+  },
+  "observed_relations": [
+    {
+      "resource": "tauri_command::echo",
+      "related_file": "src/views/Communication.svelte",
+      "target_role": "alters",
+      "peer_role": "queries",
+      "target_reference_status": null,
+      "peer_reference_status": null,
+      "peer_analysis_status": "incomplete",
+      "evidence_status": "uncertain"
+    },
+    {
+      "resource": "tauri_command::log_operation",
+      "related_file": "src/views/Communication.svelte",
+      "target_role": "alters",
+      "peer_role": "queries",
+      "target_reference_status": null,
+      "peer_reference_status": null,
+      "peer_analysis_status": "incomplete",
+      "evidence_status": "uncertain"
+    },
+    {
+      "resource": "tauri_command::perform_request",
+      "related_file": "src/views/Communication.svelte",
+      "target_role": "alters",
+      "peer_role": "queries",
+      "target_reference_status": null,
+      "peer_reference_status": null,
+      "peer_analysis_status": "incomplete",
+      "evidence_status": "uncertain"
+    },
+    {
+      "resource": "tauri_command::spam",
+      "related_file": "src/views/Communication.svelte",
+      "target_role": "alters",
+      "peer_role": "queries",
+      "target_reference_status": null,
+      "peer_reference_status": null,
+      "peer_analysis_status": "incomplete",
+      "evidence_status": "uncertain"
+    }
+  ]
 }

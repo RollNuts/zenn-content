@@ -1,7 +1,7 @@
 # Coreの契約メタデータを、ローカルMCPから照会する実験
 
 公開Veripsa Coreの抽出結果を固定snapshotへ投影し、公式Python SDK 2.3.0のstdio MCPで読む例です。
-Core本体の変更はありません。製品として提供中の「Veripsa MCP」ではなく、実行できる検討用コードです。
+実repoの抽出には、同じmoduleでimportしたTauri属性にも対応するCoreの固定commitを使用します。製品として提供中の「Veripsa MCP」ではなく、実行できる検討用コードです。
 
 ## まず動かす
 
@@ -44,6 +44,8 @@ MCPホストへ登録するときの起動コマンドは、絶対パスで次�
 永続的なIDE/ホスト登録は今回自動設定していません。公式SDKクライアントに加え、下記の任意手順でCodex CLI 0.167.0からの実ツール呼び出しも確認しています。
 
 ## 4つのdemo
+
+この4つの合成snapshotはCore `d22d44f12112784d34d5ea7ba20755ca995adad2`で作成した固定データです。上記のSDKデモと既存のCodex CLI接続記録は、このデータを使った結果です。下記の実repo抽出は更新後の固定Coreを使用します。
 
 元の架空コードは[別の再現例](../tauri-command-contract/fixtures)にあります。
 ここでは`src/client.ts`を問い合わせた場合の結果を比べます。
@@ -105,7 +107,7 @@ npm install --prefix .codex-cli --no-audit --no-fund --ignore-scripts @openai/co
 
 ```sh
 git clone https://github.com/RollNuts/veripsa.git core
-git -C core checkout d22d44f12112784d34d5ea7ba20755ca995adad2
+git -C core checkout 9b5429aac861164cc1b41278dcaf540fa6fabad7
 .venv/bin/python -m pip install --only-binary=:all: --no-deps -r requirements-extract.txt
 .venv/bin/python export_snapshot.py --core core --repo /path/to/your/project --out local-snapshot.json
 .venv/bin/python client_demo.py --snapshot local-snapshot.json --path src-tauri/commands.rs
@@ -116,12 +118,12 @@ Git実行ファイルを選ぶ場合、export_snapshot.pyに`--git /path/to/git`
 ソース本文は抽出時にローカルで読みます。保存するsnapshotはファイルパス、TauriコマンドID、辺の役割、状態、件数などの限定した投影です。
 raw graphのroot、本文・signature・任意のprovenanceなどはそのまま転送しません。
 
-Coreは[Business Source License 1.1](https://github.com/RollNuts/veripsa/blob/d22d44f12112784d34d5ea7ba20755ca995adad2/LICENSE)のsource-availableです。エンジンはこの例に同梱していません。
+Coreは[Business Source License 1.1](https://github.com/RollNuts/veripsa/blob/9b5429aac861164cc1b41278dcaf540fa6fabad7/LICENSE)のsource-availableです。エンジンはこの例に同梱していません。
 このrepoの原稿・例の再利用条件は[repo README](../../README.md)を参照してください。
 
-## 公式Tauri例で、実際の呼び出しを取りこぼすケース
+## 公式Tauri例で、import対応と解析状態を確認する
 
-合成fixtureだけでなく、[公式Tauriの固定commit](https://github.com/tauri-apps/tauri/tree/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api)の`examples/api`を、同じCoreと依存定義で解析しました。アプリのbuildや起動は行っていません。
+[公式Tauriの固定commit](https://github.com/tauri-apps/tauri/tree/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api)の`examples/api`を、更新後の固定Coreと同じ抽出依存で解析する手順です。アプリのbuildや起動は行いません。
 
 ```sh
 git clone --depth 1 --filter=blob:none --sparse --no-checkout --branch dev https://github.com/tauri-apps/tauri.git tauri-source
@@ -134,11 +136,15 @@ git -C tauri-source checkout --detach 2e23492ab9bcec06bab041e0e47447aaa0da298c
 
 この手順は前節のCore checkoutと抽出依存の導入後に実行します。`--git`の指定が必要ならexporterに追加してください。
 
-対象のRustファイルには[importした`#[command]`による`perform_request`の定義](https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src-tauri/src/cmd.rs#L44)があり、[Svelte内TypeScriptのliteral invoke](https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src/views/Communication.svelte#L28)と[handler登録](https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src-tauri/src/lib.rs#L158)もソースから読めます。それでも、このファイルへの問い合わせは`status: not_observed`、関係行数0でした。
+対象のRustファイルには[importした`#[command]`による`perform_request`の定義](https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src-tauri/src/cmd.rs#L44)があり、[Svelte内TypeScriptのliteral invoke](https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src/views/Communication.svelte#L28)と[handler登録](https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src-tauri/src/lib.rs#L158)もソースから読めます。
 
-固定したCoreのTauri抽出器は、Rust側に明示した`#[tauri::command]`だけを定義として認識します。この例のimportされた`#[command]`はその範囲外です。また、今回の抽出依存にはSvelte grammarがなく、`Communication.svelte`を含むdocumentに`incomplete`が残りました。CoreがSvelteを一律に非対応という意味ではありません。
+旧固定Core `d22d44f`では、このファイルへの問い合わせは`not_observed`、関係行数0でした。更新後のCoreは、Rustの構文木を使い、同じmoduleが直接importした`tauri::command`、alias、入れ子のuse groupを解決します。無条件にbare `#[command]`を受理する変更ではなく、親・子・兄弟moduleへimportを流用しません。glob、reexport、macro展開、cfg評価の解決は行いません。
 
-解析root全体では20 parsed／0 failed／22 skipped、60 documentのうち22 incompleteでした。ほかのplugin側commandは2件あるため、全体のcommand件数が0という結果でもありません。このケースは「実際に対応があっても、この抽出範囲では候補0になり得る」という限界の実測です。正解率や実アプリの安全性を示しません。限定した記録は[`public-tauri-verification.json`](public-tauri-verification.json)にあります。
+公開Core `9b5429a`から再抽出し、実stdio接続で照会した結果は`uncertain`、関係4行でした。`echo`、`log_operation`、`perform_request`、`spam`を介し、相手はすべて`src/views/Communication.svelte`です。解析root全体では20 parsed／0 failed／22 skipped、60 documentのうち22 incomplete、commandは8件、保持した契約辺は12件でした。
+
+今回の抽出依存には引き続きSvelte grammarがなく、呼び出し側の`Communication.svelte`には`incomplete`が残りました。候補の属性表記を認識できることと、相手ファイルを完全に解析できることを分け、返却関係にもその状態を残します。CoreがSvelteを一律に非対応という意味ではありません。
+
+これはアプリの実行や安全性、全repoの解析完全性を検証する手順ではありません。限定した記録は[`public-tauri-verification.json`](public-tauri-verification.json)へ、実測後に保存します。
 
 ## 検査と限界
 
