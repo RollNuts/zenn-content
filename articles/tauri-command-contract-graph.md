@@ -1,8 +1,8 @@
 ---
-title: "Rustを変える前にTypeScriptの確認先を探す――契約グラフをMCPへ切り出す"
+title: "CodexにRustとTypeScriptの関係を引かせる――契約グラフをMCPへ切り出す"
 emoji: "🔎"
 type: "tech"
-topics: ["mcp", "tauri", "rust", "python", "静的解析"]
+topics: ["mcp", "codex", "tauri", "rust", "python"]
 published: false
 ---
 
@@ -16,7 +16,7 @@ Tauriのように言語をまたぐ構成では、フロントからRustの関�
 
 これはローカルadapterの再現例で、出荷済みMCP製品ではありません。Coreのホスト版は停止中です。この例はDB、Webhook、GitHub Appを起動しません。
 
-[再現コード](https://github.com/RollNuts/zenn-content/tree/d9820eb61afe9d448648fb77a42d194f5681fa4e/examples/core-local-mcp)は、adapter、合成snapshot、SDKのClientから実serverを呼ぶスクリプトをまとめています。
+[再現コード](https://github.com/RollNuts/zenn-content/tree/bf5497c71b265baf5da4913e06014e47dd5efc39/examples/core-local-mcp)は、adapter、合成snapshot、SDKのClientから実serverを呼ぶスクリプトをまとめています。Codex CLIから2ツールを実際に呼ぶ動作も確認しました。
 
 ## まずMCPで呼び出してみる
 
@@ -24,7 +24,7 @@ GitとPython 3.12を用意し、次の手順で実行します。検証環境は
 
 ```sh
 git clone https://github.com/RollNuts/zenn-content.git
-git -C zenn-content checkout d9820eb61afe9d448648fb77a42d194f5681fa4e
+git -C zenn-content checkout bf5497c71b265baf5da4913e06014e47dd5efc39
 cd zenn-content/examples/core-local-mcp
 python3.12 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
@@ -35,6 +35,33 @@ python3.12 -m venv .venv
 `requirements.txt`で直接指定する依存は`mcp==2.3.0`です。`client_demo.py`は同梱の正例を使い、serverを子プロセスで起動し、2つのツールを呼んでJSONを表示します。既定ではRustファイルを指定し、TS側の確認候補を返します。`verify.py`は4ケースと境界条件を検査し、結果を保存します。parserをserver起動時に入れる必要はありません。
 
 この表記はPOSIX用です。Windowsでは仮想環境の`Scripts`以下を使います。依存の取得にはネットワークを使いますが、問い合わせ対象は読み込んだローカルsnapshotです。
+
+## Codexから呼ぶ手順も確かめる
+
+SDKのデモに加え、Codex CLI 0.167.0からも実際に2つのMCPツールを呼びました。こちらはログイン済みのCodexアカウントが前提で、モデル利用枠を使います。先ほどのSDKだけの再現には、モデル呼び出しはありません。
+
+既存のCLIを置き換えずに固定版を用意する例です。Node.js/npmのあるmacOS環境で検証しています。
+
+```sh
+npm install --prefix .codex-cli --no-audit --no-fund --ignore-scripts @openai/codex@0.167.0
+.venv/bin/python codex_demo.py --codex .codex-cli/node_modules/.bin/codex --report codex-verification-local.json
+```
+
+`codex_demo.py`は一時workspaceで、`--ignore-user-config`、`--ephemeral`、read-only sandboxを指定します。MCP設定は一回の起動引数として渡し、`codex mcp add`や設定ファイルへの書き込みは行いません。設定項目は[OpenAI公式のMCP設定](https://learn.chatgpt.com/docs/extend/mcp?surface=cli)、非対話起動は[公式ガイド](https://learn.chatgpt.com/docs/non-interactive-mode)を参照しました。
+
+モデルには`graph_summary`、続いて`tauri_related_files`を呼ぶように指示しました。返った回答は次のとおりです。
+
+```json
+{
+  "query_status": "observed",
+  "related_files": ["src/client.ts"],
+  "current_state_or_merge_safety_proven": false
+}
+```
+
+最終回答だけでは、モデルが推測で返した可能性が残ります。そのためCodexの記録に2件の`mcp_tool_call`があり、両方が成功し、引数・返却値・回答が固定snapshotと一致することまで確認しました。この検証ではshellやファイル読み取りのtool itemは観測されませんでした。この事後検査を、ほかのツールを使えなくする強制隔離とは説明しません。
+
+生ログにはローカルパスやアカウントの情報が含まれ得るため、公開する確認記録はCLI版、成功したツール名、検証済み回答へ絞りました。Codexが結果をモデルへ渡す点は、ローカルMCPの保存境界とは別に考える必要があります。
 
 ## 同じコマンド名を、共通の確認先にする
 
@@ -192,7 +219,7 @@ MCPには[公式Python SDKの`mcp==2.3.0`](https://pypi.org/project/mcp/2.3.0/)�
 
 SDKの`Client`と`StdioServerParameters`から実serverプロセスを起動し、2つのツールの一覧、引数付き呼び出し、返却payloadを検査しました。
 
-確認したSDKは2.3.0で、実際に使われたprotocol版は2026-07-28でした。4つのstdioケース、10件のローカル境界チェック、UTF-8本文の上限を確かめるstdio検査はいずれも成功しました。IDEへserverを追加して動作確認した結果ではなく、公式SDKのClient／serverによる子プロセス接続の結果です。
+SDKは2.3.0で、通常の接続ではprotocol 2026-07-28を確認しました。`client_demo.py --legacy`では`initialize`による2025-11-25の接続と2ツールの呼び出しも成功しています。これはSDK 1.x全般や全ホストへの互換保証ではありません。4つのstdioケース、10件のローカル境界チェック、UTF-8本文の上限検査も成功しました。Codex CLIの確認は前述の別検証で、永続的なアプリ・IDE設定は今回導入していません。
 
 ## 自分のrepoへ使う場合
 
@@ -210,7 +237,7 @@ git -C core checkout d22d44f12112784d34d5ea7ba20755ca995adad2
 
 `TARGET`は解析するローカルディレクトリです。この操作では本文を解析してsnapshotを書き出すので、まず同梱例を確認してから、扱う情報を選びます。Coreは別途取得し、コードを変更せず使います。ライセンスはBusiness Source License 1.1のsource-availableです。
 
-MCP hostへ追加する場合は、絶対パスのPythonと`server.py --snapshot /ABSOLUTE/PATH/TO/snapshot.json`を起動引数へ指定します。serverは通信待ちになり、対話画面は出ません。各hostの設定・動作は別に確認してください。
+MCP hostへ追加する場合は、絶対パスのPythonと`server.py --snapshot /ABSOLUTE/PATH/TO/snapshot.json`を起動引数へ指定します。serverは通信待ちになり、対話画面は出ません。Codexの一回限りのCLI実行は上の手順で確認済みです。各アプリ・IDEへ永続登録する場合は、その設定・動作を別に確認してください。
 
 ## 返せた情報と、まだ証明していないこと
 

@@ -27,7 +27,7 @@ Git・Python・RSS・静的サイト・コード解析の実装と運用を扱�
 
 ## 公開待ちの原稿
 
-[Rustを変える前にTypeScriptの確認先を探す――契約グラフをMCPへ切り出す](articles/tauri-command-contract-graph.md)は、Coreの契約解析の下書きを統合した、実stdio再現コード付きの原稿です。Zennの投稿数制限を受けたため、公開設定を下書きにして保管しています。
+[CodexにRustとTypeScriptの関係を引かせる――契約グラフをMCPへ切り出す](articles/tauri-command-contract-graph.md)は、Coreの契約解析をMCPへ切り出し、Codex CLIでも実ツール呼び出しを確認した原稿です。Zenn版は公開待ちの下書きで、全文はこのGitHubでも読めます。
 
 [ast-grep outlineでコードの目次を作る](articles/ast-grep-outline-code-map.md)は、再現コードの検証が済んだ原稿です。Zennの投稿数制限により未公開で、公開設定を下書きにして保管しています。
 
