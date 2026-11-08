@@ -46,6 +46,8 @@ assert "2031" not in pub_date
 
 未発生新聞のテストでは、RSSのpubDateを再び日時として解析して、記事の実公開日時と比較しています。架空の年がpubDateへ混ざっていないことも確認します。ページ側の構造化データのdatePublishedも、fiction_atと区別しています。
 
+pubDateの値が正しくても、itemの順序が正しいとは限りません。このサイトのRSS生成関数は渡された順でitemを作るため、実公開順に並べた入力を渡します。生成物のテストでも、[メインfeedの先頭link](https://github.com/RollNuts/mihassei-news/blob/3b701248b99608bd273bac3564abcfebf24b2baa/tests/test_site.py#L679)が最新公開記事を指すことと、[カテゴリfeedのlink列](https://github.com/RollNuts/mihassei-news/blob/3b701248b99608bd273bac3564abcfebf24b2baa/tests/test_site.py#L782)が想定する公開順に一致することを、各pubDateの検査と分けています。
+
 生成前のJSONを見ただけでは、テンプレートやRSS生成器の取り違えまでは分かりません。生成物を読む検査があると、画面の演出を変えた際に外部向けの日時まで変えてしまうのを見つけやすくなります。
 
 ## 自分のサイトへ持ち帰るなら

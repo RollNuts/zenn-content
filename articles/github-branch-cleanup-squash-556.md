@@ -123,7 +123,11 @@ for item in candidates(branches, prs, "OWNER/REPO", "main", cutoff):
     print(item["branch"], item["sha"], item["merged_pr"])
 ```
 
-同名でも別forkの枝、マージ後に進んだhead、未完PR、保護状態が不明な枝、未完PRのbaseとして使われる枝などを外す10件のテストを実行しました。さらに、今回保存した556枝・548PRの応答をこの関数へ渡し、実際の整理候補453件と名前・SHAの組が一致することを確認しています。
+同名でも別forkの枝、マージ後に進んだhead、未完PR、保護状態が不明な枝、未完PRのbaseとして使われる枝などを外す10件のテストを実行しました。
+
+[候補抽出のコードと10件のテスト](https://github.com/RollNuts/zenn-content/tree/505a71673bb5990749b00633ca4cb0e3c6eff9c9/examples/branch-cleanup-candidates)を公開しています。架空のPR・ブランチ情報だけを使い、Python 3.12で`python3.12 -m unittest -v`を実行できます。API接続やブランチの削除は行いません。
+
+さらに、今回保存した556枝・548PRの応答をこの関数へ渡し、実際の整理候補453件と名前・SHAの組が一致することを確認しています。
 
 ## 先にバックアップを「戻して」確かめた
 
