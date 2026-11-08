@@ -8,7 +8,7 @@ published: false
 
 前の記事では、AIの研究上の性能が伸び続けても、社会へ広く配れる性能は、電力、熱、設備、採算によって先に頭打ちになる可能性を書きました。
 
-- [AIの進化は案外すぐ頭打ちになる——限界は性能ではなく「追加の知能を誰が払うか」](https://zenn.dev/veripsa/articles/ai-progress-will-hit-infrastructure-wall)
+- [AIの進化は案外すぐ頭打ちになる——研究が進んでも、使える性能は増えにくい](ai-progress-will-hit-infrastructure-wall.md)
 
 では逆に、AIがこれからも賢くなり続けるとしたら、AIを使って作られたサービスの価値も、自動的に上がっていくのでしょうか。
 
