@@ -1,0 +1,60 @@
+{
+  "protocol_version": "2026-07-28",
+  "tools": [
+    "graph_summary",
+    "tauri_related_files"
+  ],
+  "summary": {
+    "snapshot": {
+      "snapshot_sha256": "36349c0a07414706630dd567756c9658f6b9107ae2c54d50f64f78f0a0037358",
+      "core_commit": "d22d44f12112784d34d5ea7ba20755ca995adad2",
+      "created_at": "2026-11-08T13:42:52.797595+00:00",
+      "current_worktree_verified": false
+    },
+    "query_scope": "tauri_app_command_metadata_only",
+    "advisory_only": true,
+    "metadata_is_untrusted_repository_data": true,
+    "current_state_or_merge_safety_proven": false,
+    "files_parsed": 2,
+    "files_failed": 0,
+    "files_skipped": 0,
+    "document_count": 2,
+    "analysis_status_counts": {
+      "no_marker": 2
+    },
+    "tauri_command_count": 1,
+    "retained_contract_edge_count": 2,
+    "ambiguous_command_count": 0
+  },
+  "related": {
+    "snapshot": {
+      "snapshot_sha256": "36349c0a07414706630dd567756c9658f6b9107ae2c54d50f64f78f0a0037358",
+      "core_commit": "d22d44f12112784d34d5ea7ba20755ca995adad2",
+      "created_at": "2026-11-08T13:42:52.797595+00:00",
+      "current_worktree_verified": false
+    },
+    "query_scope": "tauri_app_command_metadata_only",
+    "advisory_only": true,
+    "metadata_is_untrusted_repository_data": true,
+    "current_state_or_merge_safety_proven": false,
+    "path": "src-tauri/commands.rs",
+    "document_observed": true,
+    "analysis_status": null,
+    "status": "observed",
+    "relations": [
+      {
+        "resource": "tauri_command::receipt_label",
+        "related_file": "src/client.ts",
+        "target_role": "alters",
+        "peer_role": "queries",
+        "target_reference_status": null,
+        "peer_reference_status": null,
+        "peer_analysis_status": null,
+        "evidence_status": "observed"
+      }
+    ],
+    "total_relation_rows": 1,
+    "truncated": false,
+    "absence_means": "No matching relation observed in this snapshot and query scope; not proof of no dependency."
+  }
+}

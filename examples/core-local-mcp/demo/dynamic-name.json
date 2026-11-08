@@ -1,0 +1,37 @@
+{
+  "format": "veripsa-local-mcp-demo-v1",
+  "core_commit": "d22d44f12112784d34d5ea7ba20755ca995adad2",
+  "created_at": "2026-11-08T13:42:52.804929+00:00",
+  "graph": {
+    "files_parsed": 2,
+    "files_failed": 0,
+    "files_skipped": 0,
+    "nodes": [
+      {
+        "kind": "file",
+        "path": "src-tauri/commands.rs",
+        "analysis_status": null
+      },
+      {
+        "kind": "file",
+        "path": "src/client.ts",
+        "analysis_status": null
+      },
+      {
+        "kind": "app_command",
+        "id": "tauri_command::receipt_label",
+        "provenance": {
+          "ambiguous": false
+        }
+      }
+    ],
+    "edges": [
+      {
+        "src": "src-tauri/commands.rs",
+        "dst": "tauri_command::receipt_label",
+        "kind": "alters",
+        "reference_status": null
+      }
+    ]
+  }
+}

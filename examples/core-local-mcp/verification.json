@@ -1,0 +1,69 @@
+{
+  "local_checks": [
+    "non_sha_metadata_rejected",
+    "oversized_timestamp_rejected",
+    "unknown_analysis_status_rejected",
+    "non_numeric_counter_rejected",
+    "duplicate_document_rejected",
+    "duplicate_command_rejected",
+    "dangling_edge_rejected",
+    "incomplete_peer_retained_as_uncertain",
+    "utf8_response_byte_cap_and_truncation",
+    "unknown_path_queries_do_not_expand_snapshot_index"
+  ],
+  "stdio_cases": [
+    {
+      "case": "official-literal",
+      "protocol_version": "2026-07-28",
+      "status": "observed",
+      "relation_rows": 1,
+      "snapshot_sha256": "36349c0a07414706630dd567756c9658f6b9107ae2c54d50f64f78f0a0037358",
+      "path_rejections": 3,
+      "limit_rejected": true,
+      "passed": true
+    },
+    {
+      "case": "local-invoke",
+      "protocol_version": "2026-07-28",
+      "status": "not_observed",
+      "relation_rows": 0,
+      "snapshot_sha256": "5ad0740b2f12d8599f005dad91e34c34879675a6942b3cbaf6e5665baf4dcaa6",
+      "path_rejections": 3,
+      "limit_rejected": true,
+      "passed": true
+    },
+    {
+      "case": "dynamic-name",
+      "protocol_version": "2026-07-28",
+      "status": "not_observed",
+      "relation_rows": 0,
+      "snapshot_sha256": "121ab514b0bef4635d3dc6d4eee4b4ec67fbd96d9273e1aa29d3fe11301b2618",
+      "path_rejections": 3,
+      "limit_rejected": true,
+      "passed": true
+    },
+    {
+      "case": "duplicate-command",
+      "protocol_version": "2026-07-28",
+      "status": "uncertain",
+      "relation_rows": 2,
+      "snapshot_sha256": "eb9880d879e113105da93f129836d84fe11a19fdfb8433dcd449f0ef9a0afd95",
+      "path_rejections": 3,
+      "limit_rejected": true,
+      "passed": true
+    }
+  ],
+  "wire_boundary_checks": [
+    {
+      "check": "large_utf8_paths_respect_stdio_text_payload_cap",
+      "protocol_version": "2026-07-28",
+      "text_payload_utf8_bytes": 31124,
+      "text_payload_byte_limit": 32768,
+      "total_relation_rows": 61,
+      "returned_relation_rows": 11,
+      "truncated": true,
+      "passed": true
+    }
+  ],
+  "scope": "Synthetic fixed snapshots, official Python SDK client/server; no IDE-host installation or live repository freshness verification."
+}
