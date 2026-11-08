@@ -1,0 +1,46 @@
+{
+  "case": "official-tauri-api-qualified-attribute-coverage",
+  "source_repository": "https://github.com/tauri-apps/tauri",
+  "source_commit": "2e23492ab9bcec06bab041e0e47447aaa0da298c",
+  "analysis_root": "examples/api",
+  "core_commit": "d22d44f12112784d34d5ea7ba20755ca995adad2",
+  "execution": "source parsing and SDK stdio queries only; application not built or run",
+  "query": {
+    "path": "src-tauri/src/cmd.rs",
+    "limit": 20
+  },
+  "observed_summary": {
+    "files_parsed": 20,
+    "files_failed": 0,
+    "files_skipped": 22,
+    "document_count": 60,
+    "analysis_status_counts": {
+      "incomplete": 22,
+      "no_marker": 38
+    },
+    "tauri_command_count": 2,
+    "retained_contract_edge_count": 2
+  },
+  "observed_query": {
+    "document_observed": true,
+    "analysis_status": null,
+    "status": "not_observed",
+    "total_relation_rows": 0,
+    "truncated": false,
+    "current_state_or_merge_safety_proven": false
+  },
+  "source_evidence": {
+    "rust_import": "https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src-tauri/src/cmd.rs#L6",
+    "rust_definition": "https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src-tauri/src/cmd.rs#L44",
+    "frontend_literal_invoke": "https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src/views/Communication.svelte#L28",
+    "handler_registration": "https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src-tauri/src/lib.rs#L158"
+  },
+  "coverage_boundary": "Pinned Core recognizes explicit #[tauri::command], not the imported #[command] form used here. Installed extraction requirements do not include a Svelte grammar; affected documents retain incomplete status.",
+  "not_proven": [
+    "No dependency",
+    "Application runtime correctness",
+    "Full-repository analysis completeness",
+    "External adoption or practical time savings"
+  ],
+  "protocol_version": "2026-07-28"
+}

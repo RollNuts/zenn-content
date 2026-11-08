@@ -9,6 +9,8 @@ from pathlib import Path
 import subprocess
 import sys
 
+from query_service import MAX_SNAPSHOT_BYTES, validate_snapshot
+
 sys.dont_write_bytecode = True
 HERE = Path(__file__).resolve().parent
 
@@ -52,6 +54,17 @@ def extract_snapshot(engine, commit: str, repo: Path) -> dict:
             'created_at': datetime.now(timezone.utc).isoformat(), 'graph': projected}
 
 
+def write_snapshot(snapshot: dict, output: Path) -> None:
+    """Check the consumer contract and exact UTF-8 bytes before touching output."""
+    validate_snapshot(snapshot)
+    payload = (json.dumps(snapshot, ensure_ascii=False, indent=2) + '\n').encode('utf-8')
+    if len(payload) > MAX_SNAPSHOT_BYTES:
+        raise ValueError(
+            f'Serialized snapshot exceeds the server size limit '
+            f'({len(payload)} > {MAX_SNAPSHOT_BYTES} UTF-8 bytes)')
+    output.write_bytes(payload)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--core', type=Path, required=True)
@@ -62,7 +75,11 @@ def main() -> None:
     engine, commit = load_core(args.core, args.git)
     if not args.repo.is_dir():
         parser.error('--repo must be an existing local directory')
-    args.out.write_text(json.dumps(extract_snapshot(engine, commit, args.repo), ensure_ascii=False, indent=2) + '\n')
+    snapshot = extract_snapshot(engine, commit, args.repo)
+    try:
+        write_snapshot(snapshot, args.out)
+    except ValueError as error:
+        parser.error(f'Cannot export a snapshot the server would reject: {error}')
 
 
 if __name__ == '__main__':

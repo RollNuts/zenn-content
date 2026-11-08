@@ -119,7 +119,30 @@ raw graphのroot、本文・signature・任意のprovenanceなどはそのまま
 Coreは[Business Source License 1.1](https://github.com/RollNuts/veripsa/blob/d22d44f12112784d34d5ea7ba20755ca995adad2/LICENSE)のsource-availableです。エンジンはこの例に同梱していません。
 このrepoの原稿・例の再利用条件は[repo README](../../README.md)を参照してください。
 
+## 公式Tauri例で、実際の呼び出しを取りこぼすケース
+
+合成fixtureだけでなく、[公式Tauriの固定commit](https://github.com/tauri-apps/tauri/tree/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api)の`examples/api`を、同じCoreと依存定義で解析しました。アプリのbuildや起動は行っていません。
+
+```sh
+git clone --depth 1 --filter=blob:none --sparse --no-checkout --branch dev https://github.com/tauri-apps/tauri.git tauri-source
+git -C tauri-source sparse-checkout set examples/api
+git -C tauri-source fetch --depth 1 origin 2e23492ab9bcec06bab041e0e47447aaa0da298c
+git -C tauri-source checkout --detach 2e23492ab9bcec06bab041e0e47447aaa0da298c
+.venv/bin/python export_snapshot.py --core core --repo tauri-source/examples/api --out tauri-api-snapshot.json
+.venv/bin/python client_demo.py --snapshot tauri-api-snapshot.json --path src-tauri/src/cmd.rs
+```
+
+この手順は前節のCore checkoutと抽出依存の導入後に実行します。`--git`の指定が必要ならexporterに追加してください。
+
+対象のRustファイルには[importした`#[command]`による`perform_request`の定義](https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src-tauri/src/cmd.rs#L44)があり、[Svelte内TypeScriptのliteral invoke](https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src/views/Communication.svelte#L28)と[handler登録](https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src-tauri/src/lib.rs#L158)もソースから読めます。それでも、このファイルへの問い合わせは`status: not_observed`、関係行数0でした。
+
+固定したCoreのTauri抽出器は、Rust側に明示した`#[tauri::command]`だけを定義として認識します。この例のimportされた`#[command]`はその範囲外です。また、今回の抽出依存にはSvelte grammarがなく、`Communication.svelte`を含むdocumentに`incomplete`が残りました。CoreがSvelteを一律に非対応という意味ではありません。
+
+解析root全体では20 parsed／0 failed／22 skipped、60 documentのうち22 incompleteでした。ほかのplugin側commandは2件あるため、全体のcommand件数が0という結果でもありません。このケースは「実際に対応があっても、この抽出範囲では候補0になり得る」という限界の実測です。正解率や実アプリの安全性を示しません。限定した記録は[`public-tauri-verification.json`](public-tauri-verification.json)にあります。
+
 ## 検査と限界
+
+`export_snapshot.py`は、保存前にserverと同じ形式検査と5MiBのUTF-8サイズ上限を適用します。スキーマの対象外のパスや大きすぎる結果は、出力ファイルを作成・置換する前に拒否します。POSIXでは有効でも、この例では受け付けないパス表記があります。保存境界の検査は`.venv/bin/python -m unittest -v test_export_snapshot.py`で実行できます。
 
 `verify.py`は4つの合成snapshotについて実stdio通信を検査します。解析状態・不正なメタデータ・重複ID・存在しないendpoint・パスの逸脱・limit・長いUTF-8パスの出力上限も確認します。
 snapshotの上限は5MiB、問い合わせ結果は最大20行、JSON本文は32KiBまでです。切り詰めた場合は`truncated`と全関係行数を返します。MCPメッセージ全体のフレームサイズを32KiBとする意味ではありません。
