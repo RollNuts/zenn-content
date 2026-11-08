@@ -15,6 +15,8 @@ Git・Python・RSS・静的サイトの実装と運用を扱う、日本語技�
 
 ## 再現コード
 
+[ast-grep outlineの小さい再現例](examples/ast-grep-outline/README.md)は、TypeScript 3ファイルと7条件の実CLI検証をまとめています。ファイル・ディレクトリの表示や、出力に残る情報を確認できます。
+
 [配信中のrevisionをHTTP応答で確認する最小例](examples/deployment-revision/README.md)は、Python 3.12の標準ライブラリだけで動きます。旧版・一部だけ更新・正常な配信の違いをローカルHTTPで試せます。
 
 ## ファイルの読み方
