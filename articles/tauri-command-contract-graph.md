@@ -10,13 +10,15 @@ Rustのコマンド名を変える前に、TypeScript側のどのファイルを
 
 Tauriのように言語をまたぐ構成では、フロントからRustの関数を直接`import`するわけではありません。コマンド名という文字列を介して呼び出すため、言語内の参照検索とは別に、その対応を見る入口がほしくなります。
 
-個人開発していたVeripsa Coreには、こうした関係を契約のグラフへ変換する実装があります。今回は公開Coreを書き換えず、その出力の一部を、コーディングエージェントから問い合わせるローカルMCPへ切り出しました。
+個人開発していたVeripsa Coreには、こうした関係を契約のグラフへ変換する実装があります。その出力の一部を、コーディングエージェントから問い合わせるローカルMCPへ切り出しました。公式例で見つかったimport属性の見落としには、Core側へ同じmoduleの明示importを解決する[CoreのPR #4](https://github.com/RollNuts/veripsa/pull/4)で対応を加えています。
 
 用意したツールは`graph_summary`と`tauri_related_files`の2つです。保存済みの解析結果を読み、ソース本文ではなく、関係するファイルとその根拠を返します。
 
 これはローカルadapterの再現例で、出荷済みMCP製品ではありません。Coreのホスト版は停止中です。この例はDB、Webhook、GitHub Appを起動しません。
 
-[再現コード](https://github.com/RollNuts/zenn-content/tree/f08bec5e302b68513c0d352f64c7629b60d50c83/examples/core-local-mcp)は、adapter、合成snapshot、SDKのClientから実serverを呼ぶスクリプトをまとめています。Codex CLIから2ツールを実際に呼ぶ動作も確認しました。
+[再現コード](https://github.com/RollNuts/zenn-content/tree/0477e7e786006dcdc1e6f3edf97916b21812fdb1/examples/core-local-mcp)は、adapter、合成snapshot、SDKのClientから実serverを呼ぶスクリプトをまとめています。Codex CLIから2ツールを実際に呼ぶ動作も確認しました。
+
+同梱の4つの合成snapshotは旧Core `d22d44f`で作成した固定データです。SDKデモとCodex CLIの既存接続記録は、このデータを使った結果です。実repoの抽出には、import属性対応後の上記公開固定Coreを使います。
 
 ## まずMCPで呼び出してみる
 
@@ -24,7 +26,7 @@ GitとPython 3.12を用意し、次の手順で実行します。検証環境は
 
 ```sh
 git clone https://github.com/RollNuts/zenn-content.git
-git -C zenn-content checkout f08bec5e302b68513c0d352f64c7629b60d50c83
+git -C zenn-content checkout 0477e7e786006dcdc1e6f3edf97916b21812fdb1
 cd zenn-content/examples/core-local-mcp
 python3.12 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
@@ -84,7 +86,7 @@ export async function requestLabel() {
 }
 ```
 
-CoreのTauri抽出器は、明示的なRustの属性と、公式API由来の`invoke`に直接渡した既知の名前を手掛かりに、共通の`app_command`へ辺を張ります。
+CoreのTauri抽出器は、明示的な`#[tauri::command]`または同じmoduleの明示importに由来する属性と、公式API由来の`invoke`に直接渡した既知の名前を手掛かりに、共通の`app_command`へ辺を張ります。
 
 ```text
 src-tauri/commands.rs ──alters──▶ tauri_command::receipt_label
@@ -104,7 +106,7 @@ Tauriアプリで実行するには、コマンドを`invoke_handler`へ登録�
 1. 固定したCoreで、手元の入力からメタデータsnapshotを生成する。
 2. MCP serverは起動時にそのsnapshotを読み、問い合わせに答える。
 
-解析の入口は、公開Coreの`code_graph_extract.build_graph`です。対象は[commit `d22d44f`](https://github.com/RollNuts/veripsa/tree/d22d44f12112784d34d5ea7ba20755ca995adad2)へ固定し、再現コードで使う抽出パイプラインのblobも照合します。
+解析の入口は、公開Coreの`code_graph_extract.build_graph`です。対象は[commit `9b5429aac861164cc1b41278dcaf540fa6fabad7`](https://github.com/RollNuts/veripsa/tree/9b5429aac861164cc1b41278dcaf540fa6fabad7)へ固定し、再現コードで使う抽出パイプラインのblobも照合します。
 
 `build_graph`の返り値は丸ごと流さず、`app_command`、`alters`／`queries`、ファイルの解析状態だけに絞りました。ほかのresourceやSQL側のPR交通判断は扱いません。
 
@@ -201,15 +203,17 @@ stdio経由では、各ケースで3種類の不正pathと上限外の`limit`を
 
 加えて、長いUTF-8パスを持つ合成snapshotを、実stdio接続でも検査しました。61件の関係に対して11件を返し、`truncated: true`となりました。返却されたtext本文は31,124 bytesで、32,768 bytesの上限内でした。MCP message全体のframeサイズを32KiBに制限した、という意味ではありません。
 
-## 公式Tauri例でも、候補0を「依存なし」と読めない
+## 公式Tauri例で、見つかった関係にも解析状態を残す
 
-合成fixtureの外側も確認するため、[公式Tauriの固定commit](https://github.com/tauri-apps/tauri/tree/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api)の`examples/api`を同じCoreで解析し、SDKのstdio接続で`src-tauri/src/cmd.rs`を問い合わせました。アプリのbuildや起動は行っていません。
+[公式Tauriの固定commit](https://github.com/tauri-apps/tauri/tree/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api)の`examples/api`には、[importした`#[command]`による`perform_request`の定義](https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src-tauri/src/cmd.rs#L44)、[Svelte内TypeScriptの`invoke('perform_request', ...)`](https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src/views/Communication.svelte#L28)、[handler登録](https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src-tauri/src/lib.rs#L158)があります。
 
-このRustファイルには[importした`#[command]`による`perform_request`の定義](https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src-tauri/src/cmd.rs#L44)があり、[Svelte内TypeScriptの`invoke('perform_request', ...)`](https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src/views/Communication.svelte#L28)と[handler登録](https://github.com/tauri-apps/tauri/blob/2e23492ab9bcec06bab041e0e47447aaa0da298c/examples/api/src-tauri/src/lib.rs#L158)も読めます。それでも返却は`not_observed`、関係行数0でした。
+旧固定Core `d22d44f`では、Rustファイル`src-tauri/src/cmd.rs`の照会は`not_observed`、関係行数0でした。この版は明示的な`#[tauri::command]`だけを定義として扱い、importされた`#[command]`を拾えなかったためです。
 
-固定した抽出器は、明示的な`#[tauri::command]`を認識する実装です。この例の`#[command]`は対象表記に含まれません。また、今回の依存定義にはSvelte grammarがなく、呼び出し側のdocumentには`incomplete`が残りました。ファイルが見えていることと、必要な契約を抽出できることは別です。
+Core側にはRustの構文木によるimport解決を加えました。同じmoduleが直接importした`tauri::command`、alias、入れ子groupに対応し、無関係なbare属性や他moduleのimportを採用しません。glob、reexport、macro展開、cfg評価の解決は今回の範囲に含めません。
 
-これは依存なしを証明した例でも、実アプリでの有用性を確認した例でもありません。空の結果を読む前に、対象表記・grammar・解析状態を確かめる必要がある、という実測です。コマンドと件数は[再現手順と記録](https://github.com/RollNuts/zenn-content/tree/f08bec5e302b68513c0d352f64c7629b60d50c83/examples/core-local-mcp#公式tauri例で実際の呼び出しを取りこぼすケース)へまとめました。
+更新後の固定Coreから同じ公式入力を再抽出し、SDKのstdio接続で照会すると、`uncertain`、関係4行が返りました。`echo`、`log_operation`、`perform_request`、`spam`を介し、相手はすべて`src/views/Communication.svelte`でした。アプリのbuildや起動は行っていません。
+
+今回の依存定義には引き続きSvelte grammarがありません。呼び出し側のdocumentには`incomplete`が残り、返却した関係も`uncertain`を保ちました。候補が出ることと、完全な解析や安全な変更を証明できることを分けるためです。コマンドと件数は[再現手順と記録](https://github.com/RollNuts/zenn-content/tree/0477e7e786006dcdc1e6f3edf97916b21812fdb1/examples/core-local-mcp#公式tauri例でimport対応と解析状態を確認する)へまとめます。
 
 ## Pythonの関数と、MCPの境界を分ける
 
@@ -239,7 +243,7 @@ SDKは2.3.0で、通常の接続ではprotocol 2026-07-28を確認しました�
 
 ```sh
 git clone https://github.com/RollNuts/veripsa.git core
-git -C core checkout d22d44f12112784d34d5ea7ba20755ca995adad2
+git -C core checkout 9b5429aac861164cc1b41278dcaf540fa6fabad7
 .venv/bin/python -m pip install --only-binary=:all: --no-deps -r requirements-extract.txt
 .venv/bin/python export_snapshot.py \
   --core core \
