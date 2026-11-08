@@ -15,6 +15,8 @@ Git・Python・RSS・静的サイト・コード解析の実装と運用を扱�
 
 ## 再現コード
 
+[ブランチ整理の候補条件を試す10件のテスト](examples/branch-cleanup-candidates/README.md)は、公開記事の関数を架空のPR・ブランチ情報で検証します。Python 3.12の標準ライブラリだけで実行できます。
+
 [CoreでTauriの文字列契約をグラフにする再現例](examples/tauri-command-contract/README.md)は、固定した公開CoreでRustとTypeScriptの4ケースを検証します。公式呼び出し・同名の自作関数・変数による名前・重複定義を比較できます。
 
 [ast-grep outlineの小さい再現例](examples/ast-grep-outline/README.md)は、TypeScript 3ファイルと7条件の実CLI検証をまとめています。ファイル・ディレクトリの表示や、出力に残る情報を確認できます。
