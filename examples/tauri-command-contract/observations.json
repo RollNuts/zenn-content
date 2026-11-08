@@ -1,0 +1,224 @@
+{
+  "core": {
+    "repository": "RollNuts/veripsa",
+    "commit": "d22d44f12112784d34d5ea7ba20755ca995adad2",
+    "verified_blob_count": 24,
+    "verified_blobs": {
+      "_cg_api_contract.py": "af70527be335c58f862e794c70e4f70eb55c0d1a",
+      "_cg_ci.py": "b0c4d545b56cf126430b541f16505c52f6f38c5e",
+      "_cg_cochange.py": "78fe8bd25436678362af87ca6d7ea332767c5d00",
+      "_cg_config.py": "8a8756f2bf876ae78801ec44f551915caa9984fc",
+      "_cg_iac.py": "793d4aa43a71784d76cc51574a5f92efb8f35a5c",
+      "_cg_io.py": "cf8944963f010efa63866fa0bdb0c852db360739",
+      "_cg_jobs.py": "a27b5f1dd1db77d5fc0d464314016fb25583253e",
+      "_cg_languages.py": "b0399625874845e63317a93cfc0fd68498924ead",
+      "_cg_openapi.py": "47bffb8f760760bc7eb502c57dcbe91797ca678c",
+      "_cg_python.py": "521b8b9c2f93288dea180878cb712bf717436852",
+      "_cg_resolve.py": "ae10624ac70e6dd3f0807efd877563ce6b49e80f",
+      "_cg_role_feature.py": "244b34e60b101a89d517648948daa99c446d21f5",
+      "_cg_routes.py": "9eddba2e91010ef19e261f911c26032513745819",
+      "_cg_schema.py": "9242087dc8dfecdbb214d9bb8be918a0643d203e",
+      "_cg_schema_go.py": "43d76d4e12a059dd5c9666c6d5fa0b6d0ecb3888",
+      "_cg_schema_orm.py": "fff982102509d6e48ae918f28464ffc57d9e32f0",
+      "_cg_schema_shared.py": "4e96e5fd6cb1da1e9f8b5c1c8701e42ac8bcb1f0",
+      "_cg_schema_sql.py": "5c057fdafc2626e9a31e9f785c10d73413188103",
+      "_cg_sibling.py": "a729f8363f1a93f41be117e52999773d288737e4",
+      "_cg_tauri.py": "aaa95c10b59131d4f201372b1fad8b8f5ea44da3",
+      "_cg_xrepo.py": "ddb18bd4e6355ba42e10780f788cb4a4e7376979",
+      "cg_generated.py": "bec0177473f4547aed1b0e12ef0c49782972ec02",
+      "cg_schema_contract.py": "72ae83328f7c8b0ea642679202dab4688fd4e5ab",
+      "code_graph_extract.py": "0b6aba6eff691316dca9f2de50d1be2dee12e40e"
+    }
+  },
+  "python": "3.12.13",
+  "dependencies": {
+    "tree-sitter": "0.23.2",
+    "tree-sitter-javascript": "0.23.1",
+    "tree-sitter-typescript": "0.23.2",
+    "tree-sitter-rust": "0.21.2",
+    "PyYAML": "6.0.3"
+  },
+  "passed_cases": 4,
+  "results": [
+    {
+      "case": "official-literal",
+      "passed": true,
+      "fixture_sha256": {
+        "src/client.ts": "5495532296a5b86bf1821b5363f29b713019fbeb2503234000f34b82dda13508",
+        "src-tauri/commands.rs": "d5db3e55bf87cdd8e1cc20d8d3f18f13102e3b7d1925f33719e2dcf8d4f0c348"
+      },
+      "command_node_count": 1,
+      "ambiguous_command": false,
+      "contract_edge_counts": {
+        "alters": 1,
+        "queries": 1
+      },
+      "reference_status_counts": {
+        "null": 2
+      },
+      "analysis_status_counts": {
+        "null": 2
+      },
+      "contract_edges": [
+        {
+          "src": "src-tauri/commands.rs",
+          "dst": "tauri_command::receipt_label",
+          "kind": "alters",
+          "reference_status": null
+        },
+        {
+          "src": "src/client.ts",
+          "dst": "tauri_command::receipt_label",
+          "kind": "queries",
+          "reference_status": null
+        }
+      ],
+      "documents": [
+        {
+          "path": "src-tauri/commands.rs",
+          "analysis_status": null
+        },
+        {
+          "path": "src/client.ts",
+          "analysis_status": null
+        }
+      ],
+      "body_marker_absent": true
+    },
+    {
+      "case": "local-invoke",
+      "passed": true,
+      "fixture_sha256": {
+        "src/client.ts": "7cbb538d076e50f645adde6b986ce5d1fdc8a10039eb3fbbd509d52acc5f287d",
+        "src-tauri/commands.rs": "d5db3e55bf87cdd8e1cc20d8d3f18f13102e3b7d1925f33719e2dcf8d4f0c348"
+      },
+      "command_node_count": 1,
+      "ambiguous_command": false,
+      "contract_edge_counts": {
+        "alters": 1,
+        "queries": 0
+      },
+      "reference_status_counts": {
+        "null": 1
+      },
+      "analysis_status_counts": {
+        "null": 2
+      },
+      "contract_edges": [
+        {
+          "src": "src-tauri/commands.rs",
+          "dst": "tauri_command::receipt_label",
+          "kind": "alters",
+          "reference_status": null
+        }
+      ],
+      "documents": [
+        {
+          "path": "src-tauri/commands.rs",
+          "analysis_status": null
+        },
+        {
+          "path": "src/client.ts",
+          "analysis_status": null
+        }
+      ],
+      "body_marker_absent": true
+    },
+    {
+      "case": "dynamic-name",
+      "passed": true,
+      "fixture_sha256": {
+        "src/client.ts": "2f1b8bc1321bb4d679b9a42f0ad3e82141bcdd0e75cfdc8f8dba60db0f7471fb",
+        "src-tauri/commands.rs": "d5db3e55bf87cdd8e1cc20d8d3f18f13102e3b7d1925f33719e2dcf8d4f0c348"
+      },
+      "command_node_count": 1,
+      "ambiguous_command": false,
+      "contract_edge_counts": {
+        "alters": 1,
+        "queries": 0
+      },
+      "reference_status_counts": {
+        "null": 1
+      },
+      "analysis_status_counts": {
+        "null": 2
+      },
+      "contract_edges": [
+        {
+          "src": "src-tauri/commands.rs",
+          "dst": "tauri_command::receipt_label",
+          "kind": "alters",
+          "reference_status": null
+        }
+      ],
+      "documents": [
+        {
+          "path": "src-tauri/commands.rs",
+          "analysis_status": null
+        },
+        {
+          "path": "src/client.ts",
+          "analysis_status": null
+        }
+      ],
+      "body_marker_absent": true
+    },
+    {
+      "case": "duplicate-command",
+      "passed": true,
+      "fixture_sha256": {
+        "src/client.ts": "5495532296a5b86bf1821b5363f29b713019fbeb2503234000f34b82dda13508",
+        "src-tauri/alpha.rs": "d5db3e55bf87cdd8e1cc20d8d3f18f13102e3b7d1925f33719e2dcf8d4f0c348",
+        "src-tauri/beta.rs": "8dd63bb7478246d0d65037403f8fd1b1e1cb6476b2f648c681e405dd2a4c6d09"
+      },
+      "command_node_count": 1,
+      "ambiguous_command": true,
+      "contract_edge_counts": {
+        "alters": 2,
+        "queries": 1
+      },
+      "reference_status_counts": {
+        "ambiguous": 3
+      },
+      "analysis_status_counts": {
+        "ambiguous": 3
+      },
+      "contract_edges": [
+        {
+          "src": "src-tauri/alpha.rs",
+          "dst": "tauri_command::receipt_label",
+          "kind": "alters",
+          "reference_status": "ambiguous"
+        },
+        {
+          "src": "src-tauri/beta.rs",
+          "dst": "tauri_command::receipt_label",
+          "kind": "alters",
+          "reference_status": "ambiguous"
+        },
+        {
+          "src": "src/client.ts",
+          "dst": "tauri_command::receipt_label",
+          "kind": "queries",
+          "reference_status": "ambiguous"
+        }
+      ],
+      "documents": [
+        {
+          "path": "src-tauri/alpha.rs",
+          "analysis_status": "ambiguous"
+        },
+        {
+          "path": "src-tauri/beta.rs",
+          "analysis_status": "ambiguous"
+        },
+        {
+          "path": "src/client.ts",
+          "analysis_status": "ambiguous"
+        }
+      ],
+      "body_marker_absent": true
+    }
+  ],
+  "scope": "Static graph extraction of four synthetic Rust/TypeScript fixtures; no Tauri build, database, server or hosted-service test."
+}

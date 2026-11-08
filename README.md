@@ -1,6 +1,6 @@
 # Zenn記事の原稿 / Technical writing
 
-Git・Python・RSS・静的サイトの実装と運用を扱う、日本語技術記事の原稿置き場です。
+Git・Python・RSS・静的サイト・コード解析の実装と運用を扱う、日本語技術記事の原稿置き場です。
 
 現在、**Zenn公開記事2本**を管理しています。
 
@@ -14,6 +14,8 @@ Git・Python・RSS・静的サイトの実装と運用を扱う、日本語技�
 | 静的サイトの日時とRSS | [創作上の2031年をRSSに流さない――静的サイトで3つの日時を分ける](https://zenn.dev/veripsa/articles/fiction-date-rss-static-site) | [Markdown](articles/fiction-date-rss-static-site.md) |
 
 ## 再現コード
+
+[CoreでTauriの文字列契約をグラフにする再現例](examples/tauri-command-contract/README.md)は、固定した公開CoreでRustとTypeScriptの4ケースを検証します。公式呼び出し・同名の自作関数・変数による名前・重複定義を比較できます。
 
 [ast-grep outlineの小さい再現例](examples/ast-grep-outline/README.md)は、TypeScript 3ファイルと7条件の実CLI検証をまとめています。ファイル・ディレクトリの表示や、出力に残る情報を確認できます。
 

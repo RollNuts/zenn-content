@@ -1,0 +1,77 @@
+{
+  "command_id": "tauri_command::receipt_label",
+  "command_name": "receipt_label",
+  "body_marker": "FIXTURE_BODY_TEXT_SHOULD_STAY_OUT_OF_GRAPH",
+  "cases": {
+    "official-literal": {
+      "command_node_count": 1,
+      "alters": 1,
+      "queries": 1,
+      "reference_status_counts": {
+        "null": 2
+      },
+      "analysis_status_counts": {
+        "null": 2
+      },
+      "ambiguous_command": false,
+      "definition_paths": [
+        "src-tauri/commands.rs"
+      ],
+      "reference_paths": [
+        "src/client.ts"
+      ]
+    },
+    "local-invoke": {
+      "command_node_count": 1,
+      "alters": 1,
+      "queries": 0,
+      "reference_status_counts": {
+        "null": 1
+      },
+      "analysis_status_counts": {
+        "null": 2
+      },
+      "ambiguous_command": false,
+      "definition_paths": [
+        "src-tauri/commands.rs"
+      ],
+      "reference_paths": []
+    },
+    "dynamic-name": {
+      "command_node_count": 1,
+      "alters": 1,
+      "queries": 0,
+      "reference_status_counts": {
+        "null": 1
+      },
+      "analysis_status_counts": {
+        "null": 2
+      },
+      "ambiguous_command": false,
+      "definition_paths": [
+        "src-tauri/commands.rs"
+      ],
+      "reference_paths": []
+    },
+    "duplicate-command": {
+      "command_node_count": 1,
+      "alters": 2,
+      "queries": 1,
+      "reference_status_counts": {
+        "ambiguous": 3
+      },
+      "analysis_status_counts": {
+        "ambiguous": 3
+      },
+      "ambiguous_command": true,
+      "definition_paths": [
+        "src-tauri/alpha.rs",
+        "src-tauri/beta.rs"
+      ],
+      "reference_paths": [
+        "src/client.ts"
+      ]
+    }
+  }
+}
+
