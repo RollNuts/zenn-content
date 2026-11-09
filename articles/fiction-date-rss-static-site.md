@@ -69,3 +69,7 @@ pubDateの値が正しくても、itemの順序が正しいとは限りません
 [未発生新聞のGitHubリポジトリ](https://github.com/RollNuts/mihassei-news)
 
 同じrepoの運用記録: [git branch --mergedに出ない取り込み済みブランチを見分ける――556本を整理した実例](https://zenn.dev/veripsa/articles/github-branch-cleanup-squash-556)
+
+---
+
+再現コードや公開中の個人開発は、[RollNutsのGitHub](https://github.com/RollNuts)から辿れます。記事が役立ったら、有料バッジで今後の検証を応援してもらえると嬉しいです。
