@@ -16,9 +16,9 @@ Tauriのように言語をまたぐ構成では、フロントからRustの関�
 
 これはローカルadapterの再現例で、出荷済みMCP製品ではありません。Coreのホスト版は停止中です。この例はDB、Webhook、GitHub Appを起動しません。
 
-[再現コード](https://github.com/RollNuts/zenn-content/tree/0477e7e786006dcdc1e6f3edf97916b21812fdb1/examples/core-local-mcp)は、adapter、合成snapshot、SDKのClientから実serverを呼ぶスクリプトをまとめています。Codex CLIから2ツールを実際に呼ぶ動作も確認しました。
+[再現コード](https://github.com/RollNuts/zenn-content/tree/89fe0fe12258c827a9e7fc54cb12fc96401018de/examples/core-local-mcp)は、adapter、合成snapshot、SDKのClientから実serverを呼ぶスクリプトをまとめています。Codex CLIから2ツールを実際に呼ぶ動作も確認しました。
 
-同梱の4つの合成snapshotは旧Core `d22d44f`で作成した固定データです。SDKデモとCodex CLIの既存接続記録は、このデータを使った結果です。実repoの抽出には、import属性対応後の上記公開固定Coreを使います。
+同梱の4つの合成snapshotは旧Core `d22d44f`で作成した固定データです。既定のSDK・Codexデモはこの小さい例を使います。別途、import属性対応後のCore `9b5429a`で公式Tauri例を抽出し、そのsnapshotをCodexから照会する手順も確認しました。
 
 ## まずMCPで呼び出してみる
 
@@ -26,7 +26,7 @@ GitとPython 3.12を用意し、次の手順で実行します。検証環境は
 
 ```sh
 git clone https://github.com/RollNuts/zenn-content.git
-git -C zenn-content checkout 0477e7e786006dcdc1e6f3edf97916b21812fdb1
+git -C zenn-content checkout 89fe0fe12258c827a9e7fc54cb12fc96401018de
 cd zenn-content/examples/core-local-mcp
 python3.12 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
@@ -51,7 +51,7 @@ npm install --prefix .codex-cli --no-audit --no-fund --ignore-scripts @openai/co
 
 `codex_demo.py`は一時workspaceで、`--ignore-user-config`、`--ephemeral`、read-only sandboxを指定します。MCP設定は一回の起動引数として渡し、`codex mcp add`や設定ファイルへの書き込みは行いません。設定項目は[OpenAI公式のMCP設定](https://learn.chatgpt.com/docs/extend/mcp?surface=cli)、非対話起動は[公式ガイド](https://learn.chatgpt.com/docs/non-interactive-mode)を参照しました。
 
-モデルには`graph_summary`、続いて`tauri_related_files`を呼ぶように指示しました。返った回答は次のとおりです。
+モデルには`graph_summary`、続いて`tauri_related_files`を呼ぶように指示しました。まず、同梱の合成snapshotで返った回答は次のとおりです。
 
 ```json
 {
@@ -213,7 +213,30 @@ Core側にはRustの構文木によるimport解決を加えました。同じmod
 
 更新後の固定Coreから同じ公式入力を再抽出し、SDKのstdio接続で照会すると、`uncertain`、関係4行が返りました。`echo`、`log_operation`、`perform_request`、`spam`を介し、相手はすべて`src/views/Communication.svelte`でした。アプリのbuildや起動は行っていません。
 
-今回の依存定義には引き続きSvelte grammarがありません。呼び出し側のdocumentには`incomplete`が残り、返却した関係も`uncertain`を保ちました。候補が出ることと、完全な解析や安全な変更を証明できることを分けるためです。コマンドと件数は[再現手順と記録](https://github.com/RollNuts/zenn-content/tree/0477e7e786006dcdc1e6f3edf97916b21812fdb1/examples/core-local-mcp#公式tauri例でimport対応と解析状態を確認する)へまとめます。
+今回の依存定義には引き続きSvelte grammarがありません。呼び出し側のdocumentには`incomplete`が残り、返却した関係も`uncertain`を保ちました。候補が出ることと、完全な解析や安全な変更を証明できることを分けるためです。コマンドと件数は[再現手順と記録](https://github.com/RollNuts/zenn-content/tree/89fe0fe12258c827a9e7fc54cb12fc96401018de/examples/core-local-mcp#公式tauri例でimport対応と解析状態を確認する)へまとめます。
+
+
+READMEの手順で`tauri-api-snapshot.json`を生成した後、同じsnapshotをCodexへ渡しました。CLIの導入とログインは前述の手順を使います。
+
+```sh
+.venv/bin/python codex_demo.py \
+  --codex .codex-cli/node_modules/.bin/codex \
+  --snapshot tauri-api-snapshot.json \
+  --path src-tauri/src/cmd.rs \
+  --report codex-public-tauri-local.json
+```
+
+Codex CLI 0.167.0の2件のMCP呼び出しについて、引数・返却値・最終回答をsnapshotと照合しました。
+
+```json
+{
+  "query_status": "uncertain",
+  "related_files": ["src/views/Communication.svelte"],
+  "current_state_or_merge_safety_proven": false
+}
+```
+
+4つのcommandから得た関係は4行ありますが、相手ファイルは1つです。`related_files`は同じpathを重複除去して表示しています。Codexへ渡しても、不完全な解析を確定した関係へ読み替えず、`uncertain`を保持しました。限定した確認記録は[`codex-public-tauri-verification.json`](https://github.com/RollNuts/zenn-content/blob/89fe0fe12258c827a9e7fc54cb12fc96401018de/examples/core-local-mcp/codex-public-tauri-verification.json)です。
 
 ## Pythonの関数と、MCPの境界を分ける
 
@@ -259,7 +282,7 @@ MCP hostへ追加する場合は、絶対パスのPythonと`server.py --snapshot
 
 返却には、`current_state_or_merge_safety_proven: false`を含めています。snapshotのSHA-256は読み込んだJSONを識別するもので、現在の作業ツリーと一致するという証明ではありません。server起動後にコードを変更しても、保存済みの解析結果が自動で更新される構成ではありません。
 
-また、「本文を返さない」と「情報を何も返さない」は異なります。ファイルパス、契約名、関係だけでも、開発内容を表すことがあります。stdioで手元のserverとつないでも、その結果をclientがどのmodelへ渡すかは別の境界です。ローカルserverだからLLMへの送信もない、とは説明しません。
+また、「本文を返さない」と「情報を何も返さない」は異なります。ファイルパス、契約名、関係だけでも、開発内容を表すことがあります。stdioで手元のserverとつないでも、その結果をclientがどのmodelへ渡すかは別の境界です。ローカルserverだからLLMへの送信もない、とは説明しません。 ここで本文を返さないのは、このMCPツールの性質です。Codex自身のファイル読み取りを一律に止めるものではなく、ほかのツールの権限は別に設定・確認する必要があります。
 
 今回できるのは、保存した解析範囲の中から、次に読むファイルの候補と根拠を返すことです。Tauriのすべての呼び出し形式、引数・戻り値の型、実行時の正しさ、現在のPR同士の衝突や安全なmergeを判定するものではありません。
 
