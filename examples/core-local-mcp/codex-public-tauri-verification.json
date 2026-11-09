@@ -1,0 +1,39 @@
+{
+  "fixture": {
+    "repository": "tauri-apps/tauri",
+    "commit": "2e23492ab9bcec06bab041e0e47447aaa0da298c",
+    "analysis_root": "examples/api",
+    "query_path": "src-tauri/src/cmd.rs"
+  },
+  "snapshot": {
+    "snapshot_sha256": "b7c85af0efe183a1b9ad47708c5e07987835ade0c40d4b78b0b35d2933a2b897",
+    "core_commit": "9b5429aac861164cc1b41278dcaf540fa6fabad7",
+    "created_at": "2026-11-09T06:45:28.793071+00:00",
+    "current_worktree_verified": false
+  },
+  "total_relation_rows": 4,
+  "unique_related_file_count": 1,
+  "codex_cli": "codex-cli 0.167.0",
+  "tools": [
+    {
+      "server": "core_contracts",
+      "tool": "graph_summary",
+      "status": "completed"
+    },
+    {
+      "server": "core_contracts",
+      "tool": "tauri_related_files",
+      "status": "completed"
+    }
+  ],
+  "answer": {
+    "query_status": "uncertain",
+    "related_files": [
+      "src/views/Communication.svelte"
+    ],
+    "current_state_or_merge_safety_proven": false
+  },
+  "execution": "one ephemeral read-only invocation with per-run MCP configuration",
+  "transcript_published": false,
+  "passed": true
+}

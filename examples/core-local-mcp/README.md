@@ -45,7 +45,7 @@ MCPホストへ登録するときの起動コマンドは、絶対パスで次�
 
 ## 4つのdemo
 
-この4つの合成snapshotはCore `d22d44f12112784d34d5ea7ba20755ca995adad2`で作成した固定データです。上記のSDKデモと既存のCodex CLI接続記録は、このデータを使った結果です。下記の実repo抽出は更新後の固定Coreを使用します。
+この4つの合成snapshotはCore `d22d44f12112784d34d5ea7ba20755ca995adad2`で作成した固定データです。上記のSDKデモと既定のCodex CLIデモは、このデータを使います。下記では更新後の固定Coreで公式Tauri例を再抽出し、SDKとCodexの両方から照会します。
 
 元の架空コードは[別の再現例](../tauri-command-contract/fixtures)にあります。
 ここでは`src/client.ts`を問い合わせた場合の結果を比べます。
@@ -84,9 +84,11 @@ npm install --prefix .codex-cli --no-audit --no-fund --ignore-scripts @openai/co
 
 `codex_demo.py`は一時workspace、`--ignore-user-config`、`--ephemeral`、read-only sandbox、一回限りのMCP設定で起動します。`codex mcp add`やconfigファイルへの書き込みは行いません。`required=true`を指定し、サーバーを起動できない場合は継続しません。
 
+`--snapshot /path/to/snapshot.json --path src-tauri/src/cmd.rs`で、起動する人が別のsnapshotと照会pathを指定できます。指定しなければ同梱の小さい合成例を使います。`related_files`は返却された関係に現れるpathを、出現順で重複除去した一覧です。
+
 モデルへ2ツールの呼び出しを指示し、Codexの`mcp_tool_call`イベントを検査します。ツールの成功・引数・返却値・最終回答が固定snapshotと一致した場合だけ、限定した確認記録を返します。最終回答の自己申告だけで成功とは数えません。想定外のtool itemも拒否しますが、この事後検証をツール実行の強制隔離とは説明しません。
 
-確認できた回答は次のとおりです。
+既定の合成snapshotで確認できた回答は次のとおりです。
 
 ```json
 {"query_status":"observed","related_files":["src/client.ts"],"current_state_or_merge_safety_proven":false}
@@ -144,7 +146,25 @@ git -C tauri-source checkout --detach 2e23492ab9bcec06bab041e0e47447aaa0da298c
 
 今回の抽出依存には引き続きSvelte grammarがなく、呼び出し側の`Communication.svelte`には`incomplete`が残りました。候補の属性表記を認識できることと、相手ファイルを完全に解析できることを分け、返却関係にもその状態を残します。CoreがSvelteを一律に非対応という意味ではありません。
 
-これはアプリの実行や安全性、全repoの解析完全性を検証する手順ではありません。限定した記録は[`public-tauri-verification.json`](public-tauri-verification.json)へ、実測後に保存します。
+同じsnapshotをCodex CLIから照会する場合は、前述のCLI導入・ログイン後に次を実行します。モデル利用枠を使います。
+
+```sh
+.venv/bin/python codex_demo.py \
+  --codex .codex-cli/node_modules/.bin/codex \
+  --snapshot tauri-api-snapshot.json \
+  --path src-tauri/src/cmd.rs \
+  --report codex-public-tauri-local.json
+```
+
+Codex CLI 0.167.0の実呼び出しでも2ツールが成功し、返却値・最終回答をsnapshotと照合しました。回答は次のとおりです。
+
+```json
+{"query_status":"uncertain","related_files":["src/views/Communication.svelte"],"current_state_or_merge_safety_proven":false}
+```
+
+4つのcommandに関する関係は4行ありますが、相手ファイルは1つです。Codexへ渡した後も、解析の不完全さを`observed`へ読み替えず`uncertain`を保持しました。限定した記録は[`codex-public-tauri-verification.json`](codex-public-tauri-verification.json)です。CLIの交渉protocol版は収集しておらず、SDKで測定した版とは区別します。
+
+これはアプリの実行や安全性、全repoの解析完全性を検証する手順ではありません。SDKの限定した記録は[`public-tauri-verification.json`](public-tauri-verification.json)です。
 
 ## 検査と限界
 
@@ -158,7 +178,7 @@ snapshotの上限は5MiB、問い合わせ結果は最大20行、JSON本文は32
 - Tauriのapp_command、alters/queriesだけを照会する実験です。Coreの他のresourceやSQL上の衝突判定を実装したものではありません。
 - snapshotは固定です。作成後の編集、dirty tree、異なるworktreeの状態を追跡しません。常に`current_worktree_verified: false`と`current_state_or_merge_safety_proven: false`を返します。
 - 登録表、型、capability、実行時のTauri動作、マージの正しさは検証しません。
-- ファイル名・コマンド名も機密情報になり得ます。本文を除いても「情報がない」とは言えません。ホストが結果をLLMへ送るかどうかは、そのホストの設定と運用に依存します。
+- ファイル名・コマンド名も機密情報になり得ます。本文を除いても「情報がない」とは言えません。ホストが結果をLLMへ送るかどうかは、そのホストの設定と運用に依存します。 このMCPが本文を返さないことと、Codex自身のファイル読み取り権限は別です。他のツールのアクセスは別途制御・確認します。
 - snapshotは起動する人が選ぶデータです。返る名前は信頼された指示ではありません。結果を読むエージェントにも、repo由来のデータとして扱わせる必要があります。
 - 大規模repoの性能、全MCPホストとの互換、永続的なIDE登録、production用途の完全な隔離は今回測定していません。Coreホスト版も停止中です。
 
