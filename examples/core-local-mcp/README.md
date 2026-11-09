@@ -166,6 +166,57 @@ Codex CLI 0.167.0の実呼び出しでも2ツールが成功し、返却値・�
 
 これはアプリの実行や安全性、全repoの解析完全性を検証する手順ではありません。SDKの限定した記録は[`public-tauri-verification.json`](public-tauri-verification.json)です。
 
+## 検索とMCPの比較
+
+同じ固定Tauriソースで、普通の文字列検索Aと、このMCPへの実SDK問い合わせCを追加比較しました。事前のソース確認と別担当の確認で選んだ「確認する場所」5ファイルに対する、小さいチェックリストです。すべての正解を列挙した独立評価ではなく、5ファイル全部に編集が必要という意味でもありません。
+
+| 方法 | 候補ファイル数 | 事前チェックリストに含まれる場所 |
+| --- | ---: | ---: |
+| A：API全体で`perform_request`をliteral検索、定義元は除外 | 4 | 4件 |
+| A：見つかった生成TOMLを読み、`allow-perform-request`も検索 | 5 | 5件 |
+| C：Core MCPの返却を`tauri_command::perform_request`へ投影 | 1 | 1件 |
+
+Aは`examples/api`全体を検索します。最初の結果に現れたTOMLのallow mappingから実際のpermission identifierを得て、2回目の検索を行います。検索2回とTOMLのcontext読み取り1回であり、`src`だけへ検索範囲を狭めていません。
+
+Cは前節と同じ2ツールを実stdioで呼びました。返る全4行のうち、このcommandの行は1行で、`src/views/Communication.svelte`・`uncertain`です。`invoke_handler`登録、`build.rs`のcommand宣言、生成permission TOML、capabilityの参照は今回のC候補に含まれませんでした。生成TOMLは手編集せず、宣言・生成経路を確認する場所です。このケースでは、普通の検索を置き換える優位性は示せていません。
+
+再現には、前節の固定Tauri checkoutとsnapshot、同じSDK環境、Git、ripgrepを使います。新しい依存やモデル呼び出しは不要です。
+
+```sh
+.venv/bin/python compare_search.py \
+  --tauri tauri-source --snapshot tauri-api-snapshot.json \
+  --git /path/to/git --rg /path/to/rg \
+  --timings comparison-timings-local.json > comparison-evidence-local.json
+.venv/bin/python -m unittest -v test_compare_search.py
+```
+
+固定入力ID、版、全候補、path/lineの根拠、未包含の場所は[`comparison-evidence.json`](comparison-evidence.json)に記録しました。snapshot自体にはTauriのSHAが内包されないため、実験のsource checkout・tree IDとsnapshotのSHA256を別々に明記しています。再抽出時は作成日時によりsnapshotのbytes/hashが変わる場合があります。
+
+秒数は別fileへ出す機械実行時間です。Cは作成済みsnapshotへの接続と2ツール呼び出しで、Core抽出コストを含みません。人の調査時間や生産性、一般的なprecision/recallは測っていません。通常AIのBはこの比較では未実行で、既存のCodex＋MCP記録をBのbaselineとは数えません。チェックリスト外の候補は未評価であり、false positiveと決めつけません。
+
+## 通常AIとCore併用の単発比較
+
+`compare_agents.py`は、通常のsource調査Bと、同じsourceにCore MCPを加えたCを別workspaceで試すための再現用ハーネスです。前節の文字列検索A／SDKだけのCとは別の実験です。Codex CLI 0.167.0とログイン済みのChatGPT利用枠を使います。APIキー環境変数は子プロセスから除外し、APIキー認証を指定しません。
+
+最初は`--run`なしで、ローカルの版・help・SDK・snapshotだけを確認します。この段階はモデルを呼びません。実行するPythonがSDK環境であれば`--sdk-python`の指定は不要です。
+
+```sh
+.venv/bin/python compare_agents.py \
+  --codex .codex-cli/node_modules/.bin/codex \
+  --tauri tauri-source --snapshot tauri-api-snapshot.json \
+  --git /path/to/git \
+  --private-dir /path/outside/git/new-agent-comparison
+.venv/bin/python -m unittest -v test_compare_agents.py
+```
+
+内容を確認してモデルを使う場合だけ、同じコマンドの末尾に`--run`を加えます。B→Cを各1試行・各120秒で実行し、このハーネスは再試行しません。固定Tauriの`examples/api`を同じ`git archive`から展開し、共通prompt・schema・CLI defaultを依頼します。解決されたmodelがイベントに表示されない場合は不明のまま記録し、同一modelだったとは断定しません。
+
+共通promptは、MCPがある場合だけ最初に2ツールを呼び、その後で通常のsource確認で補う条件です。Cの工具と条件文の効果を合わせて見ている単発対照であり、MCPだけの因果効果や一般的な品質差は測れません。5つの確認先は採点にだけ使い、prompt・回答schema・workspaceへ渡しません。全正解集合や、全ファイルの編集が必要という意味ではありません。
+
+`--private-dir`はGit worktree外の新規ディレクトリが必要です。ディレクトリは700、raw stdout/stderr等は600で保存します。`allowlist-receipt.json`もローカル記録です。自動公開機能はなく、raw logやアカウント情報を公開repoへ追加しないでください。公開する結果は、raw commandの内容・実行条件・回答根拠を確認してから別途最小限へ転記します。
+
+どちらも通常のsource読み取りを許可した対照なので、モデルへ渡る情報はMCPメタデータだけとは限りません。read-only設定とpromptは、全filesystemの読み取り隔離や任意のshell動作の遵守まで証明するものではありません。秒数もqueue/API/tool時間を含む実行時間で、人の調査時間ではありません。
+
 ## 検査と限界
 
 `export_snapshot.py`は、保存前にserverと同じ形式検査と5MiBのUTF-8サイズ上限を適用します。スキーマの対象外のパスや大きすぎる結果は、出力ファイルを作成・置換する前に拒否します。POSIXでは有効でも、この例では受け付けないパス表記があります。保存境界の検査は`.venv/bin/python -m unittest -v test_export_snapshot.py`で実行できます。
