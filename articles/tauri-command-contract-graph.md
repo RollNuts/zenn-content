@@ -1,5 +1,5 @@
 ---
-title: "CodexにRustとTypeScriptの関係を引かせる――契約グラフをMCPへ切り出す"
+title: "Tauriコマンドの変更影響をAIは追える？Codex・MCP・検索を比較"
 emoji: "🔎"
 type: "tech"
 topics: ["mcp", "codex", "tauri", "rust", "python"]
