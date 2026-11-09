@@ -20,7 +20,7 @@ perform_request の変更前に確認する接点（公式例）
 └─ handler・build・権限   → 今回のMCP出力には出ない。別途確認する
 ```
 
-[再現コードと検証記録](https://github.com/RollNuts/zenn-content/tree/89fe0fe12258c827a9e7fc54cb12fc96401018de/examples/core-local-mcp)には、従来のSDK・Codex実測を固定版として残しています。今回追加した[検索との比較コード](https://github.com/RollNuts/zenn-content/tree/4b0f00441b4cee3cded29813d9bdb241c4b45722/examples/core-local-mcp#検索とmcpの比較)と結果は、後半の手順から再実行できます。Coreのホスト型GitHub Appは2026年8月18日から停止中です。この記事の手順ではDB・Webhook・Appを起動しません。
+[再現コードと検証記録](https://github.com/RollNuts/zenn-content/tree/89fe0fe12258c827a9e7fc54cb12fc96401018de/examples/core-local-mcp)には、従来のSDK・Codex実測を固定版として残しています。今回追加した[検索との比較コード](https://github.com/RollNuts/zenn-content/tree/df6d5c739f3f6c79f14ead14e275ad3e766f5cd9/examples/core-local-mcp#検索とmcpの比較)と結果は、後半の手順から再実行できます。Coreのホスト型GitHub Appは2026年8月18日から停止中です。この記事の手順ではDB・Webhook・Appを起動しません。
 
 ## 変更前に何を探すのか
 
@@ -222,19 +222,23 @@ B/C1とも、最終JSONの`claims_complete`と`merge_safety_proven`は`false`で
 
 **条件の限界もあります。** 同じCLIのdefaultを依頼しましたが、受信イベントには解決されたmodel IDが出ず、厳密な同一modelの確認はできていません。B→C1の固定順で各1回、順序の入替や反復も無しです。経過秒はqueue・model応答・toolを含む機械時間で、上の差から速度や生産性の優位を推定しません。既存の「MCPだけを呼ばせたCodex成功記録」を、通常AIの対照群に流用してもいません。
 
-[共通プロンプト](https://github.com/RollNuts/zenn-content/blob/4b0f00441b4cee3cded29813d9bdb241c4b45722/examples/core-local-mcp/agent-comparison-prompt.txt)と[限定した結果記録](https://github.com/RollNuts/zenn-content/blob/4b0f00441b4cee3cded29813d9bdb241c4b45722/examples/core-local-mcp/agent-comparison-receipt.json)を公開しています。生のコマンド出力・account情報・ローカル絶対パスは公開しません。このAI試行は既存のChatGPT利用枠を使う任意の検証で、SDKだけの再現ではモデルを呼びません。
+[共通プロンプト](https://github.com/RollNuts/zenn-content/blob/df6d5c739f3f6c79f14ead14e275ad3e766f5cd9/examples/core-local-mcp/agent-comparison-prompt.txt)と[限定した結果記録](https://github.com/RollNuts/zenn-content/blob/df6d5c739f3f6c79f14ead14e275ad3e766f5cd9/examples/core-local-mcp/agent-comparison-receipt.json)を公開しています。生のコマンド出力・account情報・ローカル絶対パスは公開しません。このAI試行は既存のChatGPT利用枠を使う任意の検証で、SDKだけの再現ではモデルを呼びません。
 
 ### 入力と、比較を再実行する手順
 
 Coreは`9b5429a`、Tauriは`2e23492`へ固定しています。現在のCore main `4236848`でも、再現例が固定する24のproductionソースblobが同一であることを確認しました。古い版のCodex成功記録を、新しい条件での成功へ読み替えてはいません。
 
+入力検査では`git status`を使わず、固定tree・indexと対象79ファイルのraw bytesを照合します。repo-local fsmonitorを無効化し、隠れたindex flag、入力の不足・追加・symlinkを拒否します。対象subtreeが完全なら、範囲外だけのsparse checkoutは使えます。検索前後も検査しますが、atomic filesystem snapshotの保証ではありません。
+
 snapshot自身にはTauriのcommit SHAが埋め込まれていません。比較コードは固定sourceの清浄さとGit tree、snapshotの正確なSHA-256を別々に記録します。今回は同じ固定sourceから再抽出し、作成時刻以外が元snapshotと一致することも確認しました。一般にsnapshotの識別子だけで、手元のソースとの対応が証明されるわけではありません。
+
+入力検査を強化した版でも、29テストと実SDK比較を確認しました。候補集合・解析状態は前掲の記録と一致しています。AIの2試行は再実行せず、以前の実測として残しています。
 
 比較コードは、後半で使う旧固定版`89fe0fe`にはありません。**今回の比較用には別のcheckoutを用意します。** 以下は追加コードを含む固定版を使い、公式Tauriからsnapshotを生成してから照会する、一続きの手順です。
 
 ```sh
 git clone https://github.com/RollNuts/zenn-content.git zenn-comparison
-git -C zenn-comparison checkout 4b0f00441b4cee3cded29813d9bdb241c4b45722
+git -C zenn-comparison checkout df6d5c739f3f6c79f14ead14e275ad3e766f5cd9
 cd zenn-comparison/examples/core-local-mcp
 python3.12 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
@@ -253,7 +257,7 @@ git -C tauri-source checkout 2e23492ab9bcec06bab041e0e47447aaa0da298c
 
 Gitやripgrepを独自の場所へ導入した場合は`--git`と`--rg`を指定します。clone・依存取得はネットワークを使います。その後の抽出と`compare_search.py`はローカルで動き、モデル・DBを呼ばず、Tauriアプリも実行しません。snapshotの作成時刻が異なれば、そのファイルのSHA-256も変わるので、結果JSONは候補・状態・固定source IDを分けて確認します。
 
-AI側の2試行を自分で再実行する場合だけ、[compare_agents.pyの手順](https://github.com/RollNuts/zenn-content/tree/4b0f00441b4cee3cded29813d9bdb241c4b45722/examples/core-local-mcp#通常aiとcore併用の単発比較)を使います。CLI版・入力条件を確認する既定のpreflightはモデルを呼ばず、明示的な`--run`でだけ既存ChatGPT利用枠を使うB/C1を各1回実行します。生ログの保存先はGit repo外の新規private directoryに指定し、そのまま公開しないでください。
+AI側の2試行を自分で再実行する場合だけ、[compare_agents.pyの手順](https://github.com/RollNuts/zenn-content/tree/df6d5c739f3f6c79f14ead14e275ad3e766f5cd9/examples/core-local-mcp#通常aiとcore併用の単発比較)を使います。CLI版・入力条件を確認する既定のpreflightはモデルを呼ばず、明示的な`--run`でだけ既存ChatGPT利用枠を使うB/C1を各1回実行します。生ログの保存先はGit repo外の新規private directoryに指定し、そのまま公開しないでください。
 
 ## 既存手法との違いと使い分け
 
