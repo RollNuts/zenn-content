@@ -117,10 +117,21 @@ class AgentComparisonTests(unittest.TestCase):
         args = SimpleNamespace(git=Path('git'), tauri=self.root)
         fake = subprocess.CompletedProcess([], 0, b'archive bytes', b'')
         with patch.object(C, 'local_command', return_value=C.TAURI_PIN), \
+                patch.object(C, 'validate_source') as validate, \
                 patch.object(C.subprocess, 'run', return_value=fake) as run:
             C.archive_api(args, environment)
+        self.assertEqual(validate.call_count, 2)
         self.assertEqual(run.call_args.kwargs['env']['GIT_NO_REPLACE_OBJECTS'], '1')
         self.assertEqual(run.call_args.kwargs['env']['GIT_CONFIG_GLOBAL'], os.devnull)
+        self.assertIn('core.fsmonitor=false', run.call_args.args[0])
+
+    def test_archive_uses_the_shared_source_guard_before_any_git_archive(self):
+        args = SimpleNamespace(git=Path('git'), tauri=self.root)
+        with patch.object(C, 'validate_source', side_effect=ValueError('rejected source')), \
+                patch.object(C.subprocess, 'run') as archive:
+            with self.assertRaises(ValueError):
+                C.archive_api(args, C.child_environment())
+        archive.assert_not_called()
 
     def test_receipt_rejects_private_text_and_does_not_infer_a_default_model(self):
         answer = {'peers': [{'path': 'src/peer.rs', 'reason': '/tmp/private/path'}],

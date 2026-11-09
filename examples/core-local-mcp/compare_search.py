@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import hashlib
 from importlib.metadata import version
 import json
 import os
@@ -15,6 +16,7 @@ from pathlib import Path
 import platform
 import re
 import shutil
+import stat
 import subprocess
 import sys
 import time
@@ -65,21 +67,105 @@ def run_command(arguments: list[str], *, cwd: Path | None = None,
     return result.stdout
 
 
-def validate_source(root: Path, git_binary: str) -> dict:
-    environment = {key: value for key, value in os.environ.items()
+def source_git_environment(base: dict | None = None) -> dict:
+    environment = {key: value for key, value in (os.environ if base is None else base).items()
                    if not key.startswith('GIT_')}
     environment.update(GIT_CONFIG_NOSYSTEM='1', GIT_CONFIG_GLOBAL=os.devnull,
                        GIT_OPTIONAL_LOCKS='0', GIT_TERMINAL_PROMPT='0',
-                       GIT_NO_REPLACE_OBJECTS='1',
+                       GIT_ATTR_NOSYSTEM='1', GIT_NO_REPLACE_OBJECTS='1',
                        GIT_NO_LAZY_FETCH='1')
-    prefix = [git_binary, '-c', 'protocol.allow=never', '-C', str(root)]
-    def git(*args):
-        return run_command(prefix + list(args), environment=environment).rstrip('\n')
+    return environment
+
+
+def source_git_prefix(root: Path, git_binary: str) -> list[str]:
+    return [git_binary, '-c', 'protocol.allow=never', '-c', 'core.fsmonitor=false',
+            '-c', 'core.hooksPath=' + os.devnull, '-c', 'submodule.recurse=false',
+            '-c', 'core.attributesFile=' + os.devnull, '-C', str(root)]
+
+
+def validate_source(root: Path, git_binary: str) -> dict:
+    """Check the complete analysis subtree without status or Git clean filters.
+
+    Git status can hide index-flagged changes and invoke local helpers. Read
+    index/tree metadata instead, then hash every raw working file as a Git blob.
+    A sparse checkout outside examples/api is permitted; this entire input
+    subtree must be materialized and byte-identical to the pinned Git tree.
+    """
+    root = root.resolve(strict=True)
+    environment = source_git_environment()
+    prefix = source_git_prefix(root, git_binary)
+    def git(*args, allow_missing=False):
+        return run_command(prefix + list(args), environment=environment,
+                           allow_no_match=allow_missing).rstrip('\n')
+    if Path(git('rev-parse', '--show-toplevel')).resolve() != root:
+        raise ComparisonError('Source path must be the repository root.')
     if git('rev-parse', 'HEAD') != TAURI_PIN:
         raise ComparisonError('Source checkout differs from the fixed Tauri pin.')
-    if git('status', '--porcelain=v1', '--untracked-files=all', '--ignored',
-           '--', 'examples/api'):
-        raise ComparisonError('The measured source subtree must be clean.')
+    for entry in git('ls-files', '-v', '-z', '--', 'examples/api').split('\0'):
+        if not entry:
+            continue
+        if len(entry) < 3 or entry[1] != ' ' or entry[0] == 'S' or entry[0].islower():
+            raise ComparisonError('Source subtree has hidden or unsupported index state.')
+    expected = {}
+    for entry in git('ls-tree', '-r', '-l', '-z', '--full-tree', TAURI_PIN,
+                     '--', 'examples/api').split('\0'):
+        if not entry:
+            continue
+        metadata, separator, path = entry.partition('\t')
+        fields = metadata.split()
+        if (not separator or len(fields) != 4 or fields[0] not in {'100644', '100755'}
+                or fields[1] != 'blob' or re.fullmatch(r'[0-9a-f]{40}', fields[2]) is None
+                or not fields[3].isdigit() or not relative_path(path)
+                or not path.startswith('examples/api/') or path in expected):
+            raise ComparisonError('Fixed source tree has unsupported entries.')
+        expected[path] = (fields[0], fields[2], int(fields[3]))
+    if not expected:
+        raise ComparisonError('Fixed source subtree is unavailable.')
+    indexed = {}
+    for entry in git('ls-files', '--stage', '-z', '--', 'examples/api').split('\0'):
+        if not entry:
+            continue
+        metadata, separator, path = entry.partition('\t')
+        fields = metadata.split()
+        if not separator or len(fields) != 3 or fields[2] != '0' or path in indexed:
+            raise ComparisonError('Source index has unsupported entries.')
+        indexed[path] = (fields[0], fields[1])
+    if indexed != {path: fields[:2] for path, fields in expected.items()}:
+        raise ComparisonError('Source index differs from the fixed subtree.')
+    allowed_dirs = {str(parent) for path in expected for parent in Path(path).parents
+                    if str(parent).startswith('examples/api')}
+    observed = set()
+    api = root / 'examples/api'
+    if api.is_symlink() or not api.is_dir() or (root / 'examples').is_symlink():
+        raise ComparisonError('Source subtree must be an ordinary directory.')
+    def walk_error(_error):
+        raise ComparisonError('Source subtree could not be enumerated.')
+    for directory, dirs, files in os.walk(api, followlinks=False, onerror=walk_error):
+        for name in dirs:
+            path = Path(directory) / name
+            if path.is_symlink() or path.relative_to(root).as_posix() not in allowed_dirs:
+                raise ComparisonError('Source subtree has an unexpected directory.')
+        for name in files:
+            path = Path(directory) / name
+            relative = path.relative_to(root).as_posix()
+            if relative not in expected:
+                raise ComparisonError('Source subtree has an untracked or ignored file.')
+            observed.add(relative)
+            before = path.lstat()
+            if not stat.S_ISREG(before.st_mode) or before.st_size != expected[relative][2]:
+                raise ComparisonError('Source file differs from the fixed blob.')
+            descriptor = os.open(path, os.O_RDONLY | getattr(os, 'O_NOFOLLOW', 0))
+            with os.fdopen(descriptor, 'rb') as stream:
+                opened = os.fstat(stream.fileno())
+                if (opened.st_dev, opened.st_ino, opened.st_size) != (before.st_dev, before.st_ino, before.st_size):
+                    raise ComparisonError('Source file changed while opening it.')
+                digest = hashlib.sha1(b'blob ' + str(opened.st_size).encode() + b'\0', usedforsecurity=False)
+                for block in iter(lambda: stream.read(65536), b''):
+                    digest.update(block)
+                if digest.hexdigest() != expected[relative][1]:
+                    raise ComparisonError('Source bytes differ from the fixed blob.')
+    if observed != set(expected):
+        raise ComparisonError('Source subtree is incomplete.')
     return {'repository': 'https://github.com/tauri-apps/tauri', 'commit': TAURI_PIN,
             'analysis_root': 'examples/api',
             'api_tree': git('rev-parse', TAURI_PIN + ':examples/api')}
@@ -259,6 +345,8 @@ def compare(tauri: Path, snapshot: Path, git_binary: str, rg_binary: str) -> tup
                'A_literal_rg': literal_seconds, 'A_permission_context_read': context_seconds,
                'A_trace_rg': trace_seconds, 'C_stdio_session_and_two_tools': mcp_seconds,
                'not_measured': ['Human investigation time', 'Core snapshot extraction', 'Ordinary AI B']}
+    if validate_source(tauri, git_binary) != source:
+        raise ComparisonError('Source identity changed during the comparison.')
     return report, timings
 
 
