@@ -91,11 +91,18 @@ python3.12 -B -m unittest discover -s . -p 'test_compare_indexes.py' -v
 
 固定版のbare `python -m tools.hunt`は、module本体がbytecode生成を止めるより先に、自身の`.pyc`を書き出し得ます。今回、既存のindex gateは9件成功、CLI gateは14件成功・この条件の1件失敗でした。失敗を消したり成功へ読み替えたりしていません。
 
-上の手順は`-B`と`PYTHONDONTWRITEBYTECODE=1`を明示します。別の合成診断では、両方式それぞれで9成果物・入力不変・pycacheゼロを確認しました。bare起動の問題が修正済みという意味ではありません。
+上の手順は`-B`と`PYTHONDONTWRITEBYTECODE=1`を明示します。固定版v1に対する別の合成診断では、両方式それぞれで9成果物・入力不変・pycacheゼロを確認しました。この診断はbare起動の問題の修正を示すものではありません。
 
-## 次に改善できる小さい対象
+## 固定版v1で残った改善対象
 
-まず、`resources`内のmodule scopeを、合成例と負例付きで解決できるかが具体的な課題です。その改善後も、認可の十分性やstrong parametersの意味を解析できることにはなりません。結果を見てラベルの意味を変えず、既存の負例も残して比較します。
+固定版v1では、`resources`内のmodule scopeを、合成例と負例付きで解決できるかが具体的な課題でした。その改善後も、認可の十分性やstrong parametersの意味を解析できることにはなりません。結果を見てラベルの意味を変えず、既存の負例も残して比較します。
+
+### 後続の変更（2026-11-10追記）
+
+- [Core PR11](https://github.com/RollNuts/veripsa/pull/11)は、対応するCLI起動を`-B`または`PYTHONDONTWRITEBYTECODE=1`付きに揃え、bare起動を解析前に拒否します。Pythonが拒否前に作り得る自身のcacheを、防止・削除したという変更ではありません。
+- [Core PR12](https://github.com/RollNuts/veripsa/pull/12)で、`resources`内の静的なmodule-only scope直下にある`resources` / `resource`を限定的に合成し、producerを`hunt-ruby-rails-v2`へ更新しました。この新しい合成経路では、親contextと配下のroute宣言にある動的・重複・未対応の指定を未解決として扱い、曖昧なcontroller/actionにも結びません。[親・子孫を含む正例・負例の回帰テスト](https://github.com/RollNuts/veripsa/blob/85158e4a1ebc0c9351bb49eb7f0b743cf09aecae/tests/test_hunt_indexes.py#L286)を参照できます。これはrouteの確認先を辿る改善であり、脆弱性検出や安全性判定ではありません。
+
+このページのCore pin、`case.json`、再現手順、`expected-summary.json`と結果表は、引き続き固定版v1の記録です。後続変更の検証結果は、各PRを参照してください。
 
 この例は公開済みのソースをローカルで索引化するものです。実サービスへの検証や脆弱性報告の権限を付与するものではありません。未知の疑いを他プロジェクトの公開Issueへ投稿しないでください。
 
