@@ -1,0 +1,68 @@
+{
+  "schema": "core-change-review-cases-v1",
+  "repository": "https://github.com/pallets/flask",
+  "core_commit": "4236848504c8cb2cc3c14db22408fb519b06f754",
+  "flask_history_pin": "49943b5a94413a530761350f04e896f76e8d620e",
+  "selection": "Three small existing changes with source-explained review targets. The checklist was selected without reading graph or Co-change output for these cases; it is purposive, not a random or independent test set.",
+  "review_authorship": "AI-assisted source inspection, with a separate AI review. These are inspectable review reasons, not independently human-labelled ground truth.",
+  "question": "Does a candidate set computed immediately before this change include each selected existing review target? The checklist is not exhaustive; unlisted candidates are unassessed, not false positives.",
+  "cases": [
+    {
+      "id": "autoescape_casefold",
+      "target": "9368fb3f3c52d74534d14c1bef03c79c103356cd",
+      "base": "06ea505ce2b2042af26e96d35ebf159af7c0869d",
+      "seed": "src/flask/sansio/app.py",
+      "change": "Make the template-extension comparison in select_jinja_autoescape case insensitive.",
+      "review_targets": [
+        {
+          "path": "src/flask/app.py",
+          "symbol": "Flask.create_jinja_environment / select_jinja_autoescape",
+          "reason": "The existing environment factory passes this inherited method as the Jinja autoescape callback. It is a concrete place to inspect how the changed policy is used, although this target commit does not edit that file.",
+          "evidence_url": "https://github.com/pallets/flask/blob/06ea505ce2b2042af26e96d35ebf159af7c0869d/src/flask/app.py#L481-L484"
+        }
+      ]
+    },
+    {
+      "id": "ipv6_session_transaction",
+      "target": "de8429ffda8cfb54db175529e2bae72a24e1fa7e",
+      "base": "514fc6b3e8402e4c646d5284e97a4f0ab50a7c4b",
+      "seed": "src/flask/testing.py",
+      "change": "Correct host parsing when a test client writes session cookies for an IPv6 server name.",
+      "review_targets": [
+        {
+          "path": "tests/test_testing.py",
+          "symbol": "test_session_transactions / session_transaction",
+          "reason": "The existing test exercises session_transaction and checks that a session value reaches a later request. It is a relevant existing regression-test location before the new IPv6 case is added.",
+          "evidence_url": "https://github.com/pallets/flask/blob/514fc6b3e8402e4c646d5284e97a4f0ab50a7c4b/tests/test_testing.py#L157-L171"
+        },
+        {
+          "path": "src/flask/sessions.py",
+          "symbol": "SecureCookieSessionInterface.save_session",
+          "reason": "The session_transaction path invokes the session interface's save_session method before updating the test client's cookies. This related implementation supplies the session cookie that the changed host handling consumes; the target commit does not edit it.",
+          "evidence_url": "https://github.com/pallets/flask/blob/514fc6b3e8402e4c646d5284e97a4f0ab50a7c4b/src/flask/testing.py#L173-L182"
+        }
+      ]
+    },
+    {
+      "id": "request_context_copy_per_call",
+      "target": "06ea505ce2b2042af26e96d35ebf159af7c0869d",
+      "base": "2ac89889f4cc330eabd50f295dcef02828522c69",
+      "seed": "src/flask/ctx.py",
+      "change": "Copy the request context on each invocation of a decorated function, rather than reusing one captured copy.",
+      "review_targets": [
+        {
+          "path": "src/flask/__init__.py",
+          "symbol": "copy_current_request_context public re-export",
+          "reason": "The package exposes the changed decorator through its public API. The export is a useful confirmation of how callers reach it, without implying that the export itself needs editing.",
+          "evidence_url": "https://github.com/pallets/flask/blob/2ac89889f4cc330eabd50f295dcef02828522c69/src/flask/__init__.py#L6"
+        },
+        {
+          "path": "tests/test_reqctx.py",
+          "symbol": "test_greenlet_context_copying_api / copy_current_request_context",
+          "reason": "An existing test decorates a function with the public API and checks the copied request and session context. This is a concrete regression-test location before the selected change revises the tests.",
+          "evidence_url": "https://github.com/pallets/flask/blob/2ac89889f4cc330eabd50f295dcef02828522c69/tests/test_reqctx.py#L179-L201"
+        }
+      ]
+    }
+  ]
+}

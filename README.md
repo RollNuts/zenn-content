@@ -15,6 +15,8 @@ Git・Python・RSS・静的サイト・コード解析の実装と運用を扱�
 
 ## 再現コード
 
+[Flaskの実変更の前に確認先を探すケース調査](examples/core-change-review/README.md)は、変更直前のコードグラフとGit履歴を比較します。事前に選んだ5確認先の包含と、候補総数を分けて確認できます。モデル・DB・追加パッケージは不要です。
+
 [Coreの契約グラフをローカルMCPで照会する実験](examples/core-local-mcp/README.md)は、本文を省いたsnapshotを2ツールから読みます。公式SDKの新旧初期化方式と、Codex CLIからの実ツール呼び出しを確認するコード・記録を含みます。
 
 [ブランチ整理の候補条件を試す10件のテスト](examples/branch-cleanup-candidates/README.md)は、公開記事の関数を架空のPR・ブランチ情報で検証します。Python 3.12の標準ライブラリだけで実行できます。

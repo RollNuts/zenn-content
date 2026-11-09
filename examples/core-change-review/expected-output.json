@@ -1,0 +1,1036 @@
+{
+  "audit": "core-change-review-v1",
+  "core_commit": "4236848504c8cb2cc3c14db22408fb519b06f754",
+  "flask_upper_commit": "49943b5a94413a530761350f04e896f76e8d620e",
+  "scope": "Three fixed public changes; pre-change file-level candidate inclusion only.",
+  "universe": "Existing src/flask/**/*.py and tests/**/*.py at each base; seed excluded.",
+  "cases": [
+    {
+      "id": "autoescape_casefold",
+      "target": "9368fb3f3c52d74534d14c1bef03c79c103356cd",
+      "base": "06ea505ce2b2042af26e96d35ebf159af7c0869d",
+      "seed": "src/flask/sansio/app.py",
+      "change": "Make the template-extension comparison in select_jinja_autoescape case insensitive.",
+      "candidate_universe": [
+        "src/flask/__init__.py",
+        "src/flask/__main__.py",
+        "src/flask/app.py",
+        "src/flask/blueprints.py",
+        "src/flask/cli.py",
+        "src/flask/config.py",
+        "src/flask/ctx.py",
+        "src/flask/debughelpers.py",
+        "src/flask/globals.py",
+        "src/flask/helpers.py",
+        "src/flask/json/__init__.py",
+        "src/flask/json/provider.py",
+        "src/flask/json/tag.py",
+        "src/flask/logging.py",
+        "src/flask/sansio/blueprints.py",
+        "src/flask/sansio/scaffold.py",
+        "src/flask/sessions.py",
+        "src/flask/signals.py",
+        "src/flask/templating.py",
+        "src/flask/testing.py",
+        "src/flask/typing.py",
+        "src/flask/views.py",
+        "src/flask/wrappers.py",
+        "tests/conftest.py",
+        "tests/test_appctx.py",
+        "tests/test_apps/blueprintapp/__init__.py",
+        "tests/test_apps/blueprintapp/apps/__init__.py",
+        "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+        "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+        "tests/test_apps/cliapp/__init__.py",
+        "tests/test_apps/cliapp/app.py",
+        "tests/test_apps/cliapp/factory.py",
+        "tests/test_apps/cliapp/importerrorapp.py",
+        "tests/test_apps/cliapp/inner1/__init__.py",
+        "tests/test_apps/cliapp/inner1/inner2/__init__.py",
+        "tests/test_apps/cliapp/inner1/inner2/flask.py",
+        "tests/test_apps/cliapp/multiapp.py",
+        "tests/test_apps/helloworld/hello.py",
+        "tests/test_apps/helloworld/wsgi.py",
+        "tests/test_apps/subdomaintestmodule/__init__.py",
+        "tests/test_async.py",
+        "tests/test_basic.py",
+        "tests/test_blueprints.py",
+        "tests/test_cli.py",
+        "tests/test_config.py",
+        "tests/test_converters.py",
+        "tests/test_helpers.py",
+        "tests/test_instance_config.py",
+        "tests/test_json.py",
+        "tests/test_json_tag.py",
+        "tests/test_logging.py",
+        "tests/test_regression.py",
+        "tests/test_reqctx.py",
+        "tests/test_request.py",
+        "tests/test_session_interface.py",
+        "tests/test_signals.py",
+        "tests/test_subclassing.py",
+        "tests/test_templating.py",
+        "tests/test_testing.py",
+        "tests/test_user_error_handler.py",
+        "tests/test_views.py",
+        "tests/type_check/typing_app_decorators.py",
+        "tests/type_check/typing_error_handler.py",
+        "tests/type_check/typing_route.py"
+      ],
+      "candidate_universe_count": 64,
+      "history_parameters": {
+        "window": 800,
+        "max_commit_files": 40,
+        "min_support": 5,
+        "min_prob": 0.3,
+        "min_lift": 2.0,
+        "max_pairs": 5000,
+        "timeout": 60
+      },
+      "history_input": {
+        "head": "06ea505ce2b2042af26e96d35ebf159af7c0869d",
+        "non_merge_commits_in_window": 800,
+        "target_present": false
+      },
+      "candidates": {
+        "graph": [
+          "src/flask/app.py",
+          "src/flask/config.py",
+          "src/flask/ctx.py",
+          "src/flask/debughelpers.py",
+          "src/flask/helpers.py",
+          "src/flask/json/provider.py",
+          "src/flask/logging.py",
+          "src/flask/sansio/blueprints.py",
+          "src/flask/sansio/scaffold.py",
+          "src/flask/templating.py",
+          "src/flask/testing.py",
+          "src/flask/typing.py",
+          "tests/test_appctx.py",
+          "tests/test_apps/blueprintapp/__init__.py",
+          "tests/test_async.py",
+          "tests/test_basic.py",
+          "tests/test_blueprints.py",
+          "tests/test_cli.py",
+          "tests/test_helpers.py",
+          "tests/test_json.py",
+          "tests/test_regression.py",
+          "tests/test_reqctx.py",
+          "tests/test_signals.py",
+          "tests/test_templating.py",
+          "tests/test_testing.py",
+          "tests/test_user_error_handler.py",
+          "tests/test_views.py",
+          "tests/type_check/typing_app_decorators.py",
+          "tests/type_check/typing_route.py"
+        ],
+        "history": [
+          "src/flask/ctx.py",
+          "src/flask/debughelpers.py",
+          "src/flask/globals.py",
+          "src/flask/helpers.py",
+          "src/flask/json/__init__.py",
+          "src/flask/json/provider.py",
+          "src/flask/logging.py",
+          "src/flask/sansio/blueprints.py",
+          "src/flask/sansio/scaffold.py",
+          "src/flask/sessions.py",
+          "src/flask/templating.py",
+          "src/flask/testing.py",
+          "src/flask/typing.py",
+          "src/flask/views.py",
+          "src/flask/wrappers.py",
+          "tests/test_appctx.py",
+          "tests/test_async.py",
+          "tests/test_basic.py",
+          "tests/test_blueprints.py",
+          "tests/test_helpers.py",
+          "tests/test_testing.py",
+          "tests/type_check/typing_route.py"
+        ],
+        "union": [
+          "src/flask/app.py",
+          "src/flask/config.py",
+          "src/flask/ctx.py",
+          "src/flask/debughelpers.py",
+          "src/flask/globals.py",
+          "src/flask/helpers.py",
+          "src/flask/json/__init__.py",
+          "src/flask/json/provider.py",
+          "src/flask/logging.py",
+          "src/flask/sansio/blueprints.py",
+          "src/flask/sansio/scaffold.py",
+          "src/flask/sessions.py",
+          "src/flask/templating.py",
+          "src/flask/testing.py",
+          "src/flask/typing.py",
+          "src/flask/views.py",
+          "src/flask/wrappers.py",
+          "tests/test_appctx.py",
+          "tests/test_apps/blueprintapp/__init__.py",
+          "tests/test_async.py",
+          "tests/test_basic.py",
+          "tests/test_blueprints.py",
+          "tests/test_cli.py",
+          "tests/test_helpers.py",
+          "tests/test_json.py",
+          "tests/test_regression.py",
+          "tests/test_reqctx.py",
+          "tests/test_signals.py",
+          "tests/test_templating.py",
+          "tests/test_testing.py",
+          "tests/test_user_error_handler.py",
+          "tests/test_views.py",
+          "tests/type_check/typing_app_decorators.py",
+          "tests/type_check/typing_route.py"
+        ],
+        "intersection": [
+          "src/flask/ctx.py",
+          "src/flask/debughelpers.py",
+          "src/flask/helpers.py",
+          "src/flask/json/provider.py",
+          "src/flask/logging.py",
+          "src/flask/sansio/blueprints.py",
+          "src/flask/sansio/scaffold.py",
+          "src/flask/templating.py",
+          "src/flask/testing.py",
+          "src/flask/typing.py",
+          "tests/test_appctx.py",
+          "tests/test_async.py",
+          "tests/test_basic.py",
+          "tests/test_blueprints.py",
+          "tests/test_helpers.py",
+          "tests/test_testing.py",
+          "tests/type_check/typing_route.py"
+        ]
+      },
+      "graph_evidence": [
+        {
+          "path": "src/flask/app.py",
+          "kinds": [
+            "call",
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/config.py",
+          "kinds": [
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/ctx.py",
+          "kinds": [
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/debughelpers.py",
+          "kinds": [
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/helpers.py",
+          "kinds": [
+            "call",
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/json/provider.py",
+          "kinds": [
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/logging.py",
+          "kinds": [
+            "call",
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/sansio/blueprints.py",
+          "kinds": [
+            "call",
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/sansio/scaffold.py",
+          "kinds": [
+            "call",
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/templating.py",
+          "kinds": [
+            "call",
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/testing.py",
+          "kinds": [
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/typing.py",
+          "kinds": [
+            "import"
+          ]
+        },
+        {
+          "path": "tests/test_appctx.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_apps/blueprintapp/__init__.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_async.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_basic.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_blueprints.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_cli.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_helpers.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_json.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_regression.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_reqctx.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_signals.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_templating.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_testing.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_user_error_handler.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_views.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/type_check/typing_app_decorators.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/type_check/typing_route.py",
+          "kinds": [
+            "call"
+          ]
+        }
+      ],
+      "review_targets": [
+        {
+          "path": "src/flask/app.py",
+          "symbol": "Flask.create_jinja_environment / select_jinja_autoescape",
+          "reason": "The existing environment factory passes this inherited method as the Jinja autoescape callback. It is a concrete place to inspect how the changed policy is used, although this target commit does not edit that file.",
+          "evidence_url": "https://github.com/pallets/flask/blob/06ea505ce2b2042af26e96d35ebf159af7c0869d/src/flask/app.py#L481-L484",
+          "in_candidate_universe": true,
+          "contained_by": {
+            "graph": true,
+            "history": false,
+            "union": true,
+            "intersection": false
+          },
+          "graph_evidence_kinds": [
+            "call",
+            "import"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ipv6_session_transaction",
+      "target": "de8429ffda8cfb54db175529e2bae72a24e1fa7e",
+      "base": "514fc6b3e8402e4c646d5284e97a4f0ab50a7c4b",
+      "seed": "src/flask/testing.py",
+      "change": "Correct host parsing when a test client writes session cookies for an IPv6 server name.",
+      "candidate_universe": [
+        "src/flask/__init__.py",
+        "src/flask/__main__.py",
+        "src/flask/app.py",
+        "src/flask/blueprints.py",
+        "src/flask/cli.py",
+        "src/flask/config.py",
+        "src/flask/ctx.py",
+        "src/flask/debughelpers.py",
+        "src/flask/globals.py",
+        "src/flask/helpers.py",
+        "src/flask/json/__init__.py",
+        "src/flask/json/provider.py",
+        "src/flask/json/tag.py",
+        "src/flask/logging.py",
+        "src/flask/sansio/app.py",
+        "src/flask/sansio/blueprints.py",
+        "src/flask/sansio/scaffold.py",
+        "src/flask/sessions.py",
+        "src/flask/signals.py",
+        "src/flask/templating.py",
+        "src/flask/typing.py",
+        "src/flask/views.py",
+        "src/flask/wrappers.py",
+        "tests/conftest.py",
+        "tests/test_appctx.py",
+        "tests/test_apps/blueprintapp/__init__.py",
+        "tests/test_apps/blueprintapp/apps/__init__.py",
+        "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+        "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+        "tests/test_apps/cliapp/__init__.py",
+        "tests/test_apps/cliapp/app.py",
+        "tests/test_apps/cliapp/factory.py",
+        "tests/test_apps/cliapp/importerrorapp.py",
+        "tests/test_apps/cliapp/inner1/__init__.py",
+        "tests/test_apps/cliapp/inner1/inner2/__init__.py",
+        "tests/test_apps/cliapp/inner1/inner2/flask.py",
+        "tests/test_apps/cliapp/multiapp.py",
+        "tests/test_apps/helloworld/hello.py",
+        "tests/test_apps/helloworld/wsgi.py",
+        "tests/test_apps/subdomaintestmodule/__init__.py",
+        "tests/test_async.py",
+        "tests/test_basic.py",
+        "tests/test_blueprints.py",
+        "tests/test_cli.py",
+        "tests/test_config.py",
+        "tests/test_converters.py",
+        "tests/test_helpers.py",
+        "tests/test_instance_config.py",
+        "tests/test_json.py",
+        "tests/test_json_tag.py",
+        "tests/test_logging.py",
+        "tests/test_regression.py",
+        "tests/test_reqctx.py",
+        "tests/test_request.py",
+        "tests/test_session_interface.py",
+        "tests/test_signals.py",
+        "tests/test_subclassing.py",
+        "tests/test_templating.py",
+        "tests/test_testing.py",
+        "tests/test_user_error_handler.py",
+        "tests/test_views.py",
+        "tests/type_check/typing_app_decorators.py",
+        "tests/type_check/typing_error_handler.py",
+        "tests/type_check/typing_route.py"
+      ],
+      "candidate_universe_count": 64,
+      "history_parameters": {
+        "window": 800,
+        "max_commit_files": 40,
+        "min_support": 5,
+        "min_prob": 0.3,
+        "min_lift": 2.0,
+        "max_pairs": 5000,
+        "timeout": 60
+      },
+      "history_input": {
+        "head": "514fc6b3e8402e4c646d5284e97a4f0ab50a7c4b",
+        "non_merge_commits_in_window": 800,
+        "target_present": false
+      },
+      "candidates": {
+        "graph": [
+          "src/flask/app.py",
+          "src/flask/cli.py",
+          "src/flask/ctx.py",
+          "src/flask/sansio/app.py",
+          "src/flask/sessions.py",
+          "src/flask/typing.py",
+          "tests/test_appctx.py",
+          "tests/test_basic.py",
+          "tests/test_cli.py",
+          "tests/test_reqctx.py",
+          "tests/test_request.py",
+          "tests/test_session_interface.py",
+          "tests/test_signals.py",
+          "tests/test_testing.py",
+          "tests/test_views.py"
+        ],
+        "history": [
+          "src/flask/ctx.py",
+          "src/flask/debughelpers.py",
+          "src/flask/globals.py",
+          "src/flask/helpers.py",
+          "src/flask/json/__init__.py",
+          "src/flask/sansio/app.py",
+          "src/flask/sansio/scaffold.py",
+          "src/flask/templating.py",
+          "src/flask/wrappers.py",
+          "tests/test_testing.py"
+        ],
+        "union": [
+          "src/flask/app.py",
+          "src/flask/cli.py",
+          "src/flask/ctx.py",
+          "src/flask/debughelpers.py",
+          "src/flask/globals.py",
+          "src/flask/helpers.py",
+          "src/flask/json/__init__.py",
+          "src/flask/sansio/app.py",
+          "src/flask/sansio/scaffold.py",
+          "src/flask/sessions.py",
+          "src/flask/templating.py",
+          "src/flask/typing.py",
+          "src/flask/wrappers.py",
+          "tests/test_appctx.py",
+          "tests/test_basic.py",
+          "tests/test_cli.py",
+          "tests/test_reqctx.py",
+          "tests/test_request.py",
+          "tests/test_session_interface.py",
+          "tests/test_signals.py",
+          "tests/test_testing.py",
+          "tests/test_views.py"
+        ],
+        "intersection": [
+          "src/flask/ctx.py",
+          "src/flask/sansio/app.py",
+          "tests/test_testing.py"
+        ]
+      },
+      "graph_evidence": [
+        {
+          "path": "src/flask/app.py",
+          "kinds": [
+            "call",
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/cli.py",
+          "kinds": [
+            "call",
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/ctx.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "src/flask/sansio/app.py",
+          "kinds": [
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/sessions.py",
+          "kinds": [
+            "call",
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/typing.py",
+          "kinds": [
+            "import"
+          ]
+        },
+        {
+          "path": "tests/test_appctx.py",
+          "kinds": [
+            "import"
+          ]
+        },
+        {
+          "path": "tests/test_basic.py",
+          "kinds": [
+            "call",
+            "import"
+          ]
+        },
+        {
+          "path": "tests/test_cli.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_reqctx.py",
+          "kinds": [
+            "call",
+            "import"
+          ]
+        },
+        {
+          "path": "tests/test_request.py",
+          "kinds": [
+            "import"
+          ]
+        },
+        {
+          "path": "tests/test_session_interface.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_signals.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_testing.py",
+          "kinds": [
+            "call",
+            "import"
+          ]
+        },
+        {
+          "path": "tests/test_views.py",
+          "kinds": [
+            "import"
+          ]
+        }
+      ],
+      "review_targets": [
+        {
+          "path": "tests/test_testing.py",
+          "symbol": "test_session_transactions / session_transaction",
+          "reason": "The existing test exercises session_transaction and checks that a session value reaches a later request. It is a relevant existing regression-test location before the new IPv6 case is added.",
+          "evidence_url": "https://github.com/pallets/flask/blob/514fc6b3e8402e4c646d5284e97a4f0ab50a7c4b/tests/test_testing.py#L157-L171",
+          "in_candidate_universe": true,
+          "contained_by": {
+            "graph": true,
+            "history": true,
+            "union": true,
+            "intersection": true
+          },
+          "graph_evidence_kinds": [
+            "call",
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/sessions.py",
+          "symbol": "SecureCookieSessionInterface.save_session",
+          "reason": "The session_transaction path invokes the session interface's save_session method before updating the test client's cookies. This related implementation supplies the session cookie that the changed host handling consumes; the target commit does not edit it.",
+          "evidence_url": "https://github.com/pallets/flask/blob/514fc6b3e8402e4c646d5284e97a4f0ab50a7c4b/src/flask/testing.py#L173-L182",
+          "in_candidate_universe": true,
+          "contained_by": {
+            "graph": true,
+            "history": false,
+            "union": true,
+            "intersection": false
+          },
+          "graph_evidence_kinds": [
+            "call",
+            "import"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "request_context_copy_per_call",
+      "target": "06ea505ce2b2042af26e96d35ebf159af7c0869d",
+      "base": "2ac89889f4cc330eabd50f295dcef02828522c69",
+      "seed": "src/flask/ctx.py",
+      "change": "Copy the request context on each invocation of a decorated function, rather than reusing one captured copy.",
+      "candidate_universe": [
+        "src/flask/__init__.py",
+        "src/flask/__main__.py",
+        "src/flask/app.py",
+        "src/flask/blueprints.py",
+        "src/flask/cli.py",
+        "src/flask/config.py",
+        "src/flask/debughelpers.py",
+        "src/flask/globals.py",
+        "src/flask/helpers.py",
+        "src/flask/json/__init__.py",
+        "src/flask/json/provider.py",
+        "src/flask/json/tag.py",
+        "src/flask/logging.py",
+        "src/flask/sansio/app.py",
+        "src/flask/sansio/blueprints.py",
+        "src/flask/sansio/scaffold.py",
+        "src/flask/sessions.py",
+        "src/flask/signals.py",
+        "src/flask/templating.py",
+        "src/flask/testing.py",
+        "src/flask/typing.py",
+        "src/flask/views.py",
+        "src/flask/wrappers.py",
+        "tests/conftest.py",
+        "tests/test_appctx.py",
+        "tests/test_apps/blueprintapp/__init__.py",
+        "tests/test_apps/blueprintapp/apps/__init__.py",
+        "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+        "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+        "tests/test_apps/cliapp/__init__.py",
+        "tests/test_apps/cliapp/app.py",
+        "tests/test_apps/cliapp/factory.py",
+        "tests/test_apps/cliapp/importerrorapp.py",
+        "tests/test_apps/cliapp/inner1/__init__.py",
+        "tests/test_apps/cliapp/inner1/inner2/__init__.py",
+        "tests/test_apps/cliapp/inner1/inner2/flask.py",
+        "tests/test_apps/cliapp/multiapp.py",
+        "tests/test_apps/helloworld/hello.py",
+        "tests/test_apps/helloworld/wsgi.py",
+        "tests/test_apps/subdomaintestmodule/__init__.py",
+        "tests/test_async.py",
+        "tests/test_basic.py",
+        "tests/test_blueprints.py",
+        "tests/test_cli.py",
+        "tests/test_config.py",
+        "tests/test_converters.py",
+        "tests/test_helpers.py",
+        "tests/test_instance_config.py",
+        "tests/test_json.py",
+        "tests/test_json_tag.py",
+        "tests/test_logging.py",
+        "tests/test_regression.py",
+        "tests/test_reqctx.py",
+        "tests/test_request.py",
+        "tests/test_session_interface.py",
+        "tests/test_signals.py",
+        "tests/test_subclassing.py",
+        "tests/test_templating.py",
+        "tests/test_testing.py",
+        "tests/test_user_error_handler.py",
+        "tests/test_views.py",
+        "tests/type_check/typing_app_decorators.py",
+        "tests/type_check/typing_error_handler.py",
+        "tests/type_check/typing_route.py"
+      ],
+      "candidate_universe_count": 64,
+      "history_parameters": {
+        "window": 800,
+        "max_commit_files": 40,
+        "min_support": 5,
+        "min_prob": 0.3,
+        "min_lift": 2.0,
+        "max_pairs": 5000,
+        "timeout": 60
+      },
+      "history_input": {
+        "head": "2ac89889f4cc330eabd50f295dcef02828522c69",
+        "non_merge_commits_in_window": 800,
+        "target_present": false
+      },
+      "candidates": {
+        "graph": [
+          "src/flask/__init__.py",
+          "src/flask/app.py",
+          "src/flask/cli.py",
+          "src/flask/globals.py",
+          "src/flask/helpers.py",
+          "src/flask/json/__init__.py",
+          "src/flask/json/provider.py",
+          "src/flask/sansio/app.py",
+          "src/flask/sansio/blueprints.py",
+          "src/flask/sansio/scaffold.py",
+          "src/flask/sessions.py",
+          "src/flask/signals.py",
+          "src/flask/templating.py",
+          "src/flask/testing.py",
+          "src/flask/typing.py",
+          "src/flask/wrappers.py",
+          "tests/test_appctx.py",
+          "tests/test_basic.py",
+          "tests/test_blueprints.py",
+          "tests/test_json.py",
+          "tests/test_reqctx.py",
+          "tests/test_session_interface.py"
+        ],
+        "history": [
+          "src/flask/debughelpers.py",
+          "src/flask/globals.py",
+          "src/flask/helpers.py",
+          "src/flask/json/__init__.py",
+          "src/flask/sansio/app.py",
+          "src/flask/sansio/scaffold.py",
+          "src/flask/templating.py",
+          "src/flask/testing.py",
+          "src/flask/wrappers.py",
+          "tests/test_testing.py"
+        ],
+        "union": [
+          "src/flask/__init__.py",
+          "src/flask/app.py",
+          "src/flask/cli.py",
+          "src/flask/debughelpers.py",
+          "src/flask/globals.py",
+          "src/flask/helpers.py",
+          "src/flask/json/__init__.py",
+          "src/flask/json/provider.py",
+          "src/flask/sansio/app.py",
+          "src/flask/sansio/blueprints.py",
+          "src/flask/sansio/scaffold.py",
+          "src/flask/sessions.py",
+          "src/flask/signals.py",
+          "src/flask/templating.py",
+          "src/flask/testing.py",
+          "src/flask/typing.py",
+          "src/flask/wrappers.py",
+          "tests/test_appctx.py",
+          "tests/test_basic.py",
+          "tests/test_blueprints.py",
+          "tests/test_json.py",
+          "tests/test_reqctx.py",
+          "tests/test_session_interface.py",
+          "tests/test_testing.py"
+        ],
+        "intersection": [
+          "src/flask/globals.py",
+          "src/flask/helpers.py",
+          "src/flask/json/__init__.py",
+          "src/flask/sansio/app.py",
+          "src/flask/sansio/scaffold.py",
+          "src/flask/templating.py",
+          "src/flask/testing.py",
+          "src/flask/wrappers.py"
+        ]
+      },
+      "graph_evidence": [
+        {
+          "path": "src/flask/__init__.py",
+          "kinds": [
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/app.py",
+          "kinds": [
+            "call",
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/cli.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "src/flask/globals.py",
+          "kinds": [
+            "call",
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/helpers.py",
+          "kinds": [
+            "call",
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/json/__init__.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "src/flask/json/provider.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "src/flask/sansio/app.py",
+          "kinds": [
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/sansio/blueprints.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "src/flask/sansio/scaffold.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "src/flask/sessions.py",
+          "kinds": [
+            "call",
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/signals.py",
+          "kinds": [
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/templating.py",
+          "kinds": [
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/testing.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "src/flask/typing.py",
+          "kinds": [
+            "import"
+          ]
+        },
+        {
+          "path": "src/flask/wrappers.py",
+          "kinds": [
+            "import"
+          ]
+        },
+        {
+          "path": "tests/test_appctx.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_basic.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_blueprints.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_json.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_reqctx.py",
+          "kinds": [
+            "call"
+          ]
+        },
+        {
+          "path": "tests/test_session_interface.py",
+          "kinds": [
+            "call"
+          ]
+        }
+      ],
+      "review_targets": [
+        {
+          "path": "src/flask/__init__.py",
+          "symbol": "copy_current_request_context public re-export",
+          "reason": "The package exposes the changed decorator through its public API. The export is a useful confirmation of how callers reach it, without implying that the export itself needs editing.",
+          "evidence_url": "https://github.com/pallets/flask/blob/2ac89889f4cc330eabd50f295dcef02828522c69/src/flask/__init__.py#L6",
+          "in_candidate_universe": true,
+          "contained_by": {
+            "graph": true,
+            "history": false,
+            "union": true,
+            "intersection": false
+          },
+          "graph_evidence_kinds": [
+            "import"
+          ]
+        },
+        {
+          "path": "tests/test_reqctx.py",
+          "symbol": "test_greenlet_context_copying_api / copy_current_request_context",
+          "reason": "An existing test decorates a function with the public API and checks the copied request and session context. This is a concrete regression-test location before the selected change revises the tests.",
+          "evidence_url": "https://github.com/pallets/flask/blob/2ac89889f4cc330eabd50f295dcef02828522c69/tests/test_reqctx.py#L179-L201",
+          "in_candidate_universe": true,
+          "contained_by": {
+            "graph": true,
+            "history": false,
+            "union": true,
+            "intersection": false
+          },
+          "graph_evidence_kinds": [
+            "call"
+          ]
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Review targets are selected examples, not exhaustive labels; no precision or recall is measured.",
+    "Targets are AI-assisted source-review examples, not independent human-labelled ground truth.",
+    "Symbol names explain the review target; inclusion is measured at file level only.",
+    "Flask previously informed thresholds and stoplists; this is not an independent unseen test set.",
+    "Graph evidence uses the existing coarse offline coupled_pairs, not the database PR policy.",
+    "Historical association is not causation or a prediction that a change will fail.",
+    "not_observed is not Clear, no dependency, or permission to merge.",
+    "No Flask code, model, database, network fetch, or hosted service is executed."
+  ]
+}
