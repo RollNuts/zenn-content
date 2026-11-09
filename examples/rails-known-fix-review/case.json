@@ -1,0 +1,43 @@
+{
+  "schema": "public-known-rails-fix-case-v1",
+  "id": "chatwoot-tenant-id-strong-params",
+  "repository": "https://github.com/chatwoot/chatwoot",
+  "advisory": "https://github.com/chatwoot/chatwoot/security/advisories/GHSA-x288-jh8j-348c",
+  "fix_source": "https://github.com/chatwoot/chatwoot/commit/86da3f7c069f8ed6dce2576e1a760ca72b6f40fd",
+  "before": "c22a31c19878eec7bfd23c6c859aa9a8a508689c",
+  "after": "86da3f7c069f8ed6dce2576e1a760ca72b6f40fd",
+  "core": "fcb633eadd9b205a82ed605384def4a9f6189f9d",
+  "controller": "app/controllers/api/v1/accounts/automation_rules_controller.rb",
+  "controller_blobs": {
+    "before": "3d894808dcf12d42b0a42345d6a69e8498ac8a99",
+    "after": "39f8ba504b3e3ad5559a2671bc6b917d97a24c74"
+  },
+  "method": "automation_rules_permit",
+  "authorization_source": "app/controllers/api/base_controller.rb",
+  "authorization_line": 17,
+  "route_source": "config/routes.rb",
+  "unsupported_scope_line": 49,
+  "include_patterns": [
+    "config/routes.rb",
+    "app/controllers/api/v1/accounts/automation_rules_controller.rb",
+    "app/controllers/api/v1/accounts/base_controller.rb",
+    "app/controllers/api/base_controller.rb",
+    "app/controllers/application_controller.rb",
+    "app/controllers/concerns/*",
+    "app/policies/automation_rule_policy.rb",
+    "app/models/automation_rule.rb"
+  ],
+  "experiment": "known-fix-guided retrospective source navigation; labels are known, not blind or novel vulnerability discovery",
+  "history": "Only fixed source trees are compared; shallow fetch is not a Co-change/history benchmark",
+  "attribution": "The commit explicitly describes the same four-controller issue; advisory does not directly cite this SHA. Source-matched association, not a direct advisory-to-commit link.",
+  "exclude_patterns": [],
+  "graph_schema_contract_version": 2,
+  "extractor_versions": {
+    "rich_graph": "cg4",
+    "ruby_rails_audit_index": "hunt-ruby-rails-v1"
+  },
+  "required_package_versions": {
+    "tree-sitter": "0.23.2",
+    "tree-sitter-ruby": "0.23.1"
+  }
+}

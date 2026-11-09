@@ -1,0 +1,68 @@
+{
+  "after": {
+    "controller": {
+      "definitions": [
+        {
+          "end_line": 72,
+          "start_line": 66
+        }
+      ],
+      "file": "app/controllers/api/v1/accounts/automation_rules_controller.rb",
+      "git_blob": "39f8ba504b3e3ad5559a2671bc6b917d97a24c74",
+      "method": "automation_rules_permit"
+    },
+    "selected_observations": {
+      "authorization": {
+        "file": "app/controllers/api/base_controller.rb",
+        "line": 17,
+        "single_authorize_call_observed": true,
+        "single_call_unresolved": true
+      },
+      "automation_route_observed": false,
+      "unsupported_nested_resource_scope": {
+        "file": "config/routes.rb",
+        "line": 49,
+        "warning_observed": true
+      }
+    },
+    "target_commit": "86da3f7c069f8ed6dce2576e1a760ca72b6f40fd"
+  },
+  "analysis": "known-fix-guided retrospective source-index observation; no security verdict",
+  "before": {
+    "controller": {
+      "definitions": [
+        {
+          "end_line": 72,
+          "start_line": 66
+        }
+      ],
+      "file": "app/controllers/api/v1/accounts/automation_rules_controller.rb",
+      "git_blob": "3d894808dcf12d42b0a42345d6a69e8498ac8a99",
+      "method": "automation_rules_permit"
+    },
+    "selected_observations": {
+      "authorization": {
+        "file": "app/controllers/api/base_controller.rb",
+        "line": 17,
+        "single_authorize_call_observed": true,
+        "single_call_unresolved": true
+      },
+      "automation_route_observed": false,
+      "unsupported_nested_resource_scope": {
+        "file": "config/routes.rb",
+        "line": 49,
+        "warning_observed": true
+      }
+    },
+    "target_commit": "c22a31c19878eec7bfd23c6c859aa9a8a508689c"
+  },
+  "core_commit": "fcb633eadd9b205a82ed605384def4a9f6189f9d",
+  "index_bytes_equal": {
+    "authorization_calls.json": true,
+    "execution_paths.json": true,
+    "rails_routes.json": true,
+    "sidekiq_jobs.json": true,
+    "warnings.json": true
+  },
+  "schema": "known-fix-index-comparison-v1"
+}
