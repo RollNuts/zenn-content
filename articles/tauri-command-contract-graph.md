@@ -461,4 +461,6 @@ MCP hostへ追加する場合は、絶対パスのPythonと`server.py --snapshot
 
 [GitとPythonだけのCoreローカルデモ](https://github.com/RollNuts/veripsa/tree/main/examples/structural-overlap)と、[Flaskの実変更を使う確認先調査](https://github.com/RollNuts/zenn-content/tree/main/examples/core-change-review)も公開しています。問いと限界はそれぞれ異なります。作者は[RollNuts](https://github.com/RollNuts)です。
 
+構造と履歴の候補を実マージ・実行結果と比べる[4つの合成例の解説](https://zenn.dev/veripsa/articles/graph-cochange-review-benchmark)も公開しました。MCPを使わず、Code graphとCo-changeが拾うもの・落とすものを手元で確認できます。
+
 本稿と再現コードの作成には、コーディングエージェントを利用しています。
