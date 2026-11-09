@@ -179,3 +179,7 @@ GitHubのマージ後ブランチ自動削除を有効にしました。保護�
 
 
 今回整理したrepoの実装例も紹介しています：[創作上の2031年をRSSに流さない――静的サイトで3つの日時を分ける](https://zenn.dev/veripsa/articles/fiction-date-rss-static-site)。
+
+---
+
+再現コードや公開中の個人開発は、[RollNutsのGitHub](https://github.com/RollNuts)から辿れます。記事が役立ったら、有料バッジで今後の検証を応援してもらえると嬉しいです。

@@ -464,3 +464,7 @@ MCP hostへ追加する場合は、絶対パスのPythonと`server.py --snapshot
 構造と履歴の候補を実マージ・実行結果と比べる[4つの合成例の解説](https://zenn.dev/veripsa/articles/graph-cochange-review-benchmark)も公開しました。MCPを使わず、Code graphとCo-changeが拾うもの・落とすものを手元で確認できます。
 
 本稿と再現コードの作成には、コーディングエージェントを利用しています。
+
+---
+
+再現コードや公開中の個人開発は、[RollNutsのGitHub](https://github.com/RollNuts)から辿れます。記事が役立ったら、有料バッジで今後の検証を応援してもらえると嬉しいです。

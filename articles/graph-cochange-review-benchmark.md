@@ -203,3 +203,7 @@ python3.12 -m unittest discover -s tests -p 'test_structural_overlap_benchmark.p
 最小の反例ができたら、[解析報告フォーム](https://github.com/RollNuts/veripsa/issues/new?template=analysis_report.yml)へ、期待した関係と実際の出力を添えてください。日本語でも報告できます。修正に参加する場合は[CONTRIBUTING](https://github.com/RollNuts/veripsa/blob/main/CONTRIBUTING.md)を参照できます。Issue、テスト、PRの関係を残し、貢献を正確に追えるようにします。記事などでの別途の記名は、本人の希望を確認します。脆弱性の疑いは公開Issueへ書かず、[非公開の報告経路](https://github.com/RollNuts/veripsa/security/policy)を使ってください。
 
 実装と実験は[Veripsa Core](https://github.com/RollNuts/veripsa)、分野ごとの入口と未計測事項は[研究索引](https://github.com/RollNuts/veripsa/blob/main/docs/RESEARCH_INDEX.md)へまとめます。作者は[RollNuts](https://github.com/RollNuts)です。手元で確かめた反例が、次の解析改善につながる形を育てたいと考えています。
+
+---
+
+再現コードや公開中の個人開発は、[RollNutsのGitHub](https://github.com/RollNuts)から辿れます。記事が役立ったら、有料バッジで今後の検証を応援してもらえると嬉しいです。
