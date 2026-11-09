@@ -10,7 +10,7 @@ Git・Python・RSS・静的サイト・コード解析の実装と運用を扱�
 
 | テーマ | Zenn | 原稿 |
 | --- | --- | --- |
-| コードグラフとCo-changeの検証 | [Gitのコンフリクトを減らそうとしたら、コードグラフとCo-changeができた](https://zenn.dev/veripsa/articles/graph-cochange-review-benchmark) | [Markdown](articles/graph-cochange-review-benchmark.md) |
+| コードグラフとCo-changeの検証 | [Gitでマージできたのに壊れる――コードグラフとCo-changeを4例で検証](https://zenn.dev/veripsa/articles/graph-cochange-review-benchmark) | [Markdown](articles/graph-cochange-review-benchmark.md) |
 | CoreのMCP連携 | [CodexにRustとTypeScriptの関係を引かせる――契約グラフをMCPへ切り出す](https://zenn.dev/veripsa/articles/tauri-command-contract-graph) | [Markdown](articles/tauri-command-contract-graph.md) |
 | GitHubのブランチ整理 | [git branch --mergedに出ない取り込み済みブランチを見分ける――556本を整理した実例](https://zenn.dev/veripsa/articles/github-branch-cleanup-squash-556) | [Markdown](articles/github-branch-cleanup-squash-556.md) |
 | 静的サイトの日時とRSS | [創作上の2031年をRSSに流さない――静的サイトで3つの日時を分ける](https://zenn.dev/veripsa/articles/fiction-date-rss-static-site) | [Markdown](articles/fiction-date-rss-static-site.md) |

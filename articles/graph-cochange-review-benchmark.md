@@ -1,5 +1,5 @@
 ---
-title: "Gitのコンフリクトを減らそうとしたら、コードグラフとCo-changeができた"
+title: "Gitでマージできたのに壊れる――コードグラフとCo-changeを4例で検証"
 emoji: "🔎"
 type: "tech"
 topics: ["git", "python", "静的解析", "個人開発"]
