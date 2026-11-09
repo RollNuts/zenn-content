@@ -182,12 +182,36 @@ Cは前節と同じ2ツールを実stdioで呼びました。返る全4行のう
 
 再現には、前節の固定Tauri checkoutとsnapshot、同じSDK環境、Git、ripgrepを使います。新しい依存やモデル呼び出しは不要です。
 
+入力検査は`git status`へ依存しません。`examples/api`の固定Git treeとindex、
+全working fileのraw bytesをGit blob IDへ照合し、隠れたindex flag、範囲内の
+不足・追加・ignored file、symlink、staged変更を拒否します。固定版の対象は79fileです。
+このsubtreeが完全に展開されていれば、範囲外だけを省く前節のsparse checkoutは
+利用できます。改行変換やclean filterの適用結果を元blobと同一視しないため、
+raw bytesが異なるcheckoutは受け付けません。
+
+Git呼び出しではrepo-local fsmonitorを無効化し、状態確認のためにclean filterを
+起動しません。検索前後に同じ入力を検査して通常の同時変更を検出しますが、
+atomic filesystem snapshotの保証ではありません。モデル比較のarchive生成も
+同じ検査を共有し、固定archiveを変えるlocal `info/attributes`を拒否します。
+
 ```sh
 .venv/bin/python compare_search.py \
   --tauri tauri-source --snapshot tauri-api-snapshot.json \
   --git /path/to/git --rg /path/to/rg \
   --timings comparison-timings-local.json > comparison-evidence-local.json
 .venv/bin/python -m unittest -v test_compare_search.py
+```
+
+自作Git fixtureの回帰に加えて、取得済みの固定Tauriから使い捨ての検証用repoを
+作る回帰も実行できます。元のcheckoutを変更せず、hook不実行・隠れた変更の拒否・
+raw bytes検査・sparseの範囲・archive側の共有検査を確かめます。固定sourceが
+`tauri-source`以外にある場合は`VERIPSA_COMPARISON_TAURI`、Gitの場所が独自なら
+`VERIPSA_COMPARISON_GIT`を指定します。固定sourceが無い場合、その回帰はskipと表示します。
+
+```sh
+VERIPSA_COMPARISON_TAURI=/path/to/tauri-source \
+VERIPSA_COMPARISON_GIT=/path/to/git \
+  .venv/bin/python -B -m unittest -v test_compare_search.py test_compare_agents.py
 ```
 
 固定入力ID、版、全候補、path/lineの根拠、未包含の場所は[`comparison-evidence.json`](comparison-evidence.json)に記録しました。snapshot自体にはTauriのSHAが内包されないため、実験のsource checkout・tree IDとsnapshotのSHA256を別々に明記しています。再抽出時は作成日時によりsnapshotのbytes/hashが変わる場合があります。

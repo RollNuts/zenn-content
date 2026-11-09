@@ -22,6 +22,8 @@ import tarfile
 import tempfile
 import time
 
+from compare_search import source_git_environment, source_git_prefix, validate_source
+
 HERE = Path(__file__).resolve().parent
 TAURI_PIN = '2e23492ab9bcec06bab041e0e47447aaa0da298c'
 CORE_PIN = '9b5429aac861164cc1b41278dcaf540fa6fabad7'
@@ -120,11 +122,14 @@ def preflight(args, environment: dict) -> dict:
 
 
 def archive_api(args, environment: dict) -> bytes:
-    git_env = dict(environment)
-    git_env.update(GIT_CONFIG_NOSYSTEM='1', GIT_CONFIG_GLOBAL=os.devnull,
-                   GIT_OPTIONAL_LOCKS='0', GIT_TERMINAL_PROMPT='0', GIT_NO_LAZY_FETCH='1',
-                   GIT_NO_REPLACE_OBJECTS='1')
-    prefix = [str(args.git), '-c', 'protocol.allow=never', '-C', str(args.tauri)]
+    validate_source(args.tauri, str(args.git))
+    git_env = source_git_environment(environment)
+    prefix = source_git_prefix(args.tauri, str(args.git))
+    attributes = Path(local_command(prefix + ['rev-parse', '--git-path', 'info/attributes'], git_env))
+    if not attributes.is_absolute():
+        attributes = args.tauri / attributes
+    if attributes.is_symlink() or (attributes.exists() and attributes.stat().st_size):
+        raise HarnessError('Local archive attributes are outside the fixed source contract.')
     if local_command(prefix + ['rev-parse', '--verify', TAURI_PIN + '^{commit}'], git_env) != TAURI_PIN:
         raise HarnessError('Fixed Tauri commit is unavailable locally.')
     try:
@@ -135,6 +140,7 @@ def archive_api(args, environment: dict) -> bytes:
         raise HarnessError('Local archive could not complete.') from None
     if result.returncode or not result.stdout:
         raise HarnessError('Local archive failed.')
+    validate_source(args.tauri, str(args.git))
     return result.stdout
 
 
