@@ -17,6 +17,8 @@ Git・Python・RSS・静的サイト・コード解析の実装と運用を扱�
 
 ## 再現コード
 
+[実行が通る二つの修正を、要求と照合する実習](examples/repair-review/README.md)は、固定Coreの合成例を再利用し、同じ105を返す二案でもAPIの要求を守るかが異なることを確認します。未コミット変更による静的候補の変化と、共変更が増えてもliftが下がる履歴の対比も、既存CLIで再現します。追加パッケージ・モデル・DBは不要です。
+
 [公開済みRails修正をCoreの監査索引で比べる例](examples/rails-known-fix-review/README.md)は、Chatwootの固定した修正前後をローカルで解析します。固定したCoreの監査索引v1で観測した未解決のRails scopeと、安全性を判定できない限界を記録し、後続の起動契約・route索引の改善は別に案内します。
 
 [Flaskの実変更の前に確認先を探すケース調査](examples/core-change-review/README.md)は、変更直前のコードグラフとGit履歴を比較します。事前に選んだ5確認先の包含と、候補総数を分けて確認できます。モデル・DB・追加パッケージは不要です。

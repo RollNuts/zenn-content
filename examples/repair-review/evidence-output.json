@@ -1,0 +1,370 @@
+{
+  "exercise": "evidence-contrasts-v1",
+  "core_revision": "2c6850617bacaaa5cd31e34a490983597a18086d",
+  "scope": "Two constructed evidence contrasts; not accuracy or merge-safety evaluation.",
+  "execution_boundary": "Trusted pinned Core code; synthetic runtime checks are separate from Core CLI parsing. No sandbox claim.",
+  "time_bases": {
+    "target": "billing/pricing.py",
+    "peer": "web/checkout.py",
+    "before_uncommitted_edit": {
+      "review": {
+        "target": "billing/pricing.py",
+        "provenance": {
+          "head": "5d50538d5c28dbab47c8e5a2974adc6c239af994",
+          "dirty": false,
+          "history_target": "billing/pricing.py",
+          "shallow": false,
+          "status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "target_sha256": "1a463fcf88a6e770f7da22191f9062ed88152a2e7cc567b38c92965b9edfd9f4",
+          "extractor_version": "cg4",
+          "static_input": "current_worktree",
+          "history_input": "committed_HEAD"
+        },
+        "static": {
+          "status": "observed",
+          "method": "cochange_backtest.coupled_pairs coarse offline file projection; not App policy",
+          "coverage": {
+            "files_parsed": 3,
+            "files_failed": 0,
+            "files_skipped": 0,
+            "document_analysis_status_counts": {
+              "failed": 0,
+              "incomplete": 0,
+              "ambiguous": 0
+            }
+          },
+          "warnings": [],
+          "candidates": [
+            {
+              "file": "web/checkout.py",
+              "evidence_kinds": [
+                "call",
+                "import"
+              ]
+            }
+          ]
+        },
+        "history": {
+          "status": "observed",
+          "parameters": {
+            "window": 800,
+            "max_commit_files": 40,
+            "min_support": 5,
+            "min_prob": 0.3,
+            "min_lift": 2.0,
+            "max_pairs": 5000,
+            "timeout": 60
+          },
+          "commits_read": 14,
+          "commits_retained": 14,
+          "target_change_count": 6,
+          "missing_current_partners_omitted": 0,
+          "warnings": [],
+          "candidates": [
+            {
+              "file": "web/checkout.py",
+              "git_file": "web/checkout.py",
+              "a": "billing/pricing.py",
+              "b": "web/checkout.py",
+              "co": 6,
+              "n_a": 6,
+              "n_b": 6,
+              "n_total": 14,
+              "p_b_given_a": 1.0,
+              "p_a_given_b": 1.0,
+              "strength": 1.0,
+              "lift": 2.33
+            }
+          ]
+        }
+      },
+      "runtime": {
+        "status": "passed",
+        "return_value": 105
+      }
+    },
+    "after_uncommitted_edit": {
+      "review": {
+        "target": "billing/pricing.py",
+        "provenance": {
+          "head": "5d50538d5c28dbab47c8e5a2974adc6c239af994",
+          "dirty": true,
+          "history_target": "billing/pricing.py",
+          "shallow": false,
+          "status_sha256": "9a02a6ba6436a8c572e2bbe3938f43296897ef90ed8300fade9900eb0929b5e7",
+          "target_sha256": "1a463fcf88a6e770f7da22191f9062ed88152a2e7cc567b38c92965b9edfd9f4",
+          "extractor_version": "cg4",
+          "static_input": "current_worktree",
+          "history_input": "committed_HEAD"
+        },
+        "static": {
+          "status": "not_observed",
+          "method": "cochange_backtest.coupled_pairs coarse offline file projection; not App policy",
+          "coverage": {
+            "files_parsed": 3,
+            "files_failed": 0,
+            "files_skipped": 0,
+            "document_analysis_status_counts": {
+              "failed": 0,
+              "incomplete": 0,
+              "ambiguous": 0
+            }
+          },
+          "warnings": [],
+          "candidates": []
+        },
+        "history": {
+          "status": "observed",
+          "parameters": {
+            "window": 800,
+            "max_commit_files": 40,
+            "min_support": 5,
+            "min_prob": 0.3,
+            "min_lift": 2.0,
+            "max_pairs": 5000,
+            "timeout": 60
+          },
+          "commits_read": 14,
+          "commits_retained": 14,
+          "target_change_count": 6,
+          "missing_current_partners_omitted": 0,
+          "warnings": [],
+          "candidates": [
+            {
+              "file": "web/checkout.py",
+              "git_file": "web/checkout.py",
+              "a": "billing/pricing.py",
+              "b": "web/checkout.py",
+              "co": 6,
+              "n_a": 6,
+              "n_b": 6,
+              "n_total": 14,
+              "p_b_given_a": 1.0,
+              "p_a_given_b": 1.0,
+              "strength": 1.0,
+              "lift": 2.33
+            }
+          ]
+        }
+      },
+      "runtime": {
+        "status": "passed",
+        "return_value": 105
+      }
+    },
+    "comparison": {
+      "same_runtime": true,
+      "static_peer_before": true,
+      "static_peer_after": false,
+      "same_history_section": true,
+      "same_head": true,
+      "changed_provenance_fields": [
+        "dirty",
+        "status_sha256"
+      ]
+    }
+  },
+  "more_coedits": {
+    "target": "billing/pricing.py",
+    "peer": "web/checkout.py",
+    "extra_comment_only_joint_commits": 8,
+    "before_extra_coedits": {
+      "review": {
+        "target": "billing/pricing.py",
+        "provenance": {
+          "head": "5d50538d5c28dbab47c8e5a2974adc6c239af994",
+          "dirty": false,
+          "history_target": "billing/pricing.py",
+          "shallow": false,
+          "status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "target_sha256": "1a463fcf88a6e770f7da22191f9062ed88152a2e7cc567b38c92965b9edfd9f4",
+          "extractor_version": "cg4",
+          "static_input": "current_worktree",
+          "history_input": "committed_HEAD"
+        },
+        "static": {
+          "status": "observed",
+          "method": "cochange_backtest.coupled_pairs coarse offline file projection; not App policy",
+          "coverage": {
+            "files_parsed": 3,
+            "files_failed": 0,
+            "files_skipped": 0,
+            "document_analysis_status_counts": {
+              "failed": 0,
+              "incomplete": 0,
+              "ambiguous": 0
+            }
+          },
+          "warnings": [],
+          "candidates": [
+            {
+              "file": "web/checkout.py",
+              "evidence_kinds": [
+                "call",
+                "import"
+              ]
+            }
+          ]
+        },
+        "history": {
+          "status": "observed",
+          "parameters": {
+            "window": 800,
+            "max_commit_files": 40,
+            "min_support": 5,
+            "min_prob": 0.3,
+            "min_lift": 2.0,
+            "max_pairs": 5000,
+            "timeout": 60
+          },
+          "commits_read": 14,
+          "commits_retained": 14,
+          "target_change_count": 6,
+          "missing_current_partners_omitted": 0,
+          "warnings": [],
+          "candidates": [
+            {
+              "file": "web/checkout.py",
+              "git_file": "web/checkout.py",
+              "a": "billing/pricing.py",
+              "b": "web/checkout.py",
+              "co": 6,
+              "n_a": 6,
+              "n_b": 6,
+              "n_total": 14,
+              "p_b_given_a": 1.0,
+              "p_a_given_b": 1.0,
+              "strength": 1.0,
+              "lift": 2.33
+            }
+          ]
+        }
+      },
+      "runtime": {
+        "status": "passed",
+        "return_value": 105
+      },
+      "pair_evidence": {
+        "status": "observed",
+        "parameters": {
+          "window": 800,
+          "max_commit_files": 40,
+          "min_support": 5,
+          "min_prob": 0.3,
+          "min_lift": 2.0,
+          "max_pairs": 5000
+        },
+        "file_pairs": [
+          {
+            "a": "billing/pricing.py",
+            "b": "web/checkout.py",
+            "co": 6,
+            "n_a": 6,
+            "n_b": 6,
+            "n_total": 14,
+            "p_b_given_a": 1.0,
+            "p_a_given_b": 1.0,
+            "strength": 1.0,
+            "lift": 2.33,
+            "passes_default_filters": true
+          }
+        ]
+      }
+    },
+    "after_extra_coedits": {
+      "review": {
+        "target": "billing/pricing.py",
+        "provenance": {
+          "head": "4ee9b18de2924ffb2fb2f79d53296f00e50c5b7c",
+          "dirty": false,
+          "history_target": "billing/pricing.py",
+          "shallow": false,
+          "status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "target_sha256": "aebd8283d6e71ffd80f06a740c964406228949638f89eaaf16f50923267bf9d5",
+          "extractor_version": "cg4",
+          "static_input": "current_worktree",
+          "history_input": "committed_HEAD"
+        },
+        "static": {
+          "status": "observed",
+          "method": "cochange_backtest.coupled_pairs coarse offline file projection; not App policy",
+          "coverage": {
+            "files_parsed": 3,
+            "files_failed": 0,
+            "files_skipped": 0,
+            "document_analysis_status_counts": {
+              "failed": 0,
+              "incomplete": 0,
+              "ambiguous": 0
+            }
+          },
+          "warnings": [],
+          "candidates": [
+            {
+              "file": "web/checkout.py",
+              "evidence_kinds": [
+                "call",
+                "import"
+              ]
+            }
+          ]
+        },
+        "history": {
+          "status": "not_observed",
+          "parameters": {
+            "window": 800,
+            "max_commit_files": 40,
+            "min_support": 5,
+            "min_prob": 0.3,
+            "min_lift": 2.0,
+            "max_pairs": 5000,
+            "timeout": 60
+          },
+          "commits_read": 22,
+          "commits_retained": 22,
+          "target_change_count": 14,
+          "missing_current_partners_omitted": 0,
+          "warnings": [],
+          "candidates": []
+        }
+      },
+      "runtime": {
+        "status": "passed",
+        "return_value": 105
+      },
+      "pair_evidence": {
+        "status": "not_observed",
+        "parameters": {
+          "window": 800,
+          "max_commit_files": 40,
+          "min_support": 5,
+          "min_prob": 0.3,
+          "min_lift": 2.0,
+          "max_pairs": 5000
+        },
+        "file_pairs": [
+          {
+            "a": "billing/pricing.py",
+            "b": "web/checkout.py",
+            "co": 14,
+            "n_a": 14,
+            "n_b": 14,
+            "n_total": 22,
+            "p_b_given_a": 1.0,
+            "p_a_given_b": 1.0,
+            "strength": 1.0,
+            "lift": 1.57,
+            "passes_default_filters": false
+          }
+        ]
+      }
+    },
+    "comparison": {
+      "same_python_ast_ignoring_comments": true,
+      "same_runtime": true,
+      "same_static_section": true,
+      "history_peer_before": true,
+      "history_peer_after": false
+    }
+  }
+}

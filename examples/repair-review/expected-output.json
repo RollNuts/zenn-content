@@ -1,0 +1,47 @@
+{
+  "exercise": "repair-review-v1",
+  "core_revision": "2c6850617bacaaa5cd31e34a490983597a18086d",
+  "scope": "One synthetic requirement exercise; not bug prediction or merge approval.",
+  "executed": "Only generated synthetic Python fixture code and trusted pinned Core code.",
+  "original_evidence": {
+    "git_merge": "clean",
+    "static": "observed",
+    "history": "not_observed"
+  },
+  "before_repair": {
+    "runtime": {
+      "status": "failed",
+      "error_type": "TypeError"
+    },
+    "requirements": {
+      "checkout_returns_105": false,
+      "fee_is_keyword_only": true,
+      "positional_fee_is_rejected": true
+    },
+    "stated_requirements_met": false
+  },
+  "repair_a_relax_callee": {
+    "runtime": {
+      "status": "passed",
+      "return_value": 105
+    },
+    "requirements": {
+      "checkout_returns_105": true,
+      "fee_is_keyword_only": false,
+      "positional_fee_is_rejected": false
+    },
+    "stated_requirements_met": false
+  },
+  "repair_b_adapt_caller": {
+    "runtime": {
+      "status": "passed",
+      "return_value": 105
+    },
+    "requirements": {
+      "checkout_returns_105": true,
+      "fee_is_keyword_only": true,
+      "positional_fee_is_rejected": true
+    },
+    "stated_requirements_met": true
+  }
+}
