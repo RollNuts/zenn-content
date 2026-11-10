@@ -3,7 +3,7 @@ title: "CIは成功したのに本番が変わらないとき、どこを確か�
 emoji: "🚦"
 type: "tech"
 topics: ["githubactions", "cloudflare", "python", "個人開発"]
-published: false
+published: true
 ---
 
 CIの画面は緑なのに、公開URLを開いても変更が見えない。こういうときは、キャッシュ削除から始める前に「何が成功したのか」を分けて確認すると、調べる場所を絞れます。
