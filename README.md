@@ -6,6 +6,32 @@ Git・Python・RSS・静的サイト・コード解析の実装と運用を扱�
 
 新着記事は[RSSでも購読できます](https://zenn.dev/veripsa/feed)。
 
+## 困りごとから試す
+
+RollNutsが、実装と検証の過程を記事・実行コードとして残しています。
+初めての方は、追加パッケージなしで動くPythonの小さい例から試せます。
+
+| 確かめたいこと | 実行例 | 分かること・範囲 |
+| --- | --- | --- |
+| テストが通る二つの修正を、どう選ぶか | [API契約を照合する実習](examples/api-contract-repair/README.md) | 同じ値を返しても、引数の渡し方に関する要求を守るかが違う。架空の関数・要求を使う教材 |
+| HTTP 200なのに公開内容が古いとき、何を比較するか | [配信中のrevisionを確認する例](examples/deployment-revision/README.md) | 旧版・一部だけ更新・正常な配信をローカルHTTPで比較。全ページやブラウザ操作の検査は対象外 |
+| 変更前に関連ファイルの候補をどう探すか | [Flaskの実変更を使うCore CLI調査](examples/core-change-review/README.md) | 静的グラフとGit履歴の候補を比較。固定Core・対象repoの取得が必要で、変更の安全性は判定しない |
+
+最初のAPI契約の実習は、リンク先の`repair_review.py`を保存し、Python 3.12で実行できます。
+実行時のCore・モデル・アカウント・ネットワーク接続は不要です。
+
+```sh
+python3.12 repair_review.py --repair rollback --value-only
+python3.12 repair_review.py --repair keyword --value-only
+python3.12 repair_review.py --repair rollback
+python3.12 repair_review.py --repair keyword
+```
+
+最初の2回は、どちらも値だけの1テストに成功します。
+3回目は、教材で指定したAPI契約に反するため4テスト中2件が失敗し、終了コード1になります。
+4回目は同じ4テストに成功します。架空の要求を変えれば、採用する修正の判断も変わります。
+実際のAIによる修正や、一般的なバグ防止効果を測った実験ではありません。
+
 ## 公開記事
 
 | テーマ | Zenn | 原稿 |
