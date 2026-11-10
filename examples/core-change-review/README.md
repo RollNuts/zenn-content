@@ -123,9 +123,36 @@ rg -l -w -F -g '*.py' -- session_transaction src/flask tests
 
 [比較結果JSON](cli-comparison.json)に、各base・範囲・候補一覧・条件・5確認先の包含を保存しました。全件でCLIの静的側は`uncertain`、履歴側は`observed`でした。repo全体は85 parsed、0 failed、23 skipped、不完全な文書21件です。このcoverageは64ファイルだけの集計ではありません。
 
-検索で唯一出なかった選定確認先は、session保存の`src/flask/sessions.py`です。一方、静的候補は15〜29件になり、読む範囲が広がりました。検索で出た`tests/test_signals.py`など未選定の候補を、誤検出とは分類していません。追加検索やLSP、通常のAI調査を含めた効率・正確性の優劣は未測定です。既存のFlask調査を知った状態の事前固定なので、盲検や未見repoの評価とも呼びません。
+検索で唯一出なかった選定確認先は、session保存の`src/flask/sessions.py`です。一方、静的候補は15〜29件になり、読む範囲が広がりました。検索で出た`tests/test_signals.py`など未選定の候補を、誤検出とは分類していません。追加検索やLSPを含む効率・正確性の優劣は未測定です。通常のAI調査は次節の1ケースだけを追試しており、一般的な優劣を測ったものではありません。既存のFlask調査を知った状態の事前固定なので、盲検や未見repoの評価とも呼びません。
 
 候補の関係をソースで確認し、関連するテストを選ぶための入口です。本文を返さないことは、コードを読む次の作業や、その権限管理を不要にする意味ではありません。
+
+## 追試：通常のAI調査とCLIメタデータ
+
+2026-11-10、IPv6の1ケースだけをCodex CLI 0.167.0から各1回調査しました。[全条件と回答のJSON](ai-comparison.json)には、共通prompt、schema、Cに追加したCLIの生メタデータ、両回答、採点対象、観測値を保存しています。元のfixture・期待出力・コード・9テストは変更していません。
+
+| 方法 | 返したpeer数 | 選定2確認先の包含 | 完了したcommand_execution item数 | exec経過秒 |
+| --- | ---: | ---: | ---: | ---: |
+| B：通常のソース調査 | 8 | 1/2 | 4 | 39.673 |
+| C：同じ依頼＋CLIメタデータ | 8 | 2/2 | 3 | 39.243 |
+
+両方が`tests/test_testing.py`を選び、Cだけが`src/flask/sessions.py`も選びました。Cの理由は、`session_transaction`がsession interfaceのopen/saveを呼び、cookie処理へつながることです。他のpeerは未評価です。事前選定はAI支援の確認先で、網羅的な正解集合や独立した人間のground truthではありません。
+
+### 入力・実行条件
+
+- B/Cともbase `514fc6b3e8402e4c646d5284e97a4f0ab50a7c4b`、tree `c7ec5b743fd39ea74136f6504ddd65787c8a5eec`、完全な祖先5,548commitを持つ別々のGit入力。対象変更objectは不在、remote・privateなclone元の設定・reflogは除去しました。
+- 共通依頼はファイル内の「IPv6ホスト処理」を挙げ、最大8peer、根拠、不確実性を要求。`FlaskClient.session_transaction`という関数名までは指定していません。採点用2パスや過去回答はmodelの入力・読取範囲へ含めません。Cには`cli_report`だけをinlineで加え、外側の採点済みcase JSONは渡しません。
+- 既存のChatGPTログインと利用枠を使用し、APIキーへのfallback、追加課金サービス、インストール、グローバル設定の変更はありません。CLI default modelを要求し、reasoningはlow。JSONLから実際のmodel IDを確認できなかったため、解決後のモデル同一性は未検証です。
+- B→Cの固定順序、独立したephemeralセッション、各180秒上限、再試行なし。user configを読み込まず、web/MCPを使いません。公開入力と必要なruntimeだけを読むread-only profileで、networkを禁止しました。非機密canaryで範囲外read・書込・ローカル接続が拒否され、Gitは使えることを先に確認しました。[Codexのprofileと適用範囲](https://learn.chatgpt.com/docs/permissions)に従い、profileを上書きする`--sandbox`は併用していません。
+- 両方exit 0、入力ファイルの前後hash不変。traceは検索・ソース表示・ローカルGit履歴調査だけでした。対象アプリのコード・テスト実行や、範囲外read・network/web/MCPは観測していません。canaryはコマンドの範囲を確かめるもので、認証clientなどを含む全機能の隔離証明ではありません。raw traceは公開しません。
+
+### 解釈の限界と追試の方法
+
+Bは主にEnvironBuilderのURL構築と設定、Cはそれに加えてsessionのcookie処理を調べました。**依頼が関数を特定していないため、Bの未包含を確定したAIの誤りとは評価しません。** 二つの回答では確認先が1件異なりましたが、モデル出力のばらつきとメタデータの効果は切り分けられていません。障害回避・変更の完全性・一般的な精度向上の証明ではありません。両回答は完全性・merge安全性をfalseとしましたが、promptにもそう求めており、自発的な安全判断の性能を測ったものではありません。
+
+経過秒は親から観測したexecの壁時計時間で、入力準備やCLI report生成時間を含みません。1 tool itemには複数のshell操作が入ります。token値もcacheを含むCLIの報告値で、価格や作業全体の費用ではありません。1ケース・各1回・順序固定・Flaskの既知利用歴から、時間や費用の削減を主張しません。
+
+第三者は、前節の固定baseとCore CLIからreportを作り、JSONの`common_prompt`と`answer_schema`を使って、ソースのみ／同じ依頼＋`C_report`を別セッションへ渡せます。観測時のreportそのものも保存しています。モデルやサービスの変動があるため、回答のbyte一致を要求する再現テストではありません。次は関数名を明示し、未使用repoで複数回比較することが必要です。今回、検証を好ましい結果へ寄せる追加試行は行っていません。
 
 ## この資産の使い方
 
