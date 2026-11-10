@@ -16,9 +16,11 @@ Gitが競合なくマージできても、組み合わせたコードが動く�
 - Code graphとCo-changeが、それぞれ拾うもの・落とすもの。
 - 小さな合成例でも、採点対象とラベルを固定して検証を共有する方法。
 
-GitとPython 3.12があれば、追加パッケージ、モデルAPI、クラウドDB、アカウントなしで試せます。対象は自作の合成コードです。**ここで示す精度は、選んだ4組だけの採点結果で、一般的なバグ検出精度ではありません。**
+GitとPython 3.12があれば、追加パッケージ、モデルAPI、クラウドDB、アカウントなしで試せます。前半の採点対象は自作の合成コードです。後半の追記では、公開Flaskの変更前調査を別の実験として扱います。**ここで示す精度は、選んだ4組だけの採点結果で、一般的なバグ検出精度ではありません。**
 
 再現コードから入りたい方は、[固定版の4ケースを試す](https://github.com/RollNuts/veripsa/tree/fcb633eadd9b205a82ed605384def4a9f6189f9d/examples/structural-overlap)こともできます。
+
+自分のrepoで確認先を探したい方には、[1ファイル調査CLIの手順](https://github.com/RollNuts/veripsa/blob/b924add83e77972b6d09268f4eaab87e5b65b103/docs/LOCAL_FILE_REVIEW.md)も用意しました。後半の追記で、Flaskの変更前調査と検索の比較を説明します。
 
 ## 別々では動き、マージすると壊れる例
 
@@ -169,11 +171,40 @@ unionは、動的参照の見落としを埋める一方、偶然の共変更に
 
 解析に出なかった関係は`not_observed`です。「依存なし」や「Clear」へ読み替えません。逆に、候補が増えた場合は、人が読む負担も増え得ます。
 
+## 追記：自分のファイルを変える前に、確認先を探す
+
+2026年11月10日、既存の解析を1ファイルへ問い合わせるローカルコマンドを追加しました。静的な関係と過去の共変更を別々に返します。以下は、前半の固定デモとは別の[Core `b924add`](https://github.com/RollNuts/veripsa/tree/b924add83e77972b6d09268f4eaab87e5b65b103)を使う手順です。新しい空ディレクトリで実行します。
+
+```sh
+git clone https://github.com/RollNuts/veripsa.git veripsa-file-review
+git -C veripsa-file-review checkout --detach b924add83e77972b6d09268f4eaab87e5b65b103
+git clone https://github.com/pallets/flask.git flask-file-review
+git -C flask-file-review checkout --detach 514fc6b3e8402e4c646d5284e97a4f0ab50a7c4b
+cd veripsa-file-review
+python3.12 -B -m tools.review_file ../flask-file-review src/flask/testing.py
+```
+
+この例のHEADは、Flaskのsession transactionに関する変更の直前です。自分のrepoを調べる場合は、最後の2引数を、そのGitルートと相対ファイル名へ置き換えます。対象のコードやテストは実行せず、Python入力には追加パッケージ・DB・モデルAPIが不要です。[出力と入力条件](https://github.com/RollNuts/veripsa/blob/b924add83e77972b6d09268f4eaab87e5b65b103/docs/LOCAL_FILE_REVIEW.md)を確認できます。
+
+既存の3変更・5確認先を、このコマンドと事前固定した関数名検索で比べました。例えば`session_transaction`の変更では、既存テスト`tests/test_testing.py`と、呼び出される`save_session`の実装`src/flask/sessions.py`を先に確認先として選んでいます。[変更前の呼び出し](https://github.com/pallets/flask/blob/514fc6b3e8402e4c646d5284e97a4f0ab50a7c4b/src/flask/testing.py#L173-L182)から理由を追えます。
+
+| 方法 | 候補数 | 選定した2確認先の包含 |
+| --- | ---: | ---: |
+| `session_transaction`の単一検索 | 2 | 1/2 |
+| CLIの静的候補 | 15 | 2/2 |
+| CLIのCo-change候補 | 10 | 1/2 |
+
+表は、同じ`src/flask`と`tests`内のPythonファイル64件へ揃えた件数です。CLIは全repoを解析した後で候補をこの範囲に絞っています。上のコマンドの生出力は、範囲外も含む静的16件・履歴11件です。解析範囲を狭めて計算し直した結果ではありません。
+
+単一検索には出なかった`sessions.py`が、静的候補には含まれました。一方で、読む候補も2件から15件に増えています。3変更を合わせると検索は5確認先中4件、静的候補は5件、Co-changeは1件を含みました。未選定の候補は未評価であり、これを一般的な精度や検索への優位性にはしません。追加検索、LSP、通常のAI調査との比較、時間短縮も測っていません。
+
+この追加パッケージなし環境では、repo全体に未対応parser・不完全な文書が残るため、CLIの静的側は`uncertain`です。候補が出たことと、解析の完全性を分けています。[全3変更の検索条件・候補一覧・再現手順](https://github.com/RollNuts/zenn-content/tree/main/examples/core-change-review#追記現行cliと事前固定検索の比較)を残しました。これは以前の解析を使えるコマンドにした結果で、検出器の精度改善やAIの見落としを実証した結果ではありません。
+
 ## 本文を蓄積しない設計も、境界を明確にする
 
 Coreは解析時にソース本文を読みます。PR調整用の保存・表示層と、今回のデモのJSONでは、ファイルパス、シンボル、構造上の関係、commitやPRの識別情報、判断状態などを扱い、ソースファイル本文やdiff本文を蓄積しない設計にしています。別の監査CLIなどの出力まで、情報を持たないと保証する意味ではありません。
 
-「情報を何も持たない」という意味ではありません。パスや契約名も、開発内容を表す場合があります。今回の公開例は合成入力に限定し、報告には本文や一時ディレクトリの絶対パスを含めません。[データの境界](https://github.com/RollNuts/veripsa/blob/fcb633eadd9b205a82ed605384def4a9f6189f9d/SECURITY.md#content-free-posture)を参照できます。
+「情報を何も持たない」という意味ではありません。パスや契約名も、開発内容を表す場合があります。前半のデモは合成入力、追記は公開Flaskを使い、報告には本文や一時ディレクトリの絶対パスを含めません。[データの境界](https://github.com/RollNuts/veripsa/blob/fcb633eadd9b205a82ed605384def4a9f6189f9d/SECURITY.md#content-free-posture)を参照できます。
 
 別の記事では、[Tauriの契約接点を保存snapshotからMCPで読む例](https://zenn.dev/veripsa/articles/tauri-command-contract-graph)を扱いました。そちらの問いは、限定したメタデータをAIへどう渡し、不確実性を残すかでした。今回はMCPを使わず、構造と履歴の候補を、明示したラベルと比較します。どちらも、現在の作業ツリーやマージの安全性を保証するものではありません。
 

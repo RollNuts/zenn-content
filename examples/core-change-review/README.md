@@ -90,6 +90,43 @@ python3.12 -B -m unittest discover \
 
 既存の[Flask集計評価](https://github.com/RollNuts/veripsa/blob/4236848504c8cb2cc3c14db22408fb519b06f754/docs/OFFLINE_EXAMPLE.md)は「現在の構造と過去の同時変更の関連」という別の問いを調べます。その倍率をこのケース調査の精度として使いません。Gitのマージと統合後の実行も比較したい場合は、[Coreの4ケース合成デモ](https://github.com/RollNuts/veripsa/tree/4236848504c8cb2cc3c14db22408fb519b06f754/examples/structural-overlap)へ進めます。
 
+## 追記：現行CLIと事前固定検索の比較
+
+2026-11-10、[Core `b924add`](https://github.com/RollNuts/veripsa/tree/b924add83e77972b6d09268f4eaab87e5b65b103)で追加した`tools.review_file`を同じ3つの変更直前へ実行しました。元の`cases.json`、Core `4236848`の期待出力、既存の9テストは変更していません。旧producer調査と、この新しいCLIの確認を別に記録します。
+
+新しい空ディレクトリで、session transactionの1例を試せます。
+
+```sh
+git clone https://github.com/RollNuts/veripsa.git veripsa-file-review
+git -C veripsa-file-review checkout --detach b924add83e77972b6d09268f4eaab87e5b65b103
+git clone https://github.com/pallets/flask.git flask-file-review
+git -C flask-file-review checkout --detach 514fc6b3e8402e4c646d5284e97a4f0ab50a7c4b
+cd veripsa-file-review
+python3.12 -B -m tools.review_file ../flask-file-review src/flask/testing.py
+```
+
+これは新しく作ったcloneをcheckoutする手順です。既存の元cloneを変更しない先頭の`review.py`とは操作を区別してください。CLIは作業ツリーとHEADの祖先履歴を読み、対象のコードやテストを実行しません。測定には各baseの祖先だけを持つ完全なGit入力を作り、対象変更object自体も不在と確認しました。上の簡易full-clone手順では後のobjectも保存されますが、baseの作業ツリー・祖先履歴だけを解析します。
+
+検索baselineは、今回のCLI出力を見る前に、各起点の関数名1つと次のコマンドを固定しました。測定にはripgrep 15.2.0、Git 2.53.0、Python 3.12.13を使用しました。ripgrepは検索比較用で、CLI自体の依存ではありません。
+
+```sh
+rg -l -w -F -g '*.py' -- session_transaction src/flask tests
+```
+
+| 変更 | 事前固定した検索語 | 検索候補数 | CLI静的候補数 | CLI履歴候補数 | 選定確認先の包含：検索／静的／履歴 |
+| --- | --- | ---: | ---: | ---: | --- |
+| autoescape | `select_jinja_autoescape` | 1 | 29 | 22 | 1/1・1/1・0/1 |
+| session transaction | `session_transaction` | 2 | 15 | 10 | 1/2・2/2・1/2 |
+| context copy | `copy_current_request_context` | 2 | 22 | 10 | 2/2・2/2・0/2 |
+
+表は起点を除く同じ64ファイル範囲へ、全producerの計算後に投影した件数です。CLIの生の静的／履歴候補数は順に34/26、16/11、22/11でした。範囲に合わせて履歴の母数・閾値・順位を計算し直していません。CLIの投影後の全候補集合は、旧期待JSONと一致しました。これは入口の追加を検証した結果で、解析精度の改善ではありません。
+
+[比較結果JSON](cli-comparison.json)に、各base・範囲・候補一覧・条件・5確認先の包含を保存しました。全件でCLIの静的側は`uncertain`、履歴側は`observed`でした。repo全体は85 parsed、0 failed、23 skipped、不完全な文書21件です。このcoverageは64ファイルだけの集計ではありません。
+
+検索で唯一出なかった選定確認先は、session保存の`src/flask/sessions.py`です。一方、静的候補は15〜29件になり、読む範囲が広がりました。検索で出た`tests/test_signals.py`など未選定の候補を、誤検出とは分類していません。追加検索やLSP、通常のAI調査を含めた効率・正確性の優劣は未測定です。既存のFlask調査を知った状態の事前固定なので、盲検や未見repoの評価とも呼びません。
+
+候補の関係をソースで確認し、関連するテストを選ぶための入口です。本文を返さないことは、コードを読む次の作業や、その権限管理を不要にする意味ではありません。
+
 ## この資産の使い方
 
 AIや開発者が変更前に起点ファイルを指定し、候補から定義・利用・テストを調べる作業の、小さい確認材料です。RollNutsの既存解析を、再現条件と限界が追える形で残します。このサンプルを追加したことは、Core MCPの新機能やGitHub Appの再開を意味しません。
