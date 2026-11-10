@@ -37,6 +37,8 @@ Git・Python・RSS・静的サイト・コード解析の実装と運用を扱�
 
 [ast-grep outlineでコードの目次を作る](articles/ast-grep-outline-code-map.md)は、再現コードの検証が済んだ原稿です。Zennの投稿数制限により未公開で、公開設定を下書きにして保管しています。
 
+[Webhookを再試行してよい？COMMITの応答が消えたときの3つの分岐](articles/webhook-commit-response-lost.md)は、公開Coreのfake接続テストを使った、完成・検証済みの無料技術解説です。呼び出し側の3分岐と4チェックを扱い、実DBやexactly-onceの証明とは区別しています。上記2本に続く3番目の公開候補として、`published: false`で保管しています。この原稿のZenn公開はまだ試していません。
+
 ## ファイルの読み方
 
 `articles/` のMarkdownが原稿です。先頭のfront matterにタイトル、トピック、公開設定があります。
