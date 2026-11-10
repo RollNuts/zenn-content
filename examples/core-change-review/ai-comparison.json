@@ -568,7 +568,7 @@
   "interpretation": [
     "B returned one of two preselected targets; C returned both. Each returned eight peer paths. Other peers are unassessed, not false positives.",
     "The shared prompt named IPv6 host handling in the whole file, not FlaskClient.session_transaction. B focused on URL construction; C also investigated session cookie handling. This task ambiguity prevents classifying the B omission as a proven AI error.",
-    "The supplied metadata changed a candidate selected in this run. This is not evidence of prevented bugs, complete impact analysis, or general superiority.",
+    "The metadata-supplemented answer differed by one selected candidate in this pair. Model variation and the effect of metadata were not separated. This is not evidence of prevented bugs, complete impact analysis, or general superiority.",
     "Both answers kept completeness and merge-safety claims false. The harness prompt explicitly required these limits; this is not a test of unprompted safety behavior.",
     "One case and one run per arm, fixed order, previously used Flask repository, selected labels, and unverified resolved model identity prevent general accuracy or productivity claims.",
     "Times are parent-observed exec wall time. They exclude preparation and generating the Core report. Command-execution items can contain several shell commands; they are not atomic operation counts.",

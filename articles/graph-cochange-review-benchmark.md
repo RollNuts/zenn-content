@@ -213,7 +213,7 @@ python3.12 -B -m tools.review_file ../flask-file-review src/flask/testing.py
 
 ただし、依頼文では変更する関数を特定していません。通常の調査はURL構築側を中心に調べ、CLIありの調査はsession処理も調べました。この曖昧さがあるため、通常の回答を誤答と判定したり、「AIの見落としを防げた」とは結論づけません。1ケース・各1回・順序固定で、実際に選ばれたモデルIDも記録から確認できず、一般的な精度・時間・費用の優位性は未実証です。
 
-今回確かめたのは、**候補を渡すことで、この試行ではAIが選ぶ確認先が変わった**ことです。[共通依頼文・渡したメタデータ・両回答・測定条件](https://github.com/RollNuts/zenn-content/blob/main/examples/core-change-review/ai-comparison.json)を公開します。次の比較では変更する関数を明示し、未使用のリポジトリでも結果が続くかを確かめる必要があります。
+今回観測したのは、**メタデータを添えた回答では、この試行に限り確認先が1件異なった**ことです。モデル出力のばらつきと、メタデータによる効果は切り分けられていません。[共通依頼文・渡したメタデータ・両回答・測定条件](https://github.com/RollNuts/zenn-content/blob/main/examples/core-change-review/ai-comparison.json)を公開します。次の比較では変更する関数を明示し、未使用のリポジトリでも結果が続くかを確かめる必要があります。
 
 ## 本文を蓄積しない設計も、境界を明確にする
 
