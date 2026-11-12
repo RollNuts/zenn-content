@@ -5,6 +5,17 @@
 
 Python 3.12と、対象OS向けのast-grep CLIが必要です。TypeScriptのビルドやnpm依存は不要です。
 
+新しい作業ディレクトリで再現コードを取得し、検証対象のコミットへ固定します。
+
+```sh
+git clone https://github.com/RollNuts/zenn-content.git
+cd zenn-content
+git checkout --detach 11e8c3ae649d2775497b9e2dd6de75be9258fd12
+cd examples/ast-grep-outline
+```
+
+このサンプルのディレクトリで次を実行します。
+
 ```sh
 python3.12 -m venv .venv
 .venv/bin/python -m pip install --only-binary=:all: ast-grep-cli==0.51.1
@@ -24,6 +35,9 @@ CLIの配布方法と対象OSは[公式Quick Start](https://ast-grep.github.io/g
 .venv/bin/ast-grep outline src/label.ts --items imports
 .venv/bin/ast-grep outline src/index.ts --items all --view expanded
 ```
+
+ディレクトリを指定した場合、ファイルの表示順は実行ごとに変わることがあります。
+記事のディレクトリ出力例は、比較しやすいようにファイルごとにパス順へ並べています。
 
 `verify.py`は次を実CLIのJSON出力と照合し、7条件が通れば終了コード0で要約を表示します。
 全観測を保存する場合は`--report observations.json`を追加します。

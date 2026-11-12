@@ -3,14 +3,16 @@ title: "AIに全文を渡す前に、ast-grep outlineでコードの目次を作
 emoji: "🗺️"
 type: "tech"
 topics: ["ast", "typescript", "cli", "個人開発"]
-published: false
+published: true
 ---
 
 知らないrepoをAIと読むとき、最初に知りたいのは「どのファイルの、どの部分を読むか」です。関数名やクラスの構成が分かれば、そこから本文を開けます。
 
-GitHubの紹介候補を調べる中で、[ast-grep](https://github.com/ast-grep/ast-grep)の`outline`を試しました。自分で作ったTypeScript 3ファイルを使い、ファイルとディレクトリの既定値、公開要素への絞り込み、出力へ残る情報を確認します。
+[ast-grep](https://github.com/ast-grep/ast-grep)の`outline`を使うと、関数・クラス・公開要素を一覧にして、次に読む場所を選べます。この記事用に用意したTypeScript 3ファイルで、ファイルとディレクトリの表示の違い、公開メンバーへの絞り込み、出力に残る情報を確かめます。
 
 **検証した版はast-grep 0.51.1、Python 3.12、macOSです。** `outline`は公式にexperimentalとされる機能です。この記事のコマンドと結果はこの版に固定します。[公式ガイド](https://ast-grep.github.io/guide/outline-code)
+
+公開前にはLinux・Python 3.12.14でも、後述する7条件を同じ版のCLIで再実行し、すべて通ることを確認しました。
 
 ## 3ファイルだけ用意する
 
@@ -64,7 +66,16 @@ const explanation = "export function stringOnly() {}";
 
 ## 隔離した環境へ版を固定して入れる
 
-サンプルのディレクトリで実行します。以下はmacOS/Linuxのパス表記です。Windowsでは仮想環境の`Scripts`内を指定します。
+残りの2ファイルと検証スクリプトも含めて取得し、検証対象のコミットへ固定します。以下は新しい作業ディレクトリで実行する手順です。
+
+```sh
+git clone https://github.com/RollNuts/zenn-content.git
+cd zenn-content
+git checkout --detach 11e8c3ae649d2775497b9e2dd6de75be9258fd12
+cd examples/ast-grep-outline
+```
+
+続けて、このサンプルのディレクトリで仮想環境を作ります。以下はmacOS/Linuxのパス表記です。Windowsでは仮想環境の`Scripts`内を指定します。
 
 ```sh
 python3.12 -m venv .venv
@@ -97,7 +108,7 @@ src/catalog.ts
 
 exportしていない`normalizeSku`や`explanation`も見えます。`commentOnly`と`stringOnly`が独立した関数として抽出されることはありません。ただし、文字列の中身が出力からすべて消えるわけでもありません。
 
-同じコードをディレクトリ単位で見ると、次の出力になりました。
+同じコードをディレクトリ単位で見ると、次の要素が表示されます。ファイルの表示順は実行ごとに変わる場合があるため、ここではファイルごとの出力をパス順に並べています。
 
 ```sh
 .venv/bin/ast-grep outline src
