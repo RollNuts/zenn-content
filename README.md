@@ -2,7 +2,7 @@
 
 Git・Python・RSS・静的サイト・コード解析の実装と運用を扱う、日本語技術記事の原稿置き場です。
 
-現在、**Zenn公開記事5本**を管理しています。
+現在、**Zenn公開記事6本**を管理しています。
 
 新着記事は[RSSでも購読できます](https://zenn.dev/veripsa/feed)。
 
@@ -36,6 +36,7 @@ python3.12 repair_review.py --repair keyword
 
 | テーマ | Zenn | 原稿 |
 | --- | --- | --- |
+| AIとコードを読む前の目次作成 | [AIに全文を渡す前に、ast-grep outlineでコードの目次を作る](https://zenn.dev/veripsa/articles/ast-grep-outline-code-map) | [Markdown](articles/ast-grep-outline-code-map.md) |
 | CI/CDの公開確認 | [CIは成功したのに本番が変わらないとき、どこを確かめるか](https://zenn.dev/veripsa/articles/ci-success-deployed-revision) | [Markdown](articles/ci-success-deployed-revision.md) |
 | コードグラフとCo-changeの検証 | [Gitでマージできたのに壊れる――コードグラフとCo-changeを4例で検証](https://zenn.dev/veripsa/articles/graph-cochange-review-benchmark) | [Markdown](articles/graph-cochange-review-benchmark.md) |
 | CoreのMCP連携 | [Tauriコマンドの変更影響をAIは追える？Codex・MCP・検索を比較](https://zenn.dev/veripsa/articles/tauri-command-contract-graph) | [Markdown](articles/tauri-command-contract-graph.md) |
@@ -62,9 +63,15 @@ python3.12 repair_review.py --repair keyword
 
 ## 公開待ちの原稿
 
-[ast-grep outlineでコードの目次を作る](articles/ast-grep-outline-code-map.md)は、再現コードの検証が済んだ原稿です。Zennの投稿数制限により未公開で、公開設定を下書きにして保管しています。
+[Webhookを再試行してよい？COMMITの応答が消えたときの3つの分岐](articles/webhook-commit-response-lost.md)を次の公開候補にしています。公開Coreのfake接続テストを使った、完成・検証済みの無料技術解説です。呼び出し側の3分岐と4チェックを扱い、実DBやexactly-onceの証明とは区別しています。公開前に参照先と再現手順を再確認するため、`published: false`で保管しています。この原稿のZenn公開はまだ試していません。
 
-[Webhookを再試行してよい？COMMITの応答が消えたときの3つの分岐](articles/webhook-commit-response-lost.md)は、公開Coreのfake接続テストを使った、完成・検証済みの無料技術解説です。呼び出し側の3分岐と4チェックを扱い、実DBやexactly-onceの証明とは区別しています。ast-grep稿に続く2番目の公開候補として、`published: false`で保管しています。この原稿のZenn公開はまだ試していません。
+[テストが通る2つの修正、どちらを採る？PythonでAPI契約を確かめる](articles/api-contract-repair-review.md)は、その次の候補です。標準ライブラリだけで動く教材を使い、戻り値の一致とAPIの要求を区別します。公開前レビュー待ちとして下書きを維持しています。
+
+## 継続運用
+
+火曜・土曜の19時ごろ（日本時間）を点検の基本枠とし、検証と公開条件を満たした記事を1回につき最大1本公開します。公開未確認の記事があれば、その確認と復旧を先に行います。
+
+原稿の選定、実行検証、投稿数制限への対応、Zenn本文の確認は[運用手順](docs/ZENN_OPERATIONS.md)にまとめています。[公開記録](docs/PUBLICATION_LOG.md)では、GitHub反映とZennでの公開確認を区別しています。
 
 ## ファイルの読み方
 
