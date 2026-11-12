@@ -252,4 +252,6 @@ python3.12 -m unittest discover -s tests -p 'test_structural_overlap_benchmark.p
 
 ---
 
+知らないコードの読む場所から決めたい場合は、[ast-grep outlineでTypeScriptの関数・クラスの目次を作る例](https://zenn.dev/veripsa/articles/ast-grep-outline-code-map)から試せます。目次を作る段階と、この実験で扱う関係・実行結果の検証を分けて読む入口です。
+
 再現コードや公開中の個人開発は、[RollNutsのGitHub](https://github.com/RollNuts)から辿れます。記事が役立ったら、有料バッジで今後の検証を応援してもらえると嬉しいです。

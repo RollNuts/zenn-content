@@ -467,4 +467,6 @@ MCP hostへ追加する場合は、絶対パスのPythonと`server.py --snapshot
 
 ---
 
+まず手元のコードの読む場所を決めたい場合は、[ast-grep outlineでTypeScriptの関数・クラスの目次を作る例](https://zenn.dev/veripsa/articles/ast-grep-outline-code-map)もあります。MCPや保存snapshotを用意せず、3ファイルから試す入口です。
+
 再現コードや公開中の個人開発は、[RollNutsのGitHub](https://github.com/RollNuts)から辿れます。記事が役立ったら、有料バッジで今後の検証を応援してもらえると嬉しいです。

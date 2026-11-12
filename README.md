@@ -63,15 +63,15 @@ python3.12 repair_review.py --repair keyword
 
 ## 公開待ちの原稿
 
-[Webhookを再試行してよい？COMMITの応答が消えたときの3つの分岐](articles/webhook-commit-response-lost.md)を次の公開候補にしています。公開Coreのfake接続テストを使った、完成・検証済みの無料技術解説です。呼び出し側の3分岐と4チェックを扱い、実DBやexactly-onceの証明とは区別しています。公開前に参照先と再現手順を再確認するため、`published: false`で保管しています。この原稿のZenn公開はまだ試していません。
+[テストが通る2つの修正、どちらを採る？PythonでAPI契約を確かめる](articles/api-contract-repair-review.md)を次の公開候補にしています。標準ライブラリだけで動く1ファイルの教材を使い、戻り値の一致とPython関数の呼び出し契約を区別します。初見の読者が試しやすい入口として優先しています。検索需要やPV増加を実測して順位を決めたものではありません。`published: false`で保管しています。
 
-[テストが通る2つの修正、どちらを採る？PythonでAPI契約を確かめる](articles/api-contract-repair-review.md)は、その次の候補です。標準ライブラリだけで動く教材を使い、戻り値の一致とAPIの要求を区別します。公開前レビュー待ちとして下書きを維持しています。
+[Webhookを再試行してよい？COMMITの応答が消えたときの3つの分岐](articles/webhook-commit-response-lost.md)は、その次の候補です。公開Coreのfake接続テストを使い、呼び出し側の3分岐と4チェックを扱います。実DBやexactly-onceの証明とは区別し、新しい環境での依存導入と再現手順を確認してから公開します。`published: false`で保管し、Zenn公開はまだ試していません。
 
 ## 継続運用
 
 火曜・土曜の19時ごろ（日本時間）を点検の基本枠とし、検証と公開条件を満たした記事を1回につき最大1本公開します。公開未確認の記事があれば、その確認と復旧を先に行います。
 
-原稿の選定、実行検証、投稿数制限への対応、Zenn本文の確認は[運用手順](docs/ZENN_OPERATIONS.md)にまとめています。[公開記録](docs/PUBLICATION_LOG.md)では、GitHub反映とZennでの公開確認を区別しています。
+原稿の選定、実行検証、投稿数制限への対応、公開後の独立レビューは[運用手順](docs/ZENN_OPERATIONS.md)にまとめています。[公開記録](docs/PUBLICATION_LOG.md)では、GitHub反映、Zennでの公開確認、内容レビューを区別しています。読者が試せる無料記事の閲覧と回遊を優先し、検証できた読者の反応から次のテーマを選びます。
 
 ## ファイルの読み方
 
