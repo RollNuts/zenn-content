@@ -63,7 +63,7 @@ python3.12 repair_review.py --repair keyword
 
 ## 公開待ちの原稿
 
-[テストは通る。でも、その修正を採っていい？Pythonの2案で考えるコードレビュー](articles/api-contract-repair-review.md)は、[PR #26](https://github.com/RollNuts/zenn-content/pull/26)で公開設定を反映済みですが、Zenn上の公開は未確認です。匿名本文とRSSの確認が済むまで公開一覧・本数へ加えず、新しい投稿も重ねません。今回の確認結果は[公開記録](docs/PUBLICATION_LOG.md)に残しています。
+[テストは通る。でも、その修正を採っていい？Pythonの2案で考えるコードレビュー](articles/api-contract-repair-review.md)は、2026年11月13日の公開試行がZennの投稿数制限で拒否されたため、本文を保持して`published: false`へ戻しました。公開記事には数えず、次の候補として待機します。最新の拒否確認完了は2026-11-13T11:22:50Z（20:22:50 JST）。手動・自動とも2026-11-14T11:22:50Z（11月14日20:22:50 JST）より前は再試行しません。経過後も自動で公開されるとは扱わず、[公開記録](docs/PUBLICATION_LOG.md)の停止条件を先に確認します。
 
 [Webhookを再試行してよい？COMMITの応答が消えたときの3つの分岐](articles/webhook-commit-response-lost.md)は、その次の候補です。公開Coreのfake接続テストを使い、呼び出し側の3分岐と4チェックを扱います。実DBやexactly-onceの証明とは区別し、新しい環境での依存導入と再現手順を確認してから公開します。`published: false`で保管し、Zenn公開はまだ試していません。
 
