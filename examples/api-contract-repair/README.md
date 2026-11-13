@@ -32,11 +32,11 @@ library, resolves the example relative to its own file, and gives each run 10 se
 It requires the exact test names and statuses, test count, summary, and exit code;
 the full rollback must fail only `test_fee_is_keyword_only` and
 `test_positional_fee_is_rejected`. A syntax/import error or an unexpectedly passing
-rollback fails verification. The read-only GitHub Actions workflow runs this check
-for pull requests and pushes to `main` affecting the example, verifier, or workflow
-files. Exercise execution needs no packages, network access, or secrets. This checks
-the documented exercise behavior; article claims and teaching quality still need
-editorial review.
+rollback fails verification. A read-only GitHub Actions workflow is included, but
+Actions is disabled for this repository as of 2026-11-13, so the workflow has not run.
+Use the standard-library command above for local verification. Exercise execution
+needs no packages, network access, or secrets. This checks the documented exercise
+behavior; article claims and teaching quality still need editorial review.
 
 The checks cover these synthetic functions and inputs only. They do not establish
 general correctness, merge safety, bug prevention, or any AI model's behavior.
