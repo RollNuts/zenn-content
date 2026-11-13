@@ -63,7 +63,7 @@ python3.12 repair_review.py --repair keyword
 
 ## 公開待ちの原稿
 
-[テストが通る2つの修正、どちらを採る？PythonでAPI契約を確かめる](articles/api-contract-repair-review.md)を次の公開候補にしています。標準ライブラリだけで動く1ファイルの教材を使い、戻り値の一致とPython関数の呼び出し契約を区別します。初見の読者が試しやすい入口として優先しています。検索需要やPV増加を実測して順位を決めたものではありません。`published: false`で保管しています。
+[テストは通る。でも、その修正を採っていい？Pythonの2案で考えるコードレビュー](articles/api-contract-repair-review.md)は、今回の著者の明示依頼により公開反映を進めています。標準ライブラリだけで動く1ファイルの教材で、戻り値の一致とPython関数の呼び出し契約を区別します。公開設定はPR #26で管理し、Zennの匿名本文とRSSを確認してから公開一覧・本数へ加えます。
 
 [Webhookを再試行してよい？COMMITの応答が消えたときの3つの分岐](articles/webhook-commit-response-lost.md)は、その次の候補です。公開Coreのfake接続テストを使い、呼び出し側の3分岐と4チェックを扱います。実DBやexactly-onceの証明とは区別し、新しい環境での依存導入と再現手順を確認してから公開します。`published: false`で保管し、Zenn公開はまだ試していません。
 
