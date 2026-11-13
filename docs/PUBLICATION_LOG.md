@@ -17,7 +17,7 @@ READMEの公開本数には「Zenn公開確認済み」だけを数える。
 | slug | `api-contract-repair-review` |
 | 記事 | テストは通る。でも、その修正を採っていい？Pythonの2案で考えるコードレビュー |
 | 対象PR | [#26](https://github.com/RollNuts/zenn-content/pull/26) |
-| 状態 | 公開準備済み・PR取り込み待ち。GitHub反映後も、匿名本文・RSSの確認まではZenn公開未確認として扱う |
+| 状態 | GitHub反映済み・Zenn未確認。匿名本文・RSSで公開を確認できていない |
 | 公開URL | https://zenn.dev/veripsa/articles/api-contract-repair-review |
 | 開始時のmain | `29c7ce7664813dde3706179b37dd529376e2f7b4` |
 | 開始時のPR head | `a6083d8712f9fa1485feb1c961ccecaf19a5285d` |
@@ -28,6 +28,14 @@ READMEの公開本数には「Zenn公開確認済み」だけを数える。
 | 今回の試行条件 | 直近の確認済み拒否から24時間超を維持。直近公開からは約20時間。25時間は定期枠の独自基準でZennの上限ではなく、今回は著者の明示依頼による手動1件として試行する |
 | 公開前検証 | 引継ぎ済みのPython 3.12.13で4通り、値のみは両案成功、全検査はrollbackが2件の期待FAIL・終了1、keywordが4件成功・終了0。固定コード一致と最終Markdown変換も完了済み。実行コードは未変更で、今回再実行したとは記録しない |
 | GitHub確認 | PRは競合なし。開始時のcommit statuses・check-runsは各0件、必須status checkなし。未解決review threadなし |
+| 反映commit | [`37804b6b2cae78cafd01295ad3200999ef449076`](https://github.com/RollNuts/zenn-content/commit/37804b6b2cae78cafd01295ad3200999ef449076)、PR #26を通常merge。公開設定変更commitは `c5b2b75b0eef07c0aa5989d6d470dcff2c98387c` |
+| 公開試行時刻 | 2026-11-13T11:16:36Z（20:16:36 JST、merge commitの時刻） |
+| 反映後の原稿 | merge commitから取得し、公開フラグ以外は指定最終版と完全一致。公開設定込みSHA-256は `a1372018a7c7cbb20f062aced81eca0dc35bb24027f9978ffca09c731e2059f5` |
+| 反映後の匿名確認 | 2026-11-13T11:21:08Z時点で対象URLはHTTP 403・「この操作は許可されていません」、本文なし。匿名ブラウザーでも同じ表示。RSSはHTTP 200だが対象slugなし、最新は引き続きast-grep記事 |
+| 通知の確認 | 2026-11-13T11:21:37Zまでに、既存のメール接続で試行後の該当通知を確認した範囲では0件。Zennの同期管理ログは未取得で、通知の未着や通知されないエラーは否定できない |
+| 新しい投稿拒否 | 明示された新しい拒否時刻は未取得。匿名閲覧の403を投稿数制限や新しい拒否時刻として扱わない。共有cooldownの拒否時刻は更新しない |
+| 今回の停止理由 | 原稿のGitHub反映は確認できたが、Zenn本文・RSSへの公開反映を確認できず、同期側の原因を確定できない。公開操作は1回のみ。再試行せず、公開結果の確認と指定レビューを未完了として残す |
+| 記録の扱い | この確認結果は作業ブランチとPRに保存する。公開未確認のままmainの追加更新で同期・公開の再試行を誘発しないよう、結果記録PRは未統合とする。READMEの確認済み公開本数は6本のまま |
 | 公開後レビュー | 未実施。公開確認後に執筆とは独立した担当へ `gpt-6-astra` / reasoning effort `ultra` を明示指定し、実際の結果を受領する。下書きレビューとは別工程 |
 | 制限時の対応 | 新しい拒否の確認時刻を記録し、作業ブランチとPRで原稿を下書きへ戻して停止する。同じ実行内で再試行や別slug等への変更はしない |
 
@@ -54,7 +62,7 @@ READMEの公開本数には「Zenn公開確認済み」だけを数える。
 
 | 優先 | 原稿 | 状態 | 次に行うこと |
 | --- | --- | --- | --- |
-| 1 | [`api-contract-repair-review`](../articles/api-contract-repair-review.md) | 公開待ち・`published: false` | 1ファイルと標準ライブラリで試せる入口を優先。Python関数の呼び出し契約を扱うことを明示済み。公開前に期待結果と本文を最終確認 |
+| 1 | [`api-contract-repair-review`](../articles/api-contract-repair-review.md) | GitHub反映済み・Zenn未確認・`published: true` | 同じslugの匿名本文・RSSと同期結果を確認する。新規公開・再試行を重ねない。公開確認後に指定モデルで独立レビュー |
 | 2 | [`webhook-commit-response-lost`](../articles/webhook-commit-response-lost.md) | 公開前レビュー待ち・`published: false` | 新しい環境での依存導入と、固定Coreのfakeテスト・3分岐・4チェックを再照合。実DBやexactly-onceの証明との区別を維持 |
 
 新しい公開候補を決める前に、公開済み記事の不具合や前回の公開未確認があれば先に対応する。
