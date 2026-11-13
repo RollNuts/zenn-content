@@ -1,0 +1,28 @@
+name: API contract example
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/api-contract-example.yml'
+      - 'scripts/verify_api_contract_example.py'
+      - 'examples/api-contract-repair/**'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/api-contract-example.yml'
+      - 'scripts/verify_api_contract_example.py'
+      - 'examples/api-contract-repair/**'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Verify documented CLI results
+        run: python3.12 scripts/verify_api_contract_example.py
