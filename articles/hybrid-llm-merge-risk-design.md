@@ -3,7 +3,7 @@ title: "AIが作ったPRは、1本ずつレビューしても足りない"
 emoji: "🧩"
 type: "tech"
 topics: ["git", "llm", "codereview", "testing", "localai"]
-published: false
+published: true
 ---
 
 出発点は、並行作業で何度も起きるGitコンフリクトを減らしたい、という悩みでした。そのためにコードの関係や変更履歴を調べる仕組みを作る中で、Gitがきれいにマージできても、二つの変更を合わせると壊れるケースを検証しました。

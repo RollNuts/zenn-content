@@ -1,5 +1,9 @@
 # 公開記録と次回の候補
 
+## 2026年11月14日　並行PRの構想記事を公開確認へ
+
+対象は `hybrid-llm-merge-risk-design` の1本です。検証済みの本文を保持し、公開設定を変更します。匿名の公開本文とRSSの両方を確認してから公開一覧に加えます。
+
 ## 2026年11月14日：応募稿2本を読者の一往復まで具体化
 
 主力稿はGitコンフリクトを減らしたかった出発点、固定Coreのデモを取得・実行する手順、Surfaceで始める最小構成を追加。第2稿は送信文、検査案、端末内の実ファイルへ戻す仮想例を追加し、送信できない場合の検索・テストへの進み方を示しました。MCPの上限は、起動時snapshotの5MiB、返す関係の最大20行、結果JSON本文の32KiBと対象を明確化しています。
@@ -93,7 +97,7 @@ READMEの公開本数には「Zenn公開確認済み」だけを数える。
 
 | 優先 | 原稿 | 状態 | 次に行うこと |
 | --- | --- | --- | --- |
-| 1 | [`hybrid-llm-merge-risk-design`](../articles/hybrid-llm-merge-risk-design.md) | 構想部門向け・下書き・`published: false` | 最新の停止条件を確認し、条件を満たす枠で1件だけ公開。公開本文・RSSと指定モデルの独立レビューを確認してから、記事のコンテスト応募を確認 |
+| 1 | [`hybrid-llm-merge-risk-design`](../articles/hybrid-llm-merge-risk-design.md) | 公開反映を確認中 | 公開本文・RSSと指定モデルの独立レビューを確認してから、記事のコンテスト応募を確認 |
 | 2 | [`hybrid-llm-send-boundary-design`](../articles/hybrid-llm-send-boundary-design.md) | 構想部門向け・下書き・`published: false` | 前の記事の公開確認・レビューを先に完了。同一テーマへの複数応募が受け付けられるかを確認し、未確認のまま応募済みとしない |
 | 3 | [`api-contract-repair-review`](../articles/api-contract-repair-review.md) | 投稿数制限拒否・下書き復旧・`published: false` | 2026-11-14T11:22:50Zより前は手動・自動とも再試行しない。期限後も最新の停止条件を確認し、公開できた場合に指定モデルで独立レビュー |
 | 4 | [`webhook-commit-response-lost`](../articles/webhook-commit-response-lost.md) | 公開前レビュー待ち・`published: false` | 新しい環境での依存導入と、固定Coreのfakeテスト・3分岐・4チェックを再照合。実DBやexactly-onceの証明との区別を維持 |
