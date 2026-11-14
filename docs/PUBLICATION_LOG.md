@@ -1,8 +1,10 @@
 # 公開記録と次回の候補
 
-## 2026年11月14日　並行PRの構想記事を公開確認へ
+## 2026年11月14日　並行PRの構想記事を公開
 
-対象は `hybrid-llm-merge-risk-design` の1本です。検証済みの本文を保持し、公開設定を変更します。匿名の公開本文とRSSの両方を確認してから公開一覧に加えます。
+[公開記事](https://zenn.dev/veripsa/articles/hybrid-llm-merge-risk-design)は21:30 JSTに公開されました。[PR #34](https://github.com/RollNuts/zenn-content/pull/34)の取り込み後、匿名の公開本文で題名・固定デモ・折りたたみ見出しを、更新後のRSSで同じ記事へのリンクを確認しました。公開一覧は7本です。
+
+公開後に執筆から独立した指定モデル（gpt-6-astra、ultra）でレビューしました。固定版CoreをPython 3.12.13で再実行し、4例の出力は期待JSONと一致しました。技術・再現上の必須修正はありません。構想部門の応募は別の操作で、受付の確認を待っています。
 
 ## 2026年11月14日：応募稿2本を読者の一往復まで具体化
 
@@ -32,7 +34,7 @@
 
 次回予定は2026年11月14日（土）21:00 JST。最低再試行時刻の同日20:22:50 JSTを過ぎるが、上限解除や公開を保証しない。実行時に最新の投稿・予約・拒否と匿名公開状態を再確認し、25時間の定期投稿間隔・拒否から24時間を含む既存の公開条件を維持する。
 
-## 最新の公開停止（共有cooldown）
+## 2026年11月13日の公開停止（履歴）
 
 **最新の投稿数制限拒否の確認完了は2026-11-13T11:22:50Zです。手動・自動とも、2026-11-14T11:22:50Z（11月14日20:22:50 JST）より前は再試行しません。**
 
@@ -74,7 +76,7 @@ READMEの公開本数には「Zenn公開確認済み」だけを数える。
 | 著者確認条件 | 著者本人の毎回の本文確認記録を公開必須にする条件は撤回済みのまま維持。今回の拒否を理由に再導入せず、読了済みという記録も作らない |
 | 停止中の扱い | 別slug・本・スクラップ・既存記事の上書き等で回避しない。新しい公開試行・待機監視・定期設定は作らない。READMEの実公開数は6本を維持 |
 
-## 直近の公開
+## 2026年11月12日　ast-grep記事を公開
 
 | 項目 | 記録 |
 | --- | --- |
@@ -97,10 +99,9 @@ READMEの公開本数には「Zenn公開確認済み」だけを数える。
 
 | 優先 | 原稿 | 状態 | 次に行うこと |
 | --- | --- | --- | --- |
-| 1 | [`hybrid-llm-merge-risk-design`](../articles/hybrid-llm-merge-risk-design.md) | 公開反映を確認中 | 公開本文・RSSと指定モデルの独立レビューを確認してから、記事のコンテスト応募を確認 |
-| 2 | [`hybrid-llm-send-boundary-design`](../articles/hybrid-llm-send-boundary-design.md) | 構想部門向け・下書き・`published: false` | 前の記事の公開確認・レビューを先に完了。同一テーマへの複数応募が受け付けられるかを確認し、未確認のまま応募済みとしない |
-| 3 | [`api-contract-repair-review`](../articles/api-contract-repair-review.md) | 投稿数制限拒否・下書き復旧・`published: false` | 2026-11-14T11:22:50Zより前は手動・自動とも再試行しない。期限後も最新の停止条件を確認し、公開できた場合に指定モデルで独立レビュー |
-| 4 | [`webhook-commit-response-lost`](../articles/webhook-commit-response-lost.md) | 公開前レビュー待ち・`published: false` | 新しい環境での依存導入と、固定Coreのfakeテスト・3分岐・4チェックを再照合。実DBやexactly-onceの証明との区別を維持 |
+| 1 | [`hybrid-llm-send-boundary-design`](../articles/hybrid-llm-send-boundary-design.md) | 構想部門向け・下書き・`published: false` | 前の記事は公開・レビュー済み。次の枠で公開条件を照合。同一テーマへの複数応募が受け付けられるかを確認し、未確認のまま応募済みとしない |
+| 2 | [`api-contract-repair-review`](../articles/api-contract-repair-review.md) | 投稿数制限拒否・下書き復旧・`published: false` | 2026-11-14T11:22:50Zより前は手動・自動とも再試行しない。期限後も最新の停止条件を確認し、公開できた場合に指定モデルで独立レビュー |
+| 3 | [`webhook-commit-response-lost`](../articles/webhook-commit-response-lost.md) | 公開前レビュー待ち・`published: false` | 新しい環境での依存導入と、固定Coreのfakeテスト・3分岐・4チェックを再照合。実DBやexactly-onceの証明との区別を維持 |
 
 予備稿：[`hybrid-llm-release-proof-design`](../articles/hybrid-llm-release-proof-design.md)。下書きを保持し、独立した読者価値を見直してから公開順位を決めます。現時点では自動公開・応募の対象外です。
 
