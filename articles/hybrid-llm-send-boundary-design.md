@@ -3,7 +3,8 @@ title: "コードを外に出せないとき、クラウドLLMに何を渡せる
 emoji: "🔐"
 type: "tech"
 topics: ["llm", "security", "mcp", "architecture", "localai"]
-published: false
+published: true
+published_at: 2026-11-17 21:00
 ---
 
 関数を変えたので、AIにレビューを頼みたい。ただし、ソースコードもファイル名も社外には送れない。そこで「F02がF01を呼んでいます」とだけ伝えたとします。これで、次にどんなテストを書けばよいでしょうか。
