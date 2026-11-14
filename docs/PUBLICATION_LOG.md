@@ -4,7 +4,7 @@
 
 [公開記事](https://zenn.dev/veripsa/articles/hybrid-llm-merge-risk-design)は21:30 JSTに公開されました。[PR #34](https://github.com/RollNuts/zenn-content/pull/34)の取り込み後、匿名の公開本文で題名・固定デモ・折りたたみ見出しを、更新後のRSSで同じ記事へのリンクを確認しました。公開一覧は7本です。
 
-公開後に執筆から独立した指定モデル（gpt-6-astra、ultra）でレビューしました。固定版CoreをPython 3.12.13で再実行し、4例の出力は期待JSONと一致しました。技術・再現上の必須修正はありません。構想部門の応募は別の操作で、受付の確認を待っています。
+公開後に執筆から独立した指定モデル（gpt-6-astra、ultra）でレビューしました。固定版CoreをPython 3.12.13で再実行し、4例の出力は期待JSONと一致しました。技術・再現上の必須修正はありません。著者による応募後、[Microsoftテーマの公式投稿記事一覧](https://zenn.dev/contests/zennfes-autumn-2026-microsoft?tab=articles)で、この記事の題名と公開URLの一致を確認しました。
 
 ## 2026年11月14日：応募稿2本を読者の一往復まで具体化
 
