@@ -2,7 +2,7 @@
 
 Git・Python・RSS・静的サイト・コード解析の実装と運用を扱う、日本語技術記事の原稿置き場です。
 
-現在、**Zenn公開記事6本**を管理しています。
+現在、**Zenn公開記事7本**を管理しています。
 
 新着記事は[RSSでも購読できます](https://zenn.dev/veripsa/feed)。
 
@@ -36,6 +36,7 @@ python3.12 repair_review.py --repair keyword
 
 | テーマ | Zenn | 原稿 |
 | --- | --- | --- |
+| 並行PRを組にして調べる | [AIが作ったPRは、1本ずつレビューしても足りない](https://zenn.dev/veripsa/articles/hybrid-llm-merge-risk-design) | [Markdown](articles/hybrid-llm-merge-risk-design.md) |
 | AIとコードを読む前の目次作成 | [AIに全文を渡す前に、ast-grep outlineでコードの目次を作る](https://zenn.dev/veripsa/articles/ast-grep-outline-code-map) | [Markdown](articles/ast-grep-outline-code-map.md) |
 | CI/CDの公開確認 | [CIは成功したのに本番が変わらないとき、どこを確かめるか](https://zenn.dev/veripsa/articles/ci-success-deployed-revision) | [Markdown](articles/ci-success-deployed-revision.md) |
 | コードグラフとCo-changeの検証 | [Gitでマージできたのに壊れる――コードグラフとCo-changeを4例で検証](https://zenn.dev/veripsa/articles/graph-cochange-review-benchmark) | [Markdown](articles/graph-cochange-review-benchmark.md) |
@@ -63,11 +64,11 @@ python3.12 repair_review.py --repair keyword
 
 ## 公開待ちの原稿
 
-Microsoft × Zennコンテストの構想部門に向け、まず[AIが作ったPRは、1本ずつレビューしても足りない](articles/hybrid-llm-merge-risk-design.md)、続いて[コードを外に出せない。それでもAIに変更影響を相談するには？](articles/hybrid-llm-send-boundary-design.md)を公開候補にしています。既存の合成検証を土台にした設計記事で、ハイブリッドLLMの実装・性能実測とは区別しています。1本目はZennの公開反映を確認中です。2本目は下書きです。応募結果は確認後に公開記録へ反映します。
+Microsoft × Zennの構想部門に向けた次の原稿は、[コードを外に出せない。それでもAIに変更影響を相談するには？](articles/hybrid-llm-send-boundary-design.md)です。設計を確かめるための例と、端末での実測が必要な点を区別しています。
 
 [圏外でも開発を止めない。ローカルAIからクラウドへ仕事を渡す設計](articles/hybrid-llm-release-proof-design.md)も下書きとして保管しています。オフラインから接続後への作業再開を扱う予備稿で、自動公開の候補にはまだ加えていません。
 
-[テストは通る。でも、その修正を採っていい？Pythonの2案で考えるコードレビュー](articles/api-contract-repair-review.md)は、2026年11月13日の公開試行がZennの投稿数制限で拒否されたため、本文を保持して`published: false`へ戻しました。公開記事には数えず、上記の構想記事に続く候補として待機します。最新の拒否確認完了は2026-11-13T11:22:50Z（20:22:50 JST）。手動・自動とも2026-11-14T11:22:50Z（11月14日20:22:50 JST）より前は再試行しません。経過後も自動で公開されるとは扱わず、[公開記録](docs/PUBLICATION_LOG.md)の停止条件を先に確認します。
+[テストは通る。でも、その修正を採っていい？Pythonの2案で考えるコードレビュー](articles/api-contract-repair-review.md)は、2026年11月13日の公開試行がZennの投稿数制限で拒否されたため、本文を保持して`published: false`へ戻しました。公開記事には数えず、送信境界の構想記事に続く候補として待機します。最新の拒否確認完了は2026-11-13T11:22:50Z（20:22:50 JST）。手動・自動とも2026-11-14T11:22:50Z（11月14日20:22:50 JST）より前は再試行しません。経過後も自動で公開されるとは扱わず、[公開記録](docs/PUBLICATION_LOG.md)の停止条件を先に確認します。
 
 [Webhookを再試行してよい？COMMITの応答が消えたときの3つの分岐](articles/webhook-commit-response-lost.md)は、その次の候補です。公開Coreのfake接続テストを使い、呼び出し側の3分岐と4チェックを扱います。実DBやexactly-onceの証明とは区別し、新しい環境での依存導入と再現手順を確認してから公開します。`published: false`で保管し、Zenn公開はまだ試していません。
 

@@ -177,7 +177,7 @@ PR-A/Bの説明例なら、ローカルの静的な確認で引数の食い違�
 
 ## どこまで確かめたか、これから何を採点するか
 
-公開済みの[Coreの合成4ケース](https://github.com/RollNuts/veripsa/blob/2c6850617bacaaa5cd31e34a490983597a18086d/examples/structural-overlap/README.md)では、単独実行とGitマージが成功しても、統合実行では2例が`TypeError`になりました。関係があっても壊れない反例も含みます。ここで確かめたのは統合して試す必要性であり、LLMの有効性ではありません。構造や共変更履歴をどう候補にするかは、リンク先に検証結果を分けています。
+公開済みの[Coreの合成4ケース](https://github.com/RollNuts/veripsa/blob/2c6850617bacaaa5cd31e34a490983597a18086d/examples/structural-overlap/README.md)では、単独実行とGitマージが成功しても、統合実行では2例が`TypeError`になりました。関係があっても壊れない反例も含みます。ここで確かめたのは統合して試す必要性であり、LLMの有効性ではありません。構造や共変更履歴から確認先を選ぶ過程は、[4例を使った日本語の検証記事](https://zenn.dev/veripsa/articles/graph-cochange-review-benchmark)で追えます。
 
 Coreは、Gitコンフリクトを減らしたいという個人的な動機から開発してきたBSL 1.1のsource-availableソフトウェアで、OSIの意味でのOSSではありません。ホスト型GitHub Appは2026年8月18日から停止しています。今回のレビュー票とLLMルーティングは、その既存機能を材料にした**未実装の構想**です。
 
