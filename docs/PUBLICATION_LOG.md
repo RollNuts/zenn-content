@@ -1,5 +1,15 @@
 # 公開記録と次回の候補
 
+## 2026年11月14日：ハイブリッドLLM構想記事を準備
+
+著者のコンテスト参加依頼を受け、3つの異なる設計稿を作成。最初の候補は並行PRの検査計画、次は外部送信の境界です。オフライン作業の継続は予備稿とし、自動公開の対象にはまだしません。既存のAPI契約記事・Webhook記事は保持し、公開本数は6本のままです。新稿はすべて`published: false`で、Zenn公開・コンテスト応募は未完了です。
+
+通常GPTで執筆・読者向けの改稿を行い、技術担当が固定コードと記述を照合。主力記事の導入コードは、元の状態・PR-Aのみ・PR-Bのみが105を返し、組合せだけが`TypeError`になることをPython 3.12.13で確認しました。既存のCoreデモ、snapshot照会、配信確認教材の検証範囲と、これから作るLLM連携は区別しています。3稿のfront matterとZenn Markdown変換を確認。モデル・実機での性能評価は未実施です。
+
+募集は[公式イベント](https://zenn.dev/events/zennfes-autumn-2026)の2026年12月16日まで。対象は[Microsoftの構想部門](https://zenn.dev/contests/zennfes-autumn-2026-microsoft)。ソースの下書き保存やZenn公開だけで応募済みとしません。公開後に記事の応募ボタンと選択内容を確認し、同一テーマへの複数記事の可否は実際の案内に従います。賞品はAmazonギフトカードで、PC本体の提供は確認していません。
+
+新稿へ優先順位を変えることは投稿制限の回避ではありません。手動・自動の最新拒否から24時間、定期運用の投稿間隔25時間、最大1記事という既存条件を維持します。今回、公開設定の変更や新しい投稿試行はしていません。
+
 ## 2026年11月13日：既存の定期枠を21:00 JSTへ変更
 
 既存ChatGPTタスク「Zenn公開・レビュー・成長改善」を火曜・土曜19時から**火曜・土曜21:00 JST**へ変更し、Codex側で保存・編集画面の再読確認済みとの引継ぎを受領。タスク追加はなし。以下の19時枠の記述は変更前の履歴として保持する。
@@ -71,8 +81,12 @@ READMEの公開本数には「Zenn公開確認済み」だけを数える。
 
 | 優先 | 原稿 | 状態 | 次に行うこと |
 | --- | --- | --- | --- |
-| 1 | [`api-contract-repair-review`](../articles/api-contract-repair-review.md) | 投稿数制限拒否・下書き復旧・`published: false` | 2026-11-14T11:22:50Zより前は手動・自動とも再試行しない。期限後も最新の停止条件を確認し、公開できた場合に指定モデルで独立レビュー |
-| 2 | [`webhook-commit-response-lost`](../articles/webhook-commit-response-lost.md) | 公開前レビュー待ち・`published: false` | 新しい環境での依存導入と、固定Coreのfakeテスト・3分岐・4チェックを再照合。実DBやexactly-onceの証明との区別を維持 |
+| 1 | [`hybrid-llm-merge-risk-design`](../articles/hybrid-llm-merge-risk-design.md) | 構想部門向け・下書き・`published: false` | 最新の停止条件を確認し、条件を満たす枠で1件だけ公開。公開本文・RSSと指定モデルの独立レビューを確認してから、記事のコンテスト応募を確認 |
+| 2 | [`hybrid-llm-send-boundary-design`](../articles/hybrid-llm-send-boundary-design.md) | 構想部門向け・下書き・`published: false` | 前の記事の公開確認・レビューを先に完了。同一テーマへの複数応募が受け付けられるかを確認し、未確認のまま応募済みとしない |
+| 3 | [`api-contract-repair-review`](../articles/api-contract-repair-review.md) | 投稿数制限拒否・下書き復旧・`published: false` | 2026-11-14T11:22:50Zより前は手動・自動とも再試行しない。期限後も最新の停止条件を確認し、公開できた場合に指定モデルで独立レビュー |
+| 4 | [`webhook-commit-response-lost`](../articles/webhook-commit-response-lost.md) | 公開前レビュー待ち・`published: false` | 新しい環境での依存導入と、固定Coreのfakeテスト・3分岐・4チェックを再照合。実DBやexactly-onceの証明との区別を維持 |
+
+予備稿：[`hybrid-llm-release-proof-design`](../articles/hybrid-llm-release-proof-design.md)。下書きを保持し、独立した読者価値を見直してから公開順位を決めます。現時点では自動公開・応募の対象外です。
 
 新しい公開候補を決める前に、公開済み記事の不具合や前回の公開未確認があれば先に対応する。
 

@@ -72,7 +72,7 @@ Microsoft × Zenn「私の考えるハイブリッドLLM～実践と構想～」
 
 公開確認に役立つ小さな[Pythonの再現例](https://github.com/RollNuts/zenn-content/blob/2f51517aa4d7d29013146eb7e93e43c0c3d7b2c3/examples/deployment-revision/README.md)をすでに公開しています。Python 3.12の標準ライブラリとローカルのHTTP通信で、**HTTP 200だけでは十分でない**ことを試すものです。
 
-検証では、旧版Aのままでも、配信の識別子だけBに変わってHTMLがAのままでも、HTTPはすべて200になります。しかし、期待したrevisionと代表HTMLの識別子が揃わないため拒否します。どちらもBになって初めて、その**検査範囲内で**受理します。[テストコード](https://github.com/RollNuts/zenn-content/blob/2f51517aa4d7d29013146eb7e93e43c0c3d7b2c3/examples/deployment-revision/test_check_release.py)は13テスト成功の再検証記録があります。
+検証では、旧版Aのままでも、配信の識別子だけBに変わってHTMLがAのままでも、HTTPはすべて200になります。しかし、期待したrevisionと代表HTMLの識別子が揃わないため拒否します。どちらもBになって初めて、その**検査範囲内で**受理します。[13個のテスト](https://github.com/RollNuts/zenn-content/blob/2f51517aa4d7d29013146eb7e93e43c0c3d7b2c3/examples/deployment-revision/test_check_release.py)で、版の不一致や取得失敗時の扱いを試せます。
 
 この発想を制作フローに組み込むと、モデルがどれほど流暢に「公開できました」と言っても、確認対象のページが古ければ完了に進めません。応答を取得できない場合は「まだ確認できない」と扱います。テストコードが証明するのはローカルの合成環境での代表応答の一致であり、すべてのページ、ブラウザのJavaScript、全CDN経路や成果物の真正性ではありません。
 
