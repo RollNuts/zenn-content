@@ -38,7 +38,7 @@ python3.12 repair_review.py --repair keyword
 | --- | --- | --- |
 | 並行PRを組にして調べる | [AIが作ったPRは、1本ずつレビューしても足りない](https://zenn.dev/veripsa/articles/hybrid-llm-merge-risk-design) | [Markdown](articles/hybrid-llm-merge-risk-design.md) |
 | AIとコードを読む前の目次作成 | [AIに全文を渡す前に、ast-grep outlineでコードの目次を作る](https://zenn.dev/veripsa/articles/ast-grep-outline-code-map) | [Markdown](articles/ast-grep-outline-code-map.md) |
-| CI/CDの公開確認 | [CIは成功したのに本番が変わらないとき、どこを確かめるか](https://zenn.dev/veripsa/articles/ci-success-deployed-revision) | [Markdown](articles/ci-success-deployed-revision.md) |
+| CI/CDの公開確認 | [CIは緑、HTTPも200。それでも本番が古いときの確認手順](https://zenn.dev/veripsa/articles/ci-success-deployed-revision) | [Markdown](articles/ci-success-deployed-revision.md) |
 | コードグラフとCo-changeの検証 | [Gitでマージできたのに壊れる――コードグラフとCo-changeを4例で検証](https://zenn.dev/veripsa/articles/graph-cochange-review-benchmark) | [Markdown](articles/graph-cochange-review-benchmark.md) |
 | CoreのMCP連携 | [Tauriコマンドの変更影響をAIは追える？Codex・MCP・検索を比較](https://zenn.dev/veripsa/articles/tauri-command-contract-graph) | [Markdown](articles/tauri-command-contract-graph.md) |
 | GitHubのブランチ整理 | [git branch --mergedに出ない取り込み済みブランチを見分ける――556本を整理した実例](https://zenn.dev/veripsa/articles/github-branch-cleanup-squash-556) | [Markdown](articles/github-branch-cleanup-squash-556.md) |

@@ -215,4 +215,4 @@ Gitのテキスト上の競合と、この記事で扱った関数の呼び出�
 
 検証範囲は、この架空の二案と三つの要求、四つのテストです。境界値、すべての呼び出し元、一般的な修正の正しさ、AIによるバグ防止効果は検証していません。本記事と再現コードの整備・実行検証にはAIを利用しています。
 
-再現コードとほかの実行例は、[RollNutsのGitHub](https://github.com/RollNuts/zenn-content)に置いています。CIの成功後に確認する対象を考えるなら、[CIは成功したのに本番が変わらないとき、どこを確かめるか](https://zenn.dev/veripsa/articles/ci-success-deployed-revision)でも、配信された内容を確かめる小さな例を扱っています。
+再現コードとほかの実行例は、[RollNutsのGitHub](https://github.com/RollNuts/zenn-content)に置いています。CIの成功後に確認する対象を考えるなら、[CIは緑、HTTPも200。それでも本番が古いときの確認手順](https://zenn.dev/veripsa/articles/ci-success-deployed-revision)でも、配信された内容を確かめる小さな例を扱っています。
