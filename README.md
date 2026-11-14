@@ -63,7 +63,7 @@ python3.12 repair_review.py --repair keyword
 
 ## 公開待ちの原稿
 
-Microsoft × Zennコンテストの構想部門に向け、まず[AIに並行で直させた2つのPR、安心してマージできますか？](articles/hybrid-llm-merge-risk-design.md)、続いて[コードを外に出せない。それでもAIに変更影響を相談するには？](articles/hybrid-llm-send-boundary-design.md)を公開候補にしています。既存の合成検証を土台にした設計記事で、ハイブリッドLLMの実装・性能実測とは区別しています。両方とも`published: false`で、Zennでの公開・コンテストへの応募はまだ完了していません。
+Microsoft × Zennコンテストの構想部門に向け、まず[AIが作ったPRは、1本ずつレビューしても足りない](articles/hybrid-llm-merge-risk-design.md)、続いて[コードを外に出せない。それでもAIに変更影響を相談するには？](articles/hybrid-llm-send-boundary-design.md)を公開候補にしています。既存の合成検証を土台にした設計記事で、ハイブリッドLLMの実装・性能実測とは区別しています。両方とも`published: false`で、Zennでの公開・コンテストへの応募はまだ完了していません。
 
 [圏外でも開発を止めない。ローカルAIからクラウドへ仕事を渡す設計](articles/hybrid-llm-release-proof-design.md)も下書きとして保管しています。オフラインから接続後への作業再開を扱う予備稿で、自動公開の候補にはまだ加えていません。
 
