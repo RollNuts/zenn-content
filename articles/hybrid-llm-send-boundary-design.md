@@ -52,11 +52,11 @@ Local checks B: omit_argument=ok, add_one_to_result=TypeError
 | 呼び出し元と定義の仮名 | どちらも `{"caller": "F02", "definition": "F01"}` |
 | 仮名に契約変更のメモを加える | Aは「引数が必須に」、Bは「戻り値が文字列に」と区別できる |
 
-メモはこの教材の入力として人が付けました。テスト結果を見てから正解を推測するモデルも、契約変更を自動抽出する処理も入っていません。ここで確認できたのは、情報の削り方によって異なる変更が同じ入力に見える、という一点です。[固定版のコードと全出力](https://github.com/RollNuts/zenn-content/tree/4e1a102c95844a4a7052d4c4123bf73f7b895003/examples/hybrid-send-boundary)
+このPython教材では、呼び出し関係も契約変更のメモも手で用意しています。次に紹介するTauriの例では、関係を実際にコードから抽出しました。テスト結果を見てから正解を推測するモデルも、契約変更を自動抽出する処理も入っていません。ここで確認できたのは、情報の削り方によって異なる変更が同じ入力に見える、という一点です。[固定版のコードと全出力](https://github.com/RollNuts/zenn-content/tree/4e1a102c95844a4a7052d4c4123bf73f7b895003/examples/hybrid-send-boundary)
 
 ## 「本文を持たない」コードグラフに何が残ったか
 
-この問いの出発点は、私がGitのコンフリクトに困って作り始めたVeripsa Coreです。変更同士の関係を調べるため、ソース本文を入れずに、ファイルやコマンドのつながりを取り出せるようにしました。ところが、そのデータを外に渡そうとすると、本文を除いた後にも読むべき箇所がありました。
+この問いの出発点は、私がGitのコンフリクトに困って作り始めたVeripsa Coreです。変更同士の関係を調べるため、ソース本文を入れずに、ファイルやコマンドのつながりを取り出せるようにしました。ところが、そのデータを外に渡そうとすると、本文を除いても、社外に出せないかもしれない名前が残りました。
 
 公開のTauriサンプルから取り出した固定データを、必要な部分だけ抜き出します。
 
@@ -69,7 +69,7 @@ src/client.ts          ── queries ──▶  tauri_command::receipt_label
 
 この関係は、ローカルMCPの `tauri_related_files` から照会できます。固定した4例では、公式APIでリテラルのコマンド名を渡す例は1件・`observed`、同名の自作関数と動的な名前の例は0件・`not_observed`、同名定義が二つある例は2件・`uncertain` でした。0件だったときに「ほかに呼び出し元はない」と伝えてしまうと、受け手は調査を打ち切ってしまいます。クラウドへの質問にも、どの版・範囲で何が未確認かを残したい理由です。[モデルなしで試せるMCP照会と4例の結果](https://github.com/RollNuts/zenn-content/blob/6c3ef33ab0074ab7895602c46994e98c3d186bca/examples/core-local-mcp/README.md)
 
-問い合わせ実装は、起動時に読むsnapshotを5 MiB、返す関係を最大20行、結果のJSON本文を32 KiBに制限しています。短いパスや識別子なら、その上限に十分収まります。出力サイズだけを制約しても、何を外へ渡せるかは決まりません。MCPはここでは問い合わせの入口です。ホスト型GitHub Appは2026年8月18日から停止しており、この手順にサーバーは使いません。Core本体のライセンスはBSL 1.1です。[問い合わせの実装](https://github.com/RollNuts/zenn-content/blob/6c3ef33ab0074ab7895602c46994e98c3d186bca/examples/core-local-mcp/query_service.py)・[Coreの提供状況](https://github.com/RollNuts/veripsa)
+問い合わせ実装は、起動時に読むsnapshotを5 MiB、返す関係を最大20行、結果のJSON本文を32 KiBに制限しています。短いパスや識別子なら、その上限に十分収まります。出力サイズだけを制約しても、何を外へ渡せるかは決まりません。MCPはここでは問い合わせの入口です。照会には端末内で起動するMCPサーバーを使います。2026年8月18日から停止しているホスト型GitHub Appへの接続は不要です。Core本体のライセンスはBSL 1.1です。[問い合わせの実装](https://github.com/RollNuts/zenn-content/blob/6c3ef33ab0074ab7895602c46994e98c3d186bca/examples/core-local-mcp/query_service.py)・[Coreの提供状況](https://github.com/RollNuts/veripsa)
 
 ## 一問を送るか、端末で調べるか
 
