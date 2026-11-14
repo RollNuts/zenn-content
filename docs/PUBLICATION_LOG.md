@@ -99,7 +99,7 @@ READMEの公開本数には「Zenn公開確認済み」だけを数える。
 
 | 優先 | 原稿 | 状態 | 次に行うこと |
 | --- | --- | --- | --- |
-| 1 | [`hybrid-llm-send-boundary-design`](../articles/hybrid-llm-send-boundary-design.md) | 構想部門向け・下書き・`published: false` | 前の記事は公開・レビュー済み。次の枠で公開条件を照合。同一テーマへの複数応募が受け付けられるかを確認し、未確認のまま応募済みとしない |
+| 1 | [`hybrid-llm-send-boundary-design`](../articles/hybrid-llm-send-boundary-design.md) | 構想部門向け・下書き・`published: false` | 1本目は応募一覧への掲載を確認済み。次の公開枠は11月17日（火）21:00 JST。公開・レビュー後、この原稿でも同じテーマの応募操作が可能かを確認する |
 | 2 | [`api-contract-repair-review`](../articles/api-contract-repair-review.md) | 投稿数制限拒否・下書き復旧・`published: false` | 2026-11-14T11:22:50Zより前は手動・自動とも再試行しない。期限後も最新の停止条件を確認し、公開できた場合に指定モデルで独立レビュー |
 | 3 | [`webhook-commit-response-lost`](../articles/webhook-commit-response-lost.md) | 公開前レビュー待ち・`published: false` | 新しい環境での依存導入と、固定Coreのfakeテスト・3分岐・4チェックを再照合。実DBやexactly-onceの証明との区別を維持 |
 

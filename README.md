@@ -64,7 +64,7 @@ python3.12 repair_review.py --repair keyword
 
 ## 公開待ちの原稿
 
-Microsoft × Zennの構想部門に向けた次の原稿は、[コードを外に出せない。それでもAIに変更影響を相談するには？](articles/hybrid-llm-send-boundary-design.md)です。設計を確かめるための例と、端末での実測が必要な点を区別しています。
+Microsoft × Zennの構想部門に向けた次の原稿は、[コードを外に出せないとき、クラウドLLMに何を渡せるか](articles/hybrid-llm-send-boundary-design.md)です。設計を確かめるための例と、端末での実測が必要な点を区別しています。
 
 [圏外でも開発を止めない。ローカルAIからクラウドへ仕事を渡す設計](articles/hybrid-llm-release-proof-design.md)も下書きとして保管しています。オフラインから接続後への作業再開を扱う予備稿で、自動公開の候補にはまだ加えていません。
 
