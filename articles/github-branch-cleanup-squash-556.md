@@ -1,5 +1,5 @@
 ---
-title: "git branch --mergedに出ない取り込み済みブランチを見分ける――556本を整理した実例"
+title: "このブランチ、もう消していい？ GitHubで556本を調べて103本を残した理由"
 emoji: "🌿"
 type: "tech"
 topics: ["git", "github", "python", "個人開発"]
@@ -178,7 +178,7 @@ GitHubのマージ後ブランチ自動削除を有効にしました。保護�
 対象は[未発生新聞の公開リポジトリ](https://github.com/RollNuts/mihassei-news)です。この記事の構成・コード例・集計と復元の検証には、コーディングエージェントを利用しています。
 
 
-今回整理したrepoの実装例も紹介しています：[創作上の2031年をRSSに流さない――静的サイトで3つの日時を分ける](https://zenn.dev/veripsa/articles/fiction-date-rss-static-site)。
+今回整理したrepoの実装例も紹介しています：[5年後の新聞を今日公開する。RSSにはいつの日付を載せる？](https://zenn.dev/veripsa/articles/fiction-date-rss-static-site)。
 
 ---
 

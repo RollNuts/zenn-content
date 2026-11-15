@@ -1,5 +1,5 @@
 ---
-title: "Tauriコマンドの変更影響をAIは追える？Codex・MCP・検索を比較"
+title: "名前をひとつ変えたら、どこまで直せばいい？ TauriのコマンドでAIと検索を比べた"
 emoji: "🔎"
 type: "tech"
 topics: ["mcp", "codex", "tauri", "rust", "python"]

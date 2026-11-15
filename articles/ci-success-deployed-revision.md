@@ -1,5 +1,5 @@
 ---
-title: "CIは緑、HTTPも200。それでも本番が古いときの確認手順"
+title: "サイトを更新したのに画面が変わらない。公開URLで「旧版」と「一部だけ更新」を見分ける"
 emoji: "🚦"
 type: "tech"
 topics: ["githubactions", "cloudflare", "python", "個人開発"]
@@ -278,6 +278,6 @@ Workers Static Assetsでは、出力ディレクトリの`_headers`でmarkerの�
 - [Cloudflare Workers Static AssetsのHeaders](https://developers.cloudflare.com/workers/static-assets/headers/)
 - [Cloudflare Cache-Control](https://developers.cloudflare.com/cache/concepts/cache-control/)
 
-関連記事: [創作上の2031年をRSSに流さない――静的サイトで3つの日時を分ける](https://zenn.dev/veripsa/articles/fiction-date-rss-static-site)
+関連記事: [5年後の新聞を今日公開する。RSSにはいつの日付を載せる？](https://zenn.dev/veripsa/articles/fiction-date-rss-static-site)
 
 この記事の下書き作成と、コード・公開ログの確認にはコーディングエージェントを利用しています。

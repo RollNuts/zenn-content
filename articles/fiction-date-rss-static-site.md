@@ -1,5 +1,5 @@
 ---
-title: "創作上の2031年をRSSに流さない――静的サイトで3つの日時を分ける"
+title: "5年後の新聞を今日公開する。RSSにはいつの日付を載せる？"
 emoji: "📰"
 type: "tech"
 topics: ["python", "rss", "静的サイト"]
@@ -68,7 +68,7 @@ pubDateの値が正しくても、itemの順序が正しいとは限りません
 
 [未発生新聞のGitHubリポジトリ](https://github.com/RollNuts/mihassei-news)
 
-同じrepoの運用記録: [git branch --mergedに出ない取り込み済みブランチを見分ける――556本を整理した実例](https://zenn.dev/veripsa/articles/github-branch-cleanup-squash-556)
+同じrepoの運用記録: [このブランチ、もう消していい？ GitHubで556本を調べて103本を残した理由](https://zenn.dev/veripsa/articles/github-branch-cleanup-squash-556)
 
 ---
 

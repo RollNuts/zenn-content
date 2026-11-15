@@ -1,5 +1,5 @@
 ---
-title: "AIが作ったPRは、1本ずつレビューしても足りない"
+title: "別々なら動くのに、合わせると壊れる。AIに任せた変更をペアでレビューする設計"
 emoji: "🧩"
 type: "tech"
 topics: ["git", "llm", "codereview", "testing", "localai"]
