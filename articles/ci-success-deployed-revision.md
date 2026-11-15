@@ -1,5 +1,5 @@
 ---
-title: "CIは成功したのに本番が変わらないとき、どこを確かめるか"
+title: "CIは緑、HTTPも200。それでも本番が古いときの確認手順"
 emoji: "🚦"
 type: "tech"
 topics: ["githubactions", "cloudflare", "python", "個人開発"]
