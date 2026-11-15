@@ -3,7 +3,7 @@ title: "テストは通る。でも、その修正を採っていい？Pythonの
 emoji: "🧪"
 type: "tech"
 topics: ["python", "test", "コードレビュー", "個人開発"]
-published: false
+published: true
 ---
 
 エラーを直した。戻り値も期待どおり。テストも通った。
