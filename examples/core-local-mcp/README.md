@@ -3,13 +3,44 @@
 公開Veripsa Coreの抽出結果を固定snapshotへ投影し、公式Python SDK 2.3.0のstdio MCPで読む例です。
 実repoの抽出には、同じmoduleでimportしたTauri属性にも対応するCoreの固定commitを使用します。製品として提供中の「Veripsa MCP」ではなく、実行できる検討用コードです。
 
-## まず動かす
+## 同じ呼び出し元から4例を比べる
 
-GitとPython 3.12を用意します。以下はPOSIXのパス表記です。Windowsでは仮想環境のScripts内を指定します。
+関数名を変えたとき、どのファイルを確認すればよいでしょう。まず同じTypeScriptのパスを四つの合成snapshotに照会します。これらは固定版の[Veripsa Core](https://github.com/RollNuts/veripsa/tree/d22d44f12112784d34d5ea7ba20755ca995adad2)で作成済みです。Python 3.12の標準ライブラリで、MCPサーバーの内部でも使う `SnapshotQueries` を直接呼びます。コードの再解析やMCP通信はこの段階では行いません。
+
+新しいディレクトリで、固定版のコードとデータを取得します。以下はPOSIXシェル用です。
 
 ```sh
 git clone https://github.com/RollNuts/zenn-content.git
+git -C zenn-content checkout --detach df6d5c739f3f6c79f14ead14e275ad3e766f5cd9
 cd zenn-content/examples/core-local-mcp
+```
+
+```sh
+python3.12 -B - <<'PYTHON'
+from pathlib import Path
+from query_service import SnapshotQueries
+
+for snapshot in sorted(Path("demo").glob("*.json")):
+    result = SnapshotQueries(snapshot).related_files("src/client.ts")
+    peers = sorted({edge["related_file"] for edge in result["relations"]})
+    print(snapshot.stem, result["status"], ", ".join(peers) or "—")
+PYTHON
+```
+
+```text
+duplicate-command uncertain src-tauri/alpha.rs, src-tauri/beta.rs
+dynamic-name not_observed —
+local-invoke not_observed —
+official-literal observed src-tauri/commands.rs
+```
+
+公式APIに文字列リテラルを渡した例ではRust側の候補が1ファイル、同名コマンドを二つ定義した例では2ファイルです。後者は片方を自動で選ばず、両方を確認先に残します。名前を変数で渡した例の `not_observed` は、対象範囲で関係を拾えなかったという結果です。改名の影響がないとは判断できません。
+
+## MCPのstdio通信を試す
+
+上の手順で移動した `examples/core-local-mcp` で実行します。こちらは公式SDKをインストールして、クライアントから実際のサーバープロセスへ問い合わせます。Windowsでは仮想環境のScripts内のPythonを指定します。
+
+```sh
 python3.12 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 .venv/bin/python client_demo.py
