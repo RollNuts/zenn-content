@@ -10,7 +10,7 @@ Rust側のTauriコマンド名を変えたとき、TypeScript側のどこを一�
 
 たとえば`perform_request`を改名するなら、フロントの`invoke("perform_request", ...)`だけでなく、Rustのhandler登録や権限識別子の参照も確認対象になります。文字列検索で見つかる接点もありますが、別表記の識別子を追う追加調査が必要な場合もあります。
 
-個人開発してきたVeripsa Coreの解析結果を、AIから照会するローカルMCPへ切り出しました。中心はMCPではなく、コードを読み、関係と解析状態を残す基盤です。MCPはその一部を問い合わせる入口です。
+個人開発してきた[Veripsa CoreのTauri抽出器](https://github.com/RollNuts/veripsa/blob/9b5429aac861164cc1b41278dcaf540fa6fabad7/_cg_tauri.py)の解析結果を、AIから照会するローカルMCPへ切り出しました。中心はMCPではなく、コードを読み、関係と解析状態を残す基盤です。MCPはその一部を問い合わせる入口です。
 
 今回、公式Tauri例の1コマンドでは、参照を追った検索が5つの確認先を含み、MCPのsnapshot照会だけでは1ファイルで`uncertain`でした。通常AIとCore併用も各1回試しましたが、両方とも5確認先を含みました。**この例では、Coreを加えて見落としやツール呼び出しを減らしたとは実証できていません。** いま確認できるのは、限定した接点と解析状態をAIへ渡し、ソース確認へ戻れることです。
 
@@ -20,7 +20,9 @@ perform_request の変更前に確認する接点（公式例）
 └─ handler・build・権限   → 今回のMCP出力には出ない。別途確認する
 ```
 
-[再現コードと検証記録](https://github.com/RollNuts/zenn-content/tree/89fe0fe12258c827a9e7fc54cb12fc96401018de/examples/core-local-mcp)には、従来のSDK・Codex実測を固定版として残しています。今回追加した[検索との比較コード](https://github.com/RollNuts/zenn-content/tree/df6d5c739f3f6c79f14ead14e275ad3e766f5cd9/examples/core-local-mcp#検索とmcpの比較)と結果は、後半の手順から再実行できます。Coreのホスト型GitHub Appは2026年8月18日から停止中です。この記事の手順ではDB・Webhook・Appを起動しません。
+実行環境がなくても、[検索とMCPが返したファイルの一覧](https://github.com/RollNuts/zenn-content/blob/df6d5c739f3f6c79f14ead14e275ad3e766f5cd9/examples/core-local-mcp/comparison-evidence.json)で、どの確認先を拾ったか読めます。手元で試すなら、[同じ呼び出し元から4例を比べる](https://github.com/RollNuts/zenn-content/blob/8e6a09c46539cb34bf65606622de1265e1f904d3/examples/core-local-mcp/README.md#同じ呼び出し元から4例を比べる)と、Pythonの標準ライブラリだけで関係が観測された例と、候補が二つ残る例の違いを確認できます。これは保存済みの合成例を読む手順です。実際のTauriソースを使った比較とMCP通信の再現手順は後半にあります。
+
+Coreのホスト型GitHub Appは2026年8月18日から停止中です。この記事の手順ではDB・Webhook・Appを起動しません。
 
 ## 変更前に何を探すのか
 
@@ -226,13 +228,15 @@ B/C1とも、最終JSONの`claims_complete`と`merge_safety_proven`は`false`で
 
 ### 入力と、比較を再実行する手順
 
-Coreは`9b5429a`、Tauriは`2e23492`へ固定しています。現在のCore main `4236848`でも、再現例が固定する24のproductionソースblobが同一であることを確認しました。古い版のCodex成功記録を、新しい条件での成功へ読み替えてはいません。
+Coreは`9b5429a`、Tauriは`2e23492`へ固定しています。検証当時のCore `4236848` は、[固定した24ファイル](https://github.com/RollNuts/zenn-content/blob/df6d5c739f3f6c79f14ead14e275ad3e766f5cd9/examples/core-local-mcp/core-source-lock.json)すべてのGit blobが一致していました。11月15日に[Core `2c68506`](https://github.com/RollNuts/veripsa/commit/2c6850617bacaaa5cd31e34a490983597a18086d)と照合すると、一致は23件で、差があるのは `_cg_cochange.py` です。これはファイルの照合結果です。抽出と実行を追試する手順では、検証に使った `9b5429a` を指定します。古い版のCodex成功記録を、新しい条件での成功へ読み替えてはいません。
 
 入力検査では`git status`を使わず、固定tree・indexと対象79ファイルのraw bytesを照合します。repo-local fsmonitorを無効化し、隠れたindex flag、入力の不足・追加・symlinkを拒否します。対象subtreeが完全なら、範囲外だけのsparse checkoutは使えます。検索前後も検査しますが、atomic filesystem snapshotの保証ではありません。
 
 snapshot自身にはTauriのcommit SHAが埋め込まれていません。比較コードは固定sourceの清浄さとGit tree、snapshotの正確なSHA-256を別々に記録します。今回は同じ固定sourceから再抽出し、作成時刻以外が元snapshotと一致することも確認しました。一般にsnapshotの識別子だけで、手元のソースとの対応が証明されるわけではありません。
 
 入力検査を強化した版でも、29テストと実SDK比較を確認しました。候補集合・解析状態は前掲の記録と一致しています。AIの2試行は再実行せず、以前の実測として残しています。
+
+[再現コードと検証記録](https://github.com/RollNuts/zenn-content/tree/89fe0fe12258c827a9e7fc54cb12fc96401018de/examples/core-local-mcp)には、従来のSDK・Codex実測を固定版として残しています。[検索との比較コード](https://github.com/RollNuts/zenn-content/tree/df6d5c739f3f6c79f14ead14e275ad3e766f5cd9/examples/core-local-mcp#検索とmcpの比較)と結果は、後半の手順から再実行できます。
 
 比較コードは、後半で使う旧固定版`89fe0fe`にはありません。**今回の比較用には別のcheckoutを用意します。** 以下は追加コードを含む固定版を使い、公式Tauriからsnapshotを生成してから照会する、一続きの手順です。
 
