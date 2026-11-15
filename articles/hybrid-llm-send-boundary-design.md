@@ -3,7 +3,8 @@ title: "仕事のことを全部は話せない。AIにどう相談すればい�
 emoji: "🔐"
 type: "tech"
 topics: ["llm", "security", "mcp", "architecture", "localai"]
-published: false
+published: true
+published_at: 2026-11-17 21:00
 ---
 
 「この変更、何を見落としていると思う？」。仕事で迷ったとき、AIにそう聞いてみたいことがあります。けれど、お客さんの名前や社内資料はそのまま見せられない。「詳しくは言えませんが、何か注意点はありますか？」までぼかすと、自分が何を心配していたのかも相手に伝わりません。
