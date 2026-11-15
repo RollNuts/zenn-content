@@ -1,5 +1,5 @@
 ---
-title: "AIに全文を渡す前に、ast-grep outlineでコードの目次を作る"
+title: "初めて見るコード、どこから読む？ ast-grepでTypeScriptの目次を作る"
 emoji: "🗺️"
 type: "tech"
 topics: ["ast", "typescript", "cli", "個人開発"]
@@ -218,7 +218,7 @@ export { productLabel } from "./label";
 
 コードの目次から、変更前の確認へ進む場合は、次の記事も参考になります。
 
-- [Tauriコマンドの変更影響をAIは追える？Codex・MCP・検索を比較](https://zenn.dev/veripsa/articles/tauri-command-contract-graph)：コマンド改名で、呼び出し・登録・権限まで確認先を追う例です。
-- [Gitでマージできたのに壊れる――コードグラフとCo-changeを4例で検証](https://zenn.dev/veripsa/articles/graph-cochange-review-benchmark)：構造上の関係と、実際にコードが動くことを分けて確かめる例です。
+- [名前をひとつ変えたら、どこまで直せばいい？ TauriのコマンドでAIと検索を比べた](https://zenn.dev/veripsa/articles/tauri-command-contract-graph)：コマンド改名で、呼び出し・登録・権限まで確認先を追う例です。
+- [この修正、ほかにどこを確認する？ コードのつながりとGit履歴を4例で比べた](https://zenn.dev/veripsa/articles/graph-cochange-review-benchmark)：構造上の関係と、実際にコードが動くことを分けて確かめる例です。
 
 この記事は、GitHub上の候補調査と独立したサンプルの実行をもとに、コーディングエージェントの補助で執筆・検証しています。

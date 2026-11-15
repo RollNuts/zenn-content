@@ -1,5 +1,5 @@
 ---
-title: "Gitでマージできたのに壊れる――コードグラフとCo-changeを4例で検証"
+title: "この修正、ほかにどこを確認する？ コードのつながりとGit履歴を4例で比べた"
 emoji: "🔎"
 type: "tech"
 topics: ["git", "python", "静的解析", "個人開発"]
