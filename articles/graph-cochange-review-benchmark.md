@@ -60,6 +60,8 @@ Coreのグラフには、共通baseの時点で、この2ファイルのimport�
 
 ここでCoreが示すのは「この2ファイルを一緒に確認する理由」です。`TypeError`を予測した、と説明することはできません。エラーは、別に行ったPythonの実行で観測しています。[固定版のデモの実装と出力](https://github.com/RollNuts/veripsa/tree/fcb633eadd9b205a82ed605384def4a9f6189f9d/examples/structural-overlap)から、その区別を追えます。
 
+では、どう直すか。関数を戻す案と呼び出し側を直す案を、[どちらも105を返す無料のレビュー問題](https://github.com/RollNuts/zenn-content/tree/main/examples/api-contract-repair)で比べられます。コードを見て一案を選ぶと、その場で答え合わせができます。
+
 ## 出発点は、繰り返すGitコンフリクトだった
 
 作り始めた理由は、開発中にGitのコンフリクトが頻発し、その解消に手間がかかっていたことです。最初から壮大な研究基盤を作ろうとしていたわけではありません。
