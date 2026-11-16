@@ -1,0 +1,63 @@
+name: Build and publish the journal
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions: {}
+
+concurrency:
+  group: journal-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      page_hash: ${{ steps.digest.outputs.page_hash }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - run: python3 build.py
+      - name: Fingerprint the output
+        id: digest
+        run: echo "page_hash=$(sha256sum dist/index.html | cut -d ' ' -f 1)" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        if: github.event_name == 'push'
+        with:
+          path: dist
+
+  publish:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.publish.outputs.page_url }}
+    steps:
+      - name: Publish the checked artifact
+        id: publish
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
+      - name: Check the HTML served at the public URL
+        env:
+          PAGE_URL: ${{ steps.publish.outputs.page_url }}
+          EXPECTED_HASH: ${{ needs.build.outputs.page_hash }}
+        run: |
+          for attempt in 1 2 3 4 5; do
+            if curl --fail --silent --show-error --location --max-time 15 "${PAGE_URL%/}/?revision=$GITHUB_SHA" -o served.html &&
+               [ "$(sha256sum served.html | cut -d ' ' -f 1)" = "$EXPECTED_HASH" ]; then
+              echo "Published HTML matches the build"
+              exit 0
+            fi
+            if [ "$attempt" -lt 5 ]; then sleep 10; fi
+          done
+          echo "The public URL did not return the expected HTML" >&2
+          exit 1
