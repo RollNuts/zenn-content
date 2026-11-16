@@ -3,7 +3,7 @@ title: "AIでWebサイトを低コストに自動運用するには？ 7日で49
 emoji: "🗞️"
 type: "tech"
 topics: ["ai", "chatgpt", "個人開発", "githubactions", "python"]
-published: false
+published: true
 ---
 
 AIで個人サイトを作った。困るのは、その翌朝です。今日の原稿は何を見て書くのか。昨日と同じ話を出していないか。AIが「更新しました」と言ったとき、読者の画面も本当に変わったのか。
