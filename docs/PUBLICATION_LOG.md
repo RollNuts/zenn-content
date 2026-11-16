@@ -102,7 +102,7 @@ READMEの公開本数には「Zenn公開確認済み」だけを数える。
 | 1 | [`hybrid-llm-send-boundary-design`](../articles/hybrid-llm-send-boundary-design.md) | 構想部門向け・[PR #38](https://github.com/RollNuts/zenn-content/pull/38)でZennの予約表示を確認済み | 11月17日（火）21:00 JSTに実公開を確認する。公開・レビュー後、この原稿でも同じテーマの応募操作が可能かを確認する |
 | 2 | [`api-contract-repair-review`](../articles/api-contract-repair-review.md) | 投稿数制限拒否・下書き復旧・`published: false` | 2026-11-14T11:22:50Zより前は手動・自動とも再試行しない。期限後も最新の停止条件を確認し、公開できた場合に指定モデルで独立レビュー |
 | 3 | [`webhook-commit-response-lost`](../articles/webhook-commit-response-lost.md) | 公開前レビュー待ち・`published: false` | 新しい環境での依存導入と、固定Coreのfakeテスト・3分岐・4チェックを再照合。実DBやexactly-onceの証明との区別を維持 |
-| 4 | [AIで作ったサイト、明日も更新できる？](../articles/ai-newspaper-editorial-pipeline.md) | 無料記事・本文検証済み・下書き | 未発生新聞の固定版で紙面、RSS、7日間の記事数を再現。既存の公開枠で扱う |
+| 4 | [AIでWebサイトを低コストに自動運用するには？](../articles/ai-newspaper-editorial-pipeline.md) | 無料記事・本文検証済み・下書き | 更新日誌の教材で原稿からHTMLを再生成し、新旧の配信判定を検証。未発生新聞の実測と掲載経路を図解。既存の公開枠で扱う |
 
 予備稿：[`hybrid-llm-release-proof-design`](../articles/hybrid-llm-release-proof-design.md)。下書きを保持し、独立した読者価値を見直してから公開順位を決めます。現時点では自動公開・応募の対象外です。
 
