@@ -1,10 +1,23 @@
 # 公開記録と次回の候補
 
-## 2026年11月16日　未発生新聞の記事が投稿数制限で公開できず
+## 次回の候補
 
-[公開設定のPR #50](https://github.com/RollNuts/zenn-content/pull/50)を取り込みました。Zennのデプロイ履歴には `ai-newspaper-editorial-pipeline` が投稿数の上限に達したと表示されました。匿名の記事URLはHTTP 403で、RSSの7件にも対象記事はありません。原稿は同じ本文・同じslugで下書きに戻します。
+対象日は火曜・土曜です。予約があればその記事で当日の1枠を使います。未確認の公開や復旧作業があれば、次の候補へ進む前に対応します。時刻はすべて日本時間です。
 
-拒否の確認完了は11月16日14:25:08 JSTです。手動・自動とも次の新規公開を試せるのは早くても11月17日14:25:08 JSTで、Zennが枠を再開する時刻は不明です。
+| 順位 | 原稿 | 状態と次の担当 |
+| --- | --- | --- |
+| 1 | [仕事のことを全部は話せない。AIにどう相談すればいい？](../articles/hybrid-llm-send-boundary-design.md) | Microsoft第2稿。[11月17日（火）21:00の予約を確認済み](https://github.com/RollNuts/zenn-content/pull/38)。当日07:00は通常GPTが予約を照合し、22:00はCodexが匿名の本文とRSSを確認。公開後の独立レビューを経て、この原稿でも同じテーマに応募できるか確認します。 |
+| 2 | [AIでWebサイトを低コストに自動運用するには？ 7日で49記事を出した新聞の仕組みと実習](../articles/ai-newspaper-editorial-pipeline.md) | 著者が直近で公開を希望した通常記事。投稿数制限を受け、同じslugで下書きへ復旧済み。次に通常記事を扱えるのは早くても11月21日（土）07:00です。この枠は未予約で、当日に公開条件を確かめます。 |
+| 3 | [テストは通る。でも、その修正を採っていい？Pythonの2案で考えるコードレビュー](../articles/api-contract-repair-review.md) | 11月13日の投稿数制限から下書きへ復旧済み。11月15日付の[公開準備PR #47](https://github.com/RollNuts/zenn-content/pull/47)は未統合で終了しました。対象日に最新mainで教材を再確認します。 |
+| 4 | [Webhookを再試行してよい？COMMITの応答が消えたときの3つの分岐](../articles/webhook-commit-response-lost.md) | 公開前の検証待ち。新しい環境に依存を導入し、固定Coreのfake接続で3分岐・4チェックを追試します。実DBでの結果やexactly-onceまで結論を広げていないかを確認します。 |
+
+[オフラインでの作業再開](../articles/hybrid-llm-release-proof-design.md)は予備稿です。[動画の手動停止](../articles/respect-video-pause-on-scroll.md)と[表示回数の数え方](../articles/what-counts-as-a-page-view.md)も下書きで、公開順は未定です。
+
+## 直近の投稿数制限
+
+[公開設定のPR #50](https://github.com/RollNuts/zenn-content/pull/50)を取り込みました。Zennのデプロイ履歴には `ai-newspaper-editorial-pipeline` が投稿数の上限に達したと表示されました。匿名の記事URLはHTTP 403で、RSSの7件にも対象記事はありません。[復旧PR #51](https://github.com/RollNuts/zenn-content/pull/51)で、同じ本文・同じslugのまま下書きに戻しました。
+
+拒否の確認完了は2026年11月16日14:25:08 JSTです。手動・自動とも次の新規公開を試せるのは早くても11月17日14:25:08 JSTで、Zennが枠を再開する時刻は不明です。
 
 ## 2026年11月14日　並行PRの構想記事を公開
 
@@ -100,19 +113,6 @@ READMEの公開本数には「Zenn公開確認済み」だけを数える。
 | 未完了 | なし |
 
 公開表示とGitHub反映を確認した後、公開一覧を5本から6本へ更新した。
-
-## 次回の候補
-
-| 優先 | 原稿 | 状態 | 次に行うこと |
-| --- | --- | --- | --- |
-| 1 | [`hybrid-llm-send-boundary-design`](../articles/hybrid-llm-send-boundary-design.md) | 構想部門向け・[PR #38](https://github.com/RollNuts/zenn-content/pull/38)で11月17日（火）21:00 JSTの予約表示を確認済み | 17日07:00 JSTはこの予約1本で当日枠を使用し、予約状況を照合する。22時のCodex担当が匿名の本文とRSSで実公開を確認する。公開・レビュー後、この原稿でも同じテーマの応募操作が可能かを確認する |
-| 2 | [`api-contract-repair-review`](../articles/api-contract-repair-review.md) | 投稿数制限拒否・下書き復旧・`published: false` | 2026-11-14T11:22:50Zより前は手動・自動とも再試行しない。期限後も最新の停止条件を確認し、公開できた場合に指定モデルで独立レビュー |
-| 3 | [`webhook-commit-response-lost`](../articles/webhook-commit-response-lost.md) | 公開前レビュー待ち・`published: false` | 新しい環境での依存導入と、固定Coreのfakeテスト・3分岐・4チェックを再照合。実DBやexactly-onceの証明との区別を維持 |
-| 4 | [AIでWebサイトを低コストに自動運用するには？](../articles/ai-newspaper-editorial-pipeline.md) | 投稿数制限拒否・下書き | 検証済みの本文を保持。同じslugで次の公開機会を待つ |
-
-予備稿：[`hybrid-llm-release-proof-design`](../articles/hybrid-llm-release-proof-design.md)。下書きを保持し、独立した読者価値を見直してから公開順位を決めます。現時点では自動公開・応募の対象外です。
-
-新しい公開候補を決める前に、公開済み記事の不具合や前回の公開未確認があれば先に対応する。
 
 ## 2026年11月13日：公開後の独立レビュー
 
