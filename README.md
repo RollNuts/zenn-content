@@ -64,13 +64,7 @@ python3.12 repair_review.py --repair keyword
 
 ## 公開待ちの原稿
 
-Microsoft × Zennの構想部門に向けた次の原稿は、[仕事のことを全部は話せない。AIにどう相談すればいい？](articles/hybrid-llm-send-boundary-design.md)です。設計を確かめるための例と、端末での実測が必要な点を区別しています。
-
-[圏外でも開発を止めない。ローカルAIからクラウドへ仕事を渡す設計](articles/hybrid-llm-release-proof-design.md)も下書きとして保管しています。オフラインから接続後への作業再開を扱う予備稿で、自動公開の候補にはまだ加えていません。
-
-[テストは通る。でも、その修正を採っていい？Pythonの2案で考えるコードレビュー](articles/api-contract-repair-review.md)は、2026年11月13日の公開試行がZennの投稿数制限で拒否されたため、本文を保持して`published: false`へ戻しました。公開記事には数えず、送信境界の構想記事に続く候補として待機します。投稿数制限の最新の確認時刻と再試行可能な時刻は[公開記録](docs/PUBLICATION_LOG.md)で確認できます。
-
-[Webhookを再試行してよい？COMMITの応答が消えたときの3つの分岐](articles/webhook-commit-response-lost.md)は、その次の候補です。公開Coreのfake接続テストを使い、呼び出し側の3分岐と4チェックを扱います。実DBやexactly-onceの証明とは区別し、新しい環境での依存導入と再現手順を確認してから公開します。`published: false`で保管し、Zenn公開はまだ試していません。
+[公開記録の候補表](docs/PUBLICATION_LOG.md#次回の候補)から、予約済みの記事、次の通常枠で扱う原稿、順番が未定の下書きを読めます。
 
 ## 継続運用
 
