@@ -1,5 +1,11 @@
 # 公開記録と次回の候補
 
+## 2026年11月16日　未発生新聞の記事が投稿数制限で公開できず
+
+[公開設定のPR #50](https://github.com/RollNuts/zenn-content/pull/50)を取り込みました。Zennのデプロイ履歴には `ai-newspaper-editorial-pipeline` が投稿数の上限に達したと表示されました。匿名の記事URLはHTTP 403で、RSSの7件にも対象記事はありません。原稿は同じ本文・同じslugで下書きに戻します。
+
+拒否の確認完了は11月16日14:25:08 JSTです。手動・自動とも次の新規公開を試せるのは早くても11月17日14:25:08 JSTで、Zennが枠を再開する時刻は不明です。
+
 ## 2026年11月14日　並行PRの構想記事を公開
 
 [公開記事](https://zenn.dev/veripsa/articles/hybrid-llm-merge-risk-design)は21:30 JSTに公開されました。[PR #34](https://github.com/RollNuts/zenn-content/pull/34)の取り込み後、匿名の公開本文で題名・固定デモ・折りたたみ見出しを、更新後のRSSで同じ記事へのリンクを確認しました。公開一覧は7本です。
@@ -36,7 +42,7 @@
 
 ## 2026年11月13日の公開停止（履歴）
 
-**最新の投稿数制限拒否の確認完了は2026-11-13T11:22:50Zです。手動・自動とも、2026-11-14T11:22:50Z（11月14日20:22:50 JST）より前は再試行しません。**
+**この日の投稿数制限拒否の確認完了は2026-11-13T11:22:50Zです。手動・自動とも、2026-11-14T11:22:50Z（11月14日20:22:50 JST）より前は再試行しません。**
 
 対象記事は本文を保持して`published: false`へ復旧しました。公開確認の待機と新しい公開試行を停止します。次の定期枠11月14日19時JSTも停止期間内です。期限の経過はZennの制限解除や自動公開を保証しません。
 
@@ -102,7 +108,7 @@ READMEの公開本数には「Zenn公開確認済み」だけを数える。
 | 1 | [`hybrid-llm-send-boundary-design`](../articles/hybrid-llm-send-boundary-design.md) | 構想部門向け・[PR #38](https://github.com/RollNuts/zenn-content/pull/38)でZennの予約表示を確認済み | 11月17日（火）21:00 JSTに実公開を確認する。公開・レビュー後、この原稿でも同じテーマの応募操作が可能かを確認する |
 | 2 | [`api-contract-repair-review`](../articles/api-contract-repair-review.md) | 投稿数制限拒否・下書き復旧・`published: false` | 2026-11-14T11:22:50Zより前は手動・自動とも再試行しない。期限後も最新の停止条件を確認し、公開できた場合に指定モデルで独立レビュー |
 | 3 | [`webhook-commit-response-lost`](../articles/webhook-commit-response-lost.md) | 公開前レビュー待ち・`published: false` | 新しい環境での依存導入と、固定Coreのfakeテスト・3分岐・4チェックを再照合。実DBやexactly-onceの証明との区別を維持 |
-| 4 | [AIでWebサイトを低コストに自動運用するには？](../articles/ai-newspaper-editorial-pipeline.md) | 無料記事・本文検証済み・下書き | 更新日誌の教材で原稿からHTMLを再生成し、新旧の配信判定を検証。未発生新聞の実測と掲載経路を図解。既存の公開枠で扱う |
+| 4 | [AIでWebサイトを低コストに自動運用するには？](../articles/ai-newspaper-editorial-pipeline.md) | 投稿数制限拒否・下書き | 検証済みの本文を保持。同じslugで次の公開機会を待つ |
 
 予備稿：[`hybrid-llm-release-proof-design`](../articles/hybrid-llm-release-proof-design.md)。下書きを保持し、独立した読者価値を見直してから公開順位を決めます。現時点では自動公開・応募の対象外です。
 
