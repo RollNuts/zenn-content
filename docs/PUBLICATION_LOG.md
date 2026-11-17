@@ -6,12 +6,17 @@
 
 | 順位 | 原稿 | 状態と次の担当 |
 | --- | --- | --- |
-| 1 | [仕事のことを全部は話せない。AIにどう相談すればいい？](../articles/hybrid-llm-send-boundary-design.md) | Microsoft第2稿。[11月17日（火）21:00の予約を確認済み](https://github.com/RollNuts/zenn-content/pull/38)。当日07:00は通常GPTが予約を照合し、22:00はCodexが匿名の本文とRSSを確認。公開後の独立レビューを経て、この原稿でも同じテーマに応募できるか確認します。 |
-| 2 | [AIでWebサイトを低コストに自動運用するには？ 7日で49記事を出した新聞の仕組みと実習](../articles/ai-newspaper-editorial-pipeline.md) | 著者が直近で公開を希望した通常記事。投稿数制限を受け、同じslugで下書きへ復旧済み。次に通常記事を扱えるのは早くても11月21日（土）07:00です。この枠は未予約で、当日に公開条件を確かめます。 |
-| 3 | [テストは通る。でも、その修正を採っていい？Pythonの2案で考えるコードレビュー](../articles/api-contract-repair-review.md) | 11月13日の投稿数制限から下書きへ復旧済み。11月15日付の[公開準備PR #47](https://github.com/RollNuts/zenn-content/pull/47)は未統合で終了しました。対象日に最新mainで教材を再確認します。 |
-| 4 | [Webhookを再試行してよい？COMMITの応答が消えたときの3つの分岐](../articles/webhook-commit-response-lost.md) | 公開前の検証待ち。新しい環境に依存を導入し、固定Coreのfake接続で3分岐・4チェックを追試します。実DBでの結果やexactly-onceまで結論を広げていないかを確認します。 |
+| 1 | [AIでWebサイトを低コストに自動運用するには？ 7日で49記事を出した新聞の仕組みと実習](../articles/ai-newspaper-editorial-pipeline.md) | 著者が直近で公開を希望した通常記事。投稿数制限を受け、同じslugで下書きへ復旧済み。次に通常記事を扱えるのは早くても11月21日（土）07:00です。この枠は未予約で、当日に公開条件を確かめます。 |
+| 2 | [テストは通る。でも、その修正を採っていい？Pythonの2案で考えるコードレビュー](../articles/api-contract-repair-review.md) | 11月13日の投稿数制限から下書きへ復旧済み。11月15日付の[公開準備PR #47](https://github.com/RollNuts/zenn-content/pull/47)は未統合で終了しました。対象日に最新mainで教材を再確認します。 |
+| 3 | [Webhookを再試行してよい？COMMITの応答が消えたときの3つの分岐](../articles/webhook-commit-response-lost.md) | 公開前の検証待ち。新しい環境に依存を導入し、固定Coreのfake接続で3分岐・4チェックを追試します。実DBでの結果やexactly-onceまで結論を広げていないかを確認します。 |
 
 [オフラインでの作業再開](../articles/hybrid-llm-release-proof-design.md)は予備稿です。[動画の手動停止](../articles/respect-video-pause-on-scroll.md)と[表示回数の数え方](../articles/what-counts-as-a-page-view.md)も下書きで、公開順は未定です。
+
+## 2026年11月17日　AIに相談するときの送信境界を公開
+
+[仕事のことを全部は話せない。AIにどう相談すればいい？](https://zenn.dev/veripsa/articles/hybrid-llm-send-boundary-design)の本文をログインせずに確認しました。[著者RSS](https://zenn.dev/veripsa/feed)には同じ題名とURLがあり、公開日時は11月17日21:00:06 JSTです。
+
+公開後の独立レビュー（gpt-6-astra、ultra）では、Python 3.12.13で、引数を必須にした例では引数を省略する呼び出しだけが、戻り値を文字列にした例では加算する呼び出しだけが失敗することを確認しました。固定版のTauriの4例でも照会結果が記事と一致し、修正は不要でした。
 
 ## 直近の投稿数制限
 

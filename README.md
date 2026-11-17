@@ -2,7 +2,7 @@
 
 Git・Python・RSS・静的サイト・コード解析の実装と運用を扱う、日本語技術記事の原稿置き場です。
 
-現在、**Zenn公開記事7本**を管理しています。
+現在、**Zenn公開記事8本**を管理しています。
 
 新着記事は[RSSでも購読できます](https://zenn.dev/veripsa/feed)。
 
@@ -36,6 +36,7 @@ python3.12 repair_review.py --repair keyword
 
 | テーマ | Zenn | 原稿 |
 | --- | --- | --- |
+| AIに相談するときに共有する情報を選ぶ | [仕事のことを全部は話せない。AIにどう相談すればいい？](https://zenn.dev/veripsa/articles/hybrid-llm-send-boundary-design) | [Markdown](articles/hybrid-llm-send-boundary-design.md) |
 | 並行PRを組にして調べる | [別々なら動くのに、合わせると壊れる。AIに任せた変更をペアでレビューする設計](https://zenn.dev/veripsa/articles/hybrid-llm-merge-risk-design) | [Markdown](articles/hybrid-llm-merge-risk-design.md) |
 | AIとコードを読む前の目次作成 | [初めて見るコード、どこから読む？ ast-grepでTypeScriptの目次を作る](https://zenn.dev/veripsa/articles/ast-grep-outline-code-map) | [Markdown](articles/ast-grep-outline-code-map.md) |
 | CI/CDの公開確認 | [サイトを更新したのに画面が変わらない。公開URLで「旧版」と「一部だけ更新」を見分ける](https://zenn.dev/veripsa/articles/ci-success-deployed-revision) | [Markdown](articles/ci-success-deployed-revision.md) |
@@ -64,7 +65,7 @@ python3.12 repair_review.py --repair keyword
 
 ## 公開待ちの原稿
 
-[公開記録の候補表](docs/PUBLICATION_LOG.md#次回の候補)から、予約済みの記事、次の通常枠で扱う原稿、順番が未定の下書きを読めます。
+[公開記録の候補表](docs/PUBLICATION_LOG.md#次回の候補)から、次の通常枠で扱う原稿と、順番が未定の下書きを読めます。
 
 ## 継続運用
 
