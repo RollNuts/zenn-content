@@ -153,7 +153,7 @@ PR-Aは引数をキーワード専用にし、PR-Bは位置引数で呼びます
 
 参照先と関数の引数は実行中の観測、呼び出しのリテラル値はASTからの読み取りです。既存デモのJSONにこの追加情報が出るわけではありません。クラウドに発見してもらった結果でもありません。
 
-[追加観測の補助コードと再現手順](https://github.com/RollNuts/zenn-content/tree/0b90534666ce7dba254e068d42df8217a377a842/examples/hybrid-review-ticket#固定coreの動的参照を追加観測する)も公開しました。先ほど取得した固定Coreを指定して実行できます。対象はこの信頼済みの合成ケースで、任意のリポジトリを安全に実行する仕組みではありません。
+[追加観測の補助コードと再現手順](https://github.com/RollNuts/zenn-content/tree/62087fa00f40af8f3755aa3c2ddcb3254de896c5/examples/hybrid-review-ticket#固定coreの動的参照を追加観測する)も公開しました。先ほど取得した固定Coreを指定して実行できます。対象はこの信頼済みの合成ケースで、任意のリポジトリを安全に実行する仕組みではありません。
 
 これで、この固定ケースの参照先という不明点は埋まりました。文字列や設定で参照先が変わる実際のコードなら、その条件は別に確認します。調べた結果が別の関数だった場合も、壊れる筋書きへ合わせず、その観測を票に残します。
 
@@ -283,13 +283,13 @@ flowchart TD
 
 人が「この結果は今のコードについてのものか」を毎回会話から読み解かずに済むようにする。モデルの整理がうまくても、この対応が崩れれば、受け取った成果物を確かめたことにはなりません。
 
-この受け渡しの一部は、[モデルなしで動く小教材](https://github.com/RollNuts/zenn-content/tree/0b90534666ce7dba254e068d42df8217a377a842/examples/hybrid-review-ticket)にしました。冒頭でCoreを取得したディレクトリの一つ上に戻り、別のリポジトリとして取得します。
+この受け渡しの一部は、[モデルなしで動く小教材](https://github.com/RollNuts/zenn-content/tree/62087fa00f40af8f3755aa3c2ddcb3254de896c5/examples/hybrid-review-ticket)にしました。冒頭でCoreを取得したディレクトリの一つ上に戻り、別のリポジトリとして取得します。
 
 ```sh
 cd ..
 git clone https://github.com/RollNuts/zenn-content.git zenn-hybrid-examples
 cd zenn-hybrid-examples
-git checkout --detach 0b90534666ce7dba254e068d42df8217a377a842
+git checkout --detach 62087fa00f40af8f3755aa3c2ddcb3254de896c5
 python3.12 examples/hybrid-review-ticket/demo.py
 python3.12 -m unittest discover -s examples/hybrid-review-ticket -p 'test_*.py' -v
 ```
