@@ -6,11 +6,20 @@
 
 | 順位 | 原稿 | 状態と次の担当 |
 | --- | --- | --- |
-| 1 | [AIでWebサイトを低コストに自動運用するには？ 7日で49記事を出した新聞の仕組みと実習](../articles/ai-newspaper-editorial-pipeline.md) | 著者が直近で公開を希望した通常記事。投稿数制限を受け、同じslugで下書きへ復旧済み。次に通常記事を扱えるのは早くても11月21日（土）07:00です。この枠は未予約で、当日に公開条件を確かめます。 |
-| 2 | [テストは通る。でも、その修正を採っていい？Pythonの2案で考えるコードレビュー](../articles/api-contract-repair-review.md) | 11月13日の投稿数制限から下書きへ復旧済み。11月15日付の[公開準備PR #47](https://github.com/RollNuts/zenn-content/pull/47)は未統合で終了しました。対象日に最新mainで教材を再確認します。 |
-| 3 | [Webhookを再試行してよい？COMMITの応答が消えたときの3つの分岐](../articles/webhook-commit-response-lost.md) | 公開前の検証待ち。新しい環境に依存を導入し、固定Coreのfake接続で3分岐・4チェックを追試します。実DBでの結果やexactly-onceまで結論を広げていないかを確認します。 |
+| 1 | [テストは通る。でも、その修正を採っていい？Pythonの2案で考えるコードレビュー](../articles/api-contract-repair-review.md) | 11月13日の投稿数制限から下書きへ復旧済み。11月15日付の[公開準備PR #47](https://github.com/RollNuts/zenn-content/pull/47)は未統合で終了しました。対象日に最新mainで教材を再確認します。 |
+| 2 | [Webhookを再試行してよい？COMMITの応答が消えたときの3つの分岐](../articles/webhook-commit-response-lost.md) | 公開前の検証待ち。新しい環境に依存を導入し、固定Coreのfake接続で3分岐・4チェックを追試します。実DBでの結果やexactly-onceまで結論を広げていないかを確認します。 |
 
 [オフラインでの作業再開](../articles/hybrid-llm-release-proof-design.md)は予備稿です。[動画の手動停止](../articles/respect-video-pause-on-scroll.md)と[表示回数の数え方](../articles/what-counts-as-a-page-view.md)も下書きで、公開順は未定です。
+
+## 2026年11月21日　AIサイト運用の新聞記事を公開
+
+[AIでWebサイトを低コストに自動運用するには？ 7日で49記事を出した新聞の仕組みと実習](https://zenn.dev/veripsa/articles/ai-newspaper-editorial-pipeline)を公開しました。[PR #58](https://github.com/RollNuts/zenn-content/pull/58)は11月21日07:57:05 JSTに統合され、反映commitは `d00b3f97e381d5a19cecf458936ba28431b05142` です。
+
+11月22日に、匿名の公開本文で題名・目次・図を確認しました。[著者RSS](https://zenn.dev/veripsa/feed)でも同じ題名とURLを確認し、公開日時は11月21日07:57:10 JSTです。Zennのデプロイ履歴では対象commitの成功を確認しました。公開一覧は9本です。
+
+11月22日に、執筆担当とは別のコンテキストで `gpt-6-astra`、reasoning effort `ultra` を指定した公開後レビューを完了しました。Python 3.12.13で教材の初回生成・更新・重複日付の拒否と旧HTMLの保持を追試し、固定版の記事データの7日49本、一次資料、費用と自動化の限定、目次と3図の表示を照合しました。重大な誤りや壊れた手順は見つからず、本文の修正は不要でした。Pagesへの本番公開と全176 runの再集計は今回の追試に含みません。
+
+次の通常枠は11月24日（火）07:00 JSTで、次候補はAPI契約記事です。当日に最新mainと公開条件を確認します。
 
 ## 2026年11月17日　AIに相談するときの送信境界を公開
 
