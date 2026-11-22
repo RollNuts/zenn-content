@@ -38,7 +38,7 @@ python3.12 repair_review.py --repair keyword
 | --- | --- | --- |
 | AIで作ったサイトの日々の更新を回す | [AIでWebサイトを低コストに自動運用するには？ 7日で49記事を出した新聞の仕組みと実習](https://zenn.dev/veripsa/articles/ai-newspaper-editorial-pipeline) | [Markdown](articles/ai-newspaper-editorial-pipeline.md) |
 | AIに相談するときに共有する情報を選ぶ | [仕事のことを全部は話せない。AIにどう相談すればいい？](https://zenn.dev/veripsa/articles/hybrid-llm-send-boundary-design) | [Markdown](articles/hybrid-llm-send-boundary-design.md) |
-| 並行PRを組にして調べる | [別々なら動くのに、合わせると壊れる。AIに任せた変更をペアでレビューする設計](https://zenn.dev/veripsa/articles/hybrid-llm-merge-risk-design) | [Markdown](articles/hybrid-llm-merge-risk-design.md) |
+| 並行PRを組にして調べる | [別々なら動くのに、合わせると壊れる。AIに任せた変更を手元とクラウドでレビューする構想](https://zenn.dev/veripsa/articles/hybrid-llm-merge-risk-design) | [Markdown](articles/hybrid-llm-merge-risk-design.md) |
 | AIとコードを読む前の目次作成 | [初めて見るコード、どこから読む？ ast-grepでTypeScriptの目次を作る](https://zenn.dev/veripsa/articles/ast-grep-outline-code-map) | [Markdown](articles/ast-grep-outline-code-map.md) |
 | CI/CDの公開確認 | [サイトを更新したのに画面が変わらない。公開URLで「旧版」と「一部だけ更新」を見分ける](https://zenn.dev/veripsa/articles/ci-success-deployed-revision) | [Markdown](articles/ci-success-deployed-revision.md) |
 | コードグラフとCo-changeの検証 | [この修正、ほかにどこを確認する？ コードのつながりとGit履歴を4例で比べた](https://zenn.dev/veripsa/articles/graph-cochange-review-benchmark) | [Markdown](articles/graph-cochange-review-benchmark.md) |
@@ -47,6 +47,8 @@ python3.12 repair_review.py --repair keyword
 | 静的サイトの日時とRSS | [5年後の新聞を今日公開する。RSSにはいつの日付を載せる？](https://zenn.dev/veripsa/articles/fiction-date-rss-static-site) | [Markdown](articles/fiction-date-rss-static-site.md) |
 
 ## 再現コード
+
+[版を固定したレビュー票の受け渡し](examples/hybrid-review-ticket/README.md)は、古い版への返答・未知の根拠・送信できない場合を、モデルなしで試す教材です。固定Coreの合成ケースで、動的に呼ぶ関数の実体と引数を追加観測する補助コードも含みます。LLMの有効性や実サービスの安全性を測るものではありません。
 
 [実行が通る二つの修正を、要求と照合する実習](examples/repair-review/README.md)は、固定Coreの合成例を再利用し、同じ105を返す二案でもAPIの要求を守るかが異なることを確認します。未コミット変更による静的候補の変化と、共変更が増えてもliftが下がる履歴の対比も、既存CLIで再現します。追加パッケージ・モデル・DBは不要です。
 
