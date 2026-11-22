@@ -13,7 +13,7 @@ RollNutsが、実装と検証の過程を記事・実行コードとして残し
 
 | 確かめたいこと | 実行例 | 分かること・範囲 |
 | --- | --- | --- |
-| テストが通る二つの修正を、どう選ぶか | [API契約を照合する実習](examples/api-contract-repair/README.md) | 同じ値を返しても、引数の渡し方に関する要求を守るかが違う。架空の関数・要求を使う教材 |
+| AIが「直りました」と言った。その修正を採っていいか | [二案を比べる実習](examples/api-contract-repair/README.md)・[確認メモ](examples/api-contract-repair/review-note.md) | 同じ値を返しても、引数の渡し方に関する要求を守るかが違う。架空の教材から、自分の修正の採用・差し戻し・保留へ進む |
 | HTTP 200なのに公開内容が古いとき、何を比較するか | [配信中のrevisionを確認する例](examples/deployment-revision/README.md) | 旧版・一部だけ更新・正常な配信をローカルHTTPで比較。全ページやブラウザ操作の検査は対象外 |
 | 変更前に関連ファイルの候補をどう探すか | [Flaskの実変更を使うCore CLI調査](examples/core-change-review/README.md) | 静的グラフとGit履歴の候補を比較。固定Core・対象repoの取得が必要で、変更の安全性は判定しない |
 
