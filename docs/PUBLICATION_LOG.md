@@ -11,6 +11,18 @@
 
 [オフラインでの作業再開](../articles/hybrid-llm-release-proof-design.md)は予備稿です。[動画の手動停止](../articles/respect-video-pause-on-scroll.md)と[表示回数の数え方](../articles/what-counts-as-a-page-view.md)も下書きで、公開順は未定です。
 
+## 2026年11月23日　Microsoft応募済みの構想記事を再現実験付きで改稿
+
+[別々なら動くのに、合わせると壊れる。AIに任せた変更を手元とクラウドでレビューする構想](https://zenn.dev/veripsa/articles/hybrid-llm-merge-risk-design)を、並行して作った変更を受け取る読者の視点から改稿しました。[PR #61](https://github.com/RollNuts/zenn-content/pull/61)の反映commitは `62087fa00f40af8f3755aa3c2ddcb3254de896c5` です。同じslugの更新であり、新規記事や新しい応募ではありません。
+
+4つの合成例から、一枚のレビュー票、動的参照の追加観測、古い版の返答の失効、Surfaceで試す最小構成と4方式の比較へ進みます。目次と3図を加え、LLMを使わず解ける範囲・クラウドへ相談しない条件・未実測の性能を明確にしました。[追加教材](../examples/hybrid-review-ticket/README.md)は、手書きの票の受け渡しと、固定Coreの合成fixtureの追加観測です。
+
+Python 3.12.13で固定Coreの4ケースが期待JSONと一致し、追加観測ではA単独・B単独が105、統合がTypeErrorになりました。関数実体を実行中に観測し、呼出しのリテラル値はASTから読みました。受け渡しデモ10ケースとunittest 6件も成功しています。LLMによる発見や実サービスの障害予防の実績ではありません。
+
+Zennのデプロイ成功と、匿名公開本文の新題名・追加手順・固定コード参照、RSSの同じ記事の新題名を確認しました。実画面では目次リンク・表・3図を確認しています。初回公開日は11月14日のままで、公開一覧は9本です。応募テーマの表示も維持されています。
+
+執筆から独立した `gpt-6-astra`（reasoning effort `ultra`）で、本文・コード・一次資料を照合しました。公開後の手順確認では、教材の固定参照がsquash前のPRコミットだったため、新規cloneから取得できるmain上の `62087fa00f40af8f3755aa3c2ddcb3254de896c5` へ修正しました。まっさらな一時ディレクトリでclone・固定版checkout・デモ・6件のテストが成功しています。最終の公開反映確認は、この手順修正の取り込み後に行います。通常稿の次候補はAPI契約記事のままです。
+
 ## 2026年11月22日　修正の採否を考える実習記事へ改稿
 
 既存のAPI契約記事を[AIが「直りました」と言った。その修正、採っていい？](../articles/api-contract-repair-review.md)へ改稿しました。読者はAIに修正を頼むものの、返された変更を採ってよいか判断に迷う人です。二案の比較から入り、早い位置に1ファイルの取得と4コマンドを置き、六つの呼び出し・要求を逆にする演習・AIへの依頼文・[レビュー用メモ](../examples/api-contract-repair/review-note.md)へ進めます。本文の目次と図も整えました。
