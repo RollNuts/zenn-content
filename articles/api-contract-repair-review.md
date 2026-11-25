@@ -3,7 +3,8 @@ title: "AIが「直りました」と言った。その修正、採っていい�
 emoji: "🧪"
 type: "tech"
 topics: ["python", "ai", "test", "コードレビュー", "個人開発"]
-published: false
+published: true
+published_at: 2026-11-28 07:00
 ---
 
 AIにエラーを渡し、修正を頼む。しばらくすると、差分と一緒に「直りました。テストも通っています」と返ってくる。
