@@ -2,7 +2,7 @@
 
 Git・Python・RSS・静的サイト・コード解析の実装と運用を扱う、日本語技術記事の原稿置き場です。
 
-現在、**Zenn公開記事9本**を管理しています。
+現在、**Zenn公開記事10本**を管理しています。
 
 新着記事は[RSSでも購読できます](https://zenn.dev/veripsa/feed)。
 
@@ -36,6 +36,7 @@ python3.12 repair_review.py --repair keyword
 
 | テーマ | Zenn | 原稿 |
 | --- | --- | --- |
+| AIから返された修正の採否を考える | [AIが「直りました」と言った。その修正、採っていい？](https://zenn.dev/veripsa/articles/api-contract-repair-review) | [Markdown](articles/api-contract-repair-review.md) |
 | AIで作ったサイトの日々の更新を回す | [AIでWebサイトを低コストに自動運用するには？ 7日で49記事を出した新聞の仕組みと実習](https://zenn.dev/veripsa/articles/ai-newspaper-editorial-pipeline) | [Markdown](articles/ai-newspaper-editorial-pipeline.md) |
 | AIに相談するときに共有する情報を選ぶ | [仕事のことを全部は話せない。AIにどう相談すればいい？](https://zenn.dev/veripsa/articles/hybrid-llm-send-boundary-design) | [Markdown](articles/hybrid-llm-send-boundary-design.md) |
 | 並行PRを組にして調べる | [別々なら動くのに、合わせると壊れる。AIに任せた変更を手元とクラウドでレビューする構想](https://zenn.dev/veripsa/articles/hybrid-llm-merge-risk-design) | [Markdown](articles/hybrid-llm-merge-risk-design.md) |
