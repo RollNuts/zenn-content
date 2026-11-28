@@ -6,11 +6,18 @@
 
 | 順位 | 原稿 | 状態と次の担当 |
 | --- | --- | --- |
-| 1 | [AIが「直りました」と言った。その修正、採っていい？](../articles/api-contract-repair-review.md) | 11月22日に実習中心の長編へ改稿。1ファイルで二案を比べ、自分の修正の採用・差し戻し・保留を考えます。下書きのまま次の通常枠へ引き継ぎ、対象日に最新mainと教材を再確認します。11月15日付の[公開準備PR #47](https://github.com/RollNuts/zenn-content/pull/47)は未統合で終了済みです。 |
-| 2 | [AIでサービスは作れる。利用者の情報を、どこまで預かる？](../articles/solo-service-data-custody.md) | 11月23日に完成・検証済み。時代背景から端末保存・同期・課金・削除・終了までを扱う新稿。固定教材の新規clone、デモ、8テストと独立レビュー済み。Microsoftの構想部門を念頭に置き、LLM連携は未実装と明記。通常枠で最新mainと公開条件を再確認し、公開後に独立レビューと応募の引き継ぎを行います。公開・予約・応募は未実施です。 |
-| 3 | [Webhookを再試行してよい？COMMITの応答が消えたときの3つの分岐](../articles/webhook-commit-response-lost.md) | 公開前の検証待ち。新しい環境に依存を導入し、固定Coreのfake接続で3分岐・4チェックを追試します。実DBでの結果やexactly-onceまで結論を広げていないかを確認します。 |
+| 1 | [AIでサービスは作れる。利用者の情報を、どこまで預かる？](../articles/solo-service-data-custody.md) | 11月23日に完成・検証済み。時代背景から端末保存・同期・課金・削除・終了までを扱う新稿。固定教材の新規clone、デモ、8テストと独立レビュー済み。Microsoftの構想部門を念頭に置き、LLM連携は未実装と明記。通常枠で最新mainと公開条件を再確認し、公開後に独立レビューと応募の引き継ぎを行います。公開・予約・応募は未実施です。 |
+| 2 | [Webhookを再試行してよい？COMMITの応答が消えたときの3つの分岐](../articles/webhook-commit-response-lost.md) | 公開前の検証待ち。新しい環境に依存を導入し、固定Coreのfake接続で3分岐・4チェックを追試します。実DBでの結果やexactly-onceまで結論を広げていないかを確認します。 |
 
 [オフラインでの作業再開](../articles/hybrid-llm-release-proof-design.md)は予備稿です。[動画の手動停止](../articles/respect-video-pause-on-scroll.md)と[表示回数の数え方](../articles/what-counts-as-a-page-view.md)も下書きで、公開順は未定です。
+
+## 2026年11月28日　AIから返された修正の採否を考える実習記事を公開
+
+[AIが「直りました」と言った。その修正、採っていい？](https://zenn.dev/veripsa/articles/api-contract-repair-review)の匿名公開本文と[著者RSS](https://zenn.dev/veripsa/feed)を確認しました。RSSの公開日時は11月28日07:00:05 JSTです。[予約PR #65](https://github.com/RollNuts/zenn-content/pull/65)の反映commitは `1d324e352e7310323f6e575bc6c614ef7b29e7d2` で、Zennのデプロイ成功と管理画面の「公開中」を確認しています。公開一覧は10本です。
+
+執筆から独立した `gpt-6-astra`（reasoning effort `ultra`）で、公開本文全体、固定教材、再現手順と制限事項をレビューしました。Python 3.12.13で既存検証器の4ケースと六つの呼び出しが本文と一致し、修正が必要な指摘はありませんでした。固定版 `a127a99bc240e13f981dbccaa1a1dd1fa7b4a552` のRawファイルは匿名取得でき、検証したコードとバイト単位で一致しています。
+
+この結果は架空教材の確認であり、実際のAI修正の精度や障害予防効果の実測ではありません。GitHub Actionsは実行していません。次の通常枠は12月1日（火）07:00 JST、次候補は個人サービスの情報保有を扱う記事です。現時点でその予約・公開・応募は行っていません。
 
 ## 2026年11月23日　個人サービスが預かる情報を考える新稿を準備
 
